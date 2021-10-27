@@ -14,16 +14,18 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Git pull'){
-          agent any
-          steps{
-            sh 'cd Next-Place'
-            sh 'git pull origin develop'
-            sh 'cd backend'
-            sh './gradlew build'
-          }
-        }
 
+        stage('Build and test') {
+            agent {
+                docker {
+                    image 'gradle:6.6.1-jdk11-openj9'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
+            steps {
+                sh 'gradle clean build -x test'
+            }
+        }
 
         stage('Docker build') {
             agent any
