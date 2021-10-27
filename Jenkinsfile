@@ -9,7 +9,7 @@ pipeline {
         stage('Start') {
             agent any
             steps {
-              
+              echo 'start'
             }
         }
 
@@ -67,6 +67,6 @@ pipeline {
     }
 
     post {
-
+      echo 'post'
     }
 }
