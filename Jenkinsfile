@@ -6,13 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Start') {
-            agent any
-            steps {
-              echo 'start'
-            }
-        }
-
         stage('Test') {
             agent {
                 docker {
