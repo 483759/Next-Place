@@ -26,8 +26,10 @@ pipeline {
                 sh 'docker ps -f name=$PROJECT -q | xargs --no-run-if-empty docker container stop'
                 sh 'docker container ls -a -fname=sbor_dev -q | xargs -r docker container rm'
                 sh 'docker images --no-trunc --all --quiet --filter="dangling=true" | xargs --no-run-if-empty docker rmi'
+                sh 'docker rm $PROJECT'
                 sh 'docker run -d --name $PROJECT -p 8080:8080 $PROJECT:latest'
-                sh 'docker-compose up'
+                sh 'docker-compose -f /home/ubuntu/docker-compose.yml down'
+                sh 'docker-compose -f /home/ubuntu/docker-compose.yml up -d'
             }
         }
     }
