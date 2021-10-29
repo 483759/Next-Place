@@ -28,7 +28,7 @@ pipeline {
                     try {
                         mattermostSend (
                             color: "#2A42EE", 
-                            message: "Build STARTED: ${env.GIT_BRANCH} #${env.COMMIT_AUTHOR} : ${env.COMMIT_MSG}"
+                            message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                         )                   
                         sh 'docker ps -f name=$PROJECT -q | xargs --no-run-if-empty docker container stop'
                         sh 'docker container ls -a -fname=sbor_dev -q | xargs -r docker container rm'
@@ -41,12 +41,12 @@ pipeline {
                         if(currentBuild.result == "FAILURE") {
                             mattermostSend (
                                 color: "danger", 
-                                message: "Build FAILED: ${env.GIT_BRANCH} #${env.COMMIT_AUTHOR} : ${env.COMMIT_MSG}"
+                                message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                             )
                         } else {
                             mattermostSend (
                                 color: "good", 
-                                message: "Build SUCCESS: ${env.GIT_BRANCH} #${env.COMMIT_AUTHOR} : ${env.COMMIT_MSG}"
+                                message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                             )
                         }                            
                     }           
