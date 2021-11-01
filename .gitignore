@@ -36,3 +36,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Unity ###
+/unity/NextPlace/Assets/Resources/Mapbox
