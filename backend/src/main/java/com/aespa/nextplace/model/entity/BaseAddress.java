@@ -7,15 +7,15 @@ public class BaseAddress {
     @Id
     @GeneratedValue
     @Column(name = "baseaddress_id")
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", referencedColumnName = "city_id")
-    City city;
+    private City city;
 
     @Column(name = "baseaddress_gugun")
-    String gugun;
+    private String gugun;
 
     @Column(name = "baseaddress_dong")
-    String dong;
+    private String dong;
 }

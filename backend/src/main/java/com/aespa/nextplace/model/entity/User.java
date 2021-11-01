@@ -6,21 +6,21 @@ import javax.persistence.*;
 public class User {
     @Id @GeneratedValue
     @Column(name = "user_id")
-    Long id;
+    private Long id;
 
     @Column(name = "user_oauth_uid")
-    String oauthUID;
+    private String oauthUID;
 
     @Column(name = "user_nickname")
-    String nickname;
+    private String nickname;
 
     @Column(name = "user_role")
     @Enumerated(EnumType.STRING)
-    UserRole role;
+    private UserRole role;
 
     @Column(name = "user_gold")
-    int gold;
+    private int gold;
 
     @Column(name = "user_dalgona")
-    int dalgona;
+    private int dalgona;
 }

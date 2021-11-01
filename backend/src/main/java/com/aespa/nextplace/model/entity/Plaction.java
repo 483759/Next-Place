@@ -7,16 +7,16 @@ public class Plaction extends BaseTimeEntity{
     @Id
     @GeneratedValue
     @Column(name = "plaction_id")
-    Long id;
+    private Long id;
 
     @Column(name = "plaction_score")
-    int score;
+    private int score;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    User user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id", referencedColumnName = "spot_id")
-    Spot spot;
+    private Spot spot;
 }

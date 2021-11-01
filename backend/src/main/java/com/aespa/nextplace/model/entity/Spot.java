@@ -7,34 +7,34 @@ public class Spot {
     @Id
     @GeneratedValue
     @Column(name = "spot_id")
-    Long id;
+    private Long id;
 
     @Column(name = "spot_name")
-    String name;
+    private String name;
 
     @Column(name = "spot_type")
     @Enumerated(EnumType.STRING)
-    SpotType type;
+    private SpotType type;
 
     @Column(name = "spot_infor")
-    String information;
+    private String information;
 
     @Column(name = "spot_detail")
-    String detail;
+    private String detail;
 
     @Column(name = "spot_random")
-    boolean isRandom;
+    private boolean isRandom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "baseaddress_id", referencedColumnName = "baseaddress_id")
-    BaseAddress baseAddress;
+    private BaseAddress baseAddress;
 
     @Column(name = "spot_lat")
-    float lat;
+    private float lat;
 
     @Column(name = "spot_lng")
-    float lng;
+    private float lng;
 
     @Column(name = "spot_exp")
-    int exp;
+    private int exp;
 }

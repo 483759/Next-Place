@@ -7,15 +7,15 @@ public class Pladex {
     @Id
     @GeneratedValue
     @Column(name = "pladex_id")
-    Long id;
+    private Long id;
 
     @Column(name = "pladex_name")
-    String name;
+    private String name;
 
     @Column(name = "pladex_infor")
-    String information;
+    private String information;
 
     @Column(name = "pladex_rank")
     @Enumerated(EnumType.STRING)
-    PlamonRank rank;
+    private PlamonRank rank;
 }

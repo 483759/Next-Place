@@ -7,25 +7,25 @@ public class Plamon {
     @Id
     @GeneratedValue
     @Column(name = "plamon_id")
-    Long id;
+    private Long id;
 
     @Column(name = "plamon_level")
-    int level;
+    private int level;
 
     @Column(name = "plamon_exp")
-    int exp;
+    private int exp;
 
     @Column(name = "plamon_nickname")
-    String nickname;
+    private String nickname;
 
     @Column(name = "plamon_main")
-    boolean isMain;
+    private boolean isMain;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pladex_id", referencedColumnName = "pladex_id")
-    Pladex pladex;
+    private Pladex pladex;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    User user;
+    private User user;
 }

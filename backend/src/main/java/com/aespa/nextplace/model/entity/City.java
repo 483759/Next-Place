@@ -10,8 +10,8 @@ public class City {
     @Id
     @GeneratedValue
     @Column(name = "city_id")
-    Long id;
+    private Long id;
 
     @Column(name = "city_name")
-    String name;
+    private String name;
 }
