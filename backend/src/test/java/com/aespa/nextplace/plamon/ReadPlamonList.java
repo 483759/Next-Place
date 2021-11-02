@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @Transactional
@@ -30,14 +31,14 @@ class ReadPlamonList {
     @Test
     public void 플레몬리스트반환() throws Exception {
         //given
-        given(plamonRepo.findAll())
+        given(plamonRepo.findAllByUserId(0L))
                 .willReturn(new ArrayList<Plamon>());
 
         //when
-        var list = plamonService.findAll();
+        var dto = plamonService.findAllByUser(0L);
 
         //then
-        assertEquals(0, list.size());
-        verify(plamonRepo).findAll();
+        assertEquals(0, dto.getPlamonList().size());
+        verify(plamonRepo).findAllByUserId(0L);
     }
 }
