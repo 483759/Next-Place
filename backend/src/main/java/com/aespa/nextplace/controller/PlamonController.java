@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/plamon")
+@RequestMapping(value = "/plamon")
 @RequiredArgsConstructor
 public class PlamonController {
     private final PlamonService plamonService;
