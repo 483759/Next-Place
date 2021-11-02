@@ -1,18 +1,19 @@
 package com.aespa.nextplace.model.response;
 
-import com.aespa.nextplace.model.dto.PladexDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import com.aespa.nextplace.model.entity.Plamon;
+import lombok.Getter;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
 public class PlamonListResponseDto {
-    private Long id;
-    private int level;
-    private int exp;
-    private String nickname;
-    private boolean isMain;
-    private PladexDto pladex;
+    private List<PlamonResponse> plamonList;
+
+    public PlamonListResponseDto(List<Plamon> plamonList) {
+        this.plamonList = new ArrayList<>();
+        for(var plamon: plamonList) {
+            this.plamonList.add(new PlamonResponse(plamon));
+        }
+    }
 }

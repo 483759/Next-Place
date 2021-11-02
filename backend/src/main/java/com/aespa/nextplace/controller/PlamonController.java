@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "/plamon")
 @RequiredArgsConstructor
@@ -18,8 +16,8 @@ public class PlamonController {
     private final PlamonService plamonService;
 
     @GetMapping("/all/{userId}")
-    public ResponseEntity<List<PlamonListResponseDto>> readAllPlamon(@PathVariable Long userId) {
-        List<PlamonListResponseDto> list = plamonService.findAllByUser(userId);
+    public ResponseEntity<PlamonListResponseDto> readAllPlamon(@PathVariable Long userId) {
+        PlamonListResponseDto list = plamonService.findAllByUser(userId);
 
         return ResponseEntity.ok(list);
     }
