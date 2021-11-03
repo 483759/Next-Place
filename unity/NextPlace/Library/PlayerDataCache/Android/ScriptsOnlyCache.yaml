@@ -39,6 +39,8 @@ ScriptsOnlyBuild:
     - UnityARKitPluginSettings
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
+    Unity.Timeline.Editor.dll:
+    - TimelineProjectSettings
     Unity.XR.ARCore.Editor.dll:
     - UnityEditor.XR.ARCore.ARCoreSettings
     Unity.XR.ARCore.dll:
@@ -112,91 +114,91 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1584}
     - Class: 114
-      Script: {instanceID: 1826}
+      Script: {instanceID: 1746}
     - Class: 114
       Script: {instanceID: 1828}
     - Class: 114
-      Script: {instanceID: 1872}
+      Script: {instanceID: 1830}
     - Class: 114
-      Script: {instanceID: 1902}
+      Script: {instanceID: 1874}
     - Class: 114
-      Script: {instanceID: 1966}
+      Script: {instanceID: 1904}
     - Class: 114
-      Script: {instanceID: 2066}
+      Script: {instanceID: 1968}
     - Class: 114
-      Script: {instanceID: 2072}
+      Script: {instanceID: 2068}
     - Class: 114
-      Script: {instanceID: 2192}
+      Script: {instanceID: 2074}
     - Class: 114
-      Script: {instanceID: 2256}
+      Script: {instanceID: 2194}
     - Class: 114
-      Script: {instanceID: 2408}
+      Script: {instanceID: 2258}
     - Class: 114
-      Script: {instanceID: 2452}
+      Script: {instanceID: 2410}
     - Class: 114
-      Script: {instanceID: 2508}
+      Script: {instanceID: 2454}
     - Class: 114
-      Script: {instanceID: 2582}
+      Script: {instanceID: 2510}
     - Class: 114
-      Script: {instanceID: 2666}
+      Script: {instanceID: 2584}
     - Class: 114
-      Script: {instanceID: 2680}
+      Script: {instanceID: 2668}
     - Class: 114
-      Script: {instanceID: 2738}
+      Script: {instanceID: 2682}
     - Class: 114
-      Script: {instanceID: 2772}
+      Script: {instanceID: 2740}
     - Class: 114
-      Script: {instanceID: 2826}
+      Script: {instanceID: 2774}
     - Class: 114
-      Script: {instanceID: 2920}
+      Script: {instanceID: 2828}
     - Class: 114
-      Script: {instanceID: 2924}
+      Script: {instanceID: 2922}
     - Class: 114
-      Script: {instanceID: 3042}
+      Script: {instanceID: 2926}
     - Class: 114
-      Script: {instanceID: 3082}
+      Script: {instanceID: 3044}
     - Class: 114
-      Script: {instanceID: 3160}
+      Script: {instanceID: 3084}
     - Class: 114
-      Script: {instanceID: 3430}
+      Script: {instanceID: 3162}
     - Class: 114
-      Script: {instanceID: 3622}
+      Script: {instanceID: 3432}
     - Class: 114
-      Script: {instanceID: 3770}
+      Script: {instanceID: 3624}
     - Class: 114
-      Script: {instanceID: 3864}
+      Script: {instanceID: 3772}
     - Class: 114
-      Script: {instanceID: 4028}
+      Script: {instanceID: 3866}
     - Class: 114
-      Script: {instanceID: 4100}
+      Script: {instanceID: 4030}
     - Class: 114
-      Script: {instanceID: 4220}
+      Script: {instanceID: 4102}
     - Class: 114
-      Script: {instanceID: 4318}
+      Script: {instanceID: 4222}
     - Class: 114
-      Script: {instanceID: 4392}
+      Script: {instanceID: 4320}
     - Class: 114
-      Script: {instanceID: 4544}
+      Script: {instanceID: 4394}
     - Class: 114
-      Script: {instanceID: 4746}
+      Script: {instanceID: 4546}
     - Class: 114
-      Script: {instanceID: 4804}
+      Script: {instanceID: 4748}
     - Class: 114
-      Script: {instanceID: 4828}
+      Script: {instanceID: 4806}
     - Class: 114
-      Script: {instanceID: 4892}
+      Script: {instanceID: 4830}
     - Class: 114
-      Script: {instanceID: 4942}
+      Script: {instanceID: 4894}
     - Class: 114
-      Script: {instanceID: 5210}
+      Script: {instanceID: 4944}
     - Class: 114
-      Script: {instanceID: 5716}
+      Script: {instanceID: 5212}
     - Class: 114
-      Script: {instanceID: 6126}
+      Script: {instanceID: 5718}
     - Class: 114
-      Script: {instanceID: 6262}
+      Script: {instanceID: 6128}
     - Class: 114
-      Script: {instanceID: 23096}
+      Script: {instanceID: 6264}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 124
@@ -296,6 +298,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.XR.LegacyInputHelpers.dll
     namespaceName: UnityEngine.XR.LegacyInputHelpers
     className: TransitionArmModel
+  - hash:
+      serializedVersion: 2
+      Hash: a314f7c90081b7d1f43a5a6ddb1385f6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CameraController
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -1772,12 +1780,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ImageDataFetcher
-  - hash:
-      serializedVersion: 2
-      Hash: 7487bbccaacac607212c8d32bef85a3a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: CameraController
   platform: 13
   scenePathNames:
   - Assets/Scenes/MainScene.unity
