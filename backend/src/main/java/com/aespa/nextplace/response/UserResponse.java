@@ -15,9 +15,7 @@ public class UserResponse {
 	private int dalgona;
 	private String avatar;
 	private UserRole role;
-	
-	
-	
+
 	public UserResponse(User user) {
 		this.id = user.getId();
 		this.nickname = user.getNickname();

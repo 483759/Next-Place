@@ -1,15 +1,10 @@
 package com.aespa.nextplace.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Response;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,12 +35,12 @@ public class UserController {
 		
 		if(!userService.existsByOauthId(uid))
 			userService.signUp(uid);
-		
-		
-		
+
 		response = userService.login(uid, idToken,httpServletRes);
 			
 		return new ResponseEntity<UserResponse>(response,HttpStatus.OK);
 	}
+
+	
 	
 }
