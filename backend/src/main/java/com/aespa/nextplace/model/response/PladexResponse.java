@@ -2,7 +2,9 @@ package com.aespa.nextplace.model.response;
 
 import com.aespa.nextplace.model.entity.Pladex;
 import com.aespa.nextplace.model.entity.PlamonRank;
+import lombok.Getter;
 
+@Getter
 public class PladexResponse {
     private Long id;
     private String name;
