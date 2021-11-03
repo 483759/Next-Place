@@ -1,11 +1,8 @@
 package com.aespa.nextplace.model.entity;
 
-import lombok.Getter;
-
 import javax.persistence.*;
 
 @Entity
-@Getter
 public class User {
     @Id @GeneratedValue
     @Column(name = "user_id")

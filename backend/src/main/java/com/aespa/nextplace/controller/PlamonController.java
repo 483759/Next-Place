@@ -1,6 +1,6 @@
 package com.aespa.nextplace.controller;
 
-import com.aespa.nextplace.model.response.PlamonListResponseDto;
+import com.aespa.nextplace.model.response.ListPlamonResponse;
 import com.aespa.nextplace.service.PlamonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlamonController {
     private final PlamonService plamonService;
 
-    @GetMapping("/all/{userId}")
-    public ResponseEntity<PlamonListResponseDto> readAllPlamon(@PathVariable Long userId) {
-        PlamonListResponseDto list = plamonService.findAllByUser(userId);
+    @GetMapping("/all/{oauthUid}")
+    public ResponseEntity<ListPlamonResponse> readAllPlamon(@PathVariable String oauthUid) {
+        ListPlamonResponse list = plamonService.findAllByUser(oauthUid);
 
         return ResponseEntity.ok(list);
     }
