@@ -20,7 +20,7 @@ public class PlamonServiceImpl implements PlamonService{
 
     @Override
     public ListPlamonResponse findAllByUser(String oauthUid) {
-        User user = userRepo.findUserByOauthUID(oauthUid);
+        User user = userRepo.findByOauthUid(oauthUid);
         List<Plamon> plamonList = plamonRepo.findAllByUser(user);
 
         return new ListPlamonResponse(plamonList);

@@ -1,11 +1,14 @@
 package com.aespa.nextplace.model.entity;
 
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Plamon {
     @Id
     @GeneratedValue
