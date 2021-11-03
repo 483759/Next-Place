@@ -32,12 +32,12 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		FirebaseToken decodedToken;
-		String header = request.getHeader("token");
-		if (header == null || !header.startsWith("Bearer ")) {
+		String token = request.getHeader("token");
+		if (token == null) {
 			setUnauthorizedResponse(response, "INVALID_HEADER");
 			return;
 		}
-		String token = header.substring(7);
+		
 
 
 		try {

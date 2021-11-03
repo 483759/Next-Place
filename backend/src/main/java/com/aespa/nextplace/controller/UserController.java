@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,9 +24,10 @@ public class UserController {
 	
 
 	@PostMapping("/login")
-	public ResponseEntity<UserResponse> login(String idToken, HttpServletResponse httpServletRes) {
+	public ResponseEntity<UserResponse> login(@RequestBody String idToken, HttpServletResponse httpServletRes) {
 
 		UserResponse response = null;
+		
 		String uid;
 		try {
 			uid = userService.getUid(idToken);
