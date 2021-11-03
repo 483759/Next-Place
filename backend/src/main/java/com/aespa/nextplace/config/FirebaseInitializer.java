@@ -35,13 +35,13 @@ public class FirebaseInitializer {
 			  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
 			  .build();
 			
-			FirebaseApp.initializeApp(options);
+			firebaseApp = FirebaseApp.initializeApp(options);
 
 		}
 		
 		
 		
-		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance(FirebaseApp.getInstance());
+		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance(firebaseApp);
 		return firebaseAuth;
 	}
 }
