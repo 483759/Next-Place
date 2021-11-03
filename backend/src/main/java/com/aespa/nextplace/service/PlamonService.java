@@ -1,7 +1,7 @@
 package com.aespa.nextplace.service;
 
-import com.aespa.nextplace.model.response.PlamonListResponseDto;
+import com.aespa.nextplace.model.response.ListPlamonResponse;
 
 public interface PlamonService {
-    PlamonListResponseDto findAllByUser(Long userId);
+    ListPlamonResponse findAllByUser(String oauthUid);
 }

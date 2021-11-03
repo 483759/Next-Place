@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class PlamonListResponseDto {
+public class ListPlamonResponse {
     private List<PlamonResponse> plamonList;
 
-    public PlamonListResponseDto(List<Plamon> plamonList) {
+    public ListPlamonResponse(List<Plamon> plamonList) {
         this.plamonList = new ArrayList<>();
         for(var plamon: plamonList) {
             this.plamonList.add(new PlamonResponse(plamon));
