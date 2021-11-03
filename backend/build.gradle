@@ -25,7 +25,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly 'mysql:mysql-connector-java'	
+	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '8.1.0'	
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.5.5'	
+	implementation group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1.1'	
 }
 
 test {
