@@ -40,14 +40,12 @@ public class User {
     private int dalgona;
     
     @Column(name ="user_avatar")
-    private String avatar;
-       
+    private String avatar;       
     
     public User(String oauthUid, String nickname) {
     	this.nickname = nickname;
     	this.oauthUid = oauthUid;
-    }
-    
+    }    
        
     @Builder
     public User(long id, User user, UserRole role, int gold, int dalgona, String avatar) {    	
@@ -61,19 +59,6 @@ public class User {
     	this.dalgona = dalgona;
     	this.avatar = avatar;
     }        
-    
-//    @Builder
-//    public User(long id, String oauthUid, String nickname, UserRole role, int gold, int dalgona, String avatar) {    	
-//    	Assert.hasText(nickname,"Nickname must not be empty");
-//    	Assert.hasText(oauthUid,"OauthUid must not be empty");    	    	
-//    	this.id = id;
-//    	this.oauthUid = oauthUid;
-//    	this.nickname = nickname;
-//    	this.role = role;
-//    	this.gold = gold;
-//    	this.dalgona = dalgona;
-//    	this.avatar = avatar;
-//    }
-    
+
     
 }

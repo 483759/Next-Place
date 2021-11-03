@@ -30,8 +30,7 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// get the token from the request
+
 		FirebaseToken decodedToken;
 		String header = request.getHeader("token");
 		if (header == null || !header.startsWith("Bearer ")) {
@@ -40,7 +39,7 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 		}
 		String token = header.substring(7);
 
-		// verify IdToken
+
 		try {
 			decodedToken = firebaseAuth.verifyIdToken(token);
 		} catch (FirebaseAuthException e) {
@@ -48,7 +47,6 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		// User를 가져와 SecurityContext에 저장한다.
 		try {
 			UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null,
