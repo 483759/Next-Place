@@ -20,16 +20,18 @@ pipeline {
                     mattermostSend (
                             color: "#2A42EE", 
                             message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                    )        
-                try{
-                sh 'sudo chmod -R +x+w backend'
-                sh 'sudo ./backend/gradlew clean build -p backend'
-                sh 'docker build -t $PROJECT:latest .'
-                } catch(e){
-                    mattermostSend (
-                                color: "danger", 
-                                message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                            )
+                    )
+                script{
+                    try{
+                        sh 'sudo chmod -R +x+w backend'
+                        sh 'sudo ./backend/gradlew clean build -p backend'
+                        sh 'docker build -t $PROJECT:latest .'
+                    } catch(e){
+                        mattermostSend (
+                                    color: "danger", 
+                                    message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                )
+                    }
                 }
             }
         }
