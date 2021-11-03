@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 application.yml
+fir-d1e55-firebase-adminsdk-tm2jt-6ef434d608.json
 
 ### STS ###
 .apt_generated
