@@ -17,9 +17,20 @@ pipeline {
         stage('Docker build') {
             agent any
             steps {
+                    mattermostSend (
+                            color: "#2A42EE", 
+                            message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                    )        
+                try{
                 sh 'sudo chmod -R +x+w backend'
-                sh './backend/gradlew clean build -p backend'
+                sh 'sudo ./backend/gradlew clean build -p backend'
                 sh 'docker build -t $PROJECT:latest .'
+                } catch(e){
+                    mattermostSend (
+                                color: "danger", 
+                                message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                            )
+                }
             }
         }
         stage('Docker run') {
@@ -28,11 +39,6 @@ pipeline {
                 
                 script {
                     try {
-                        mattermostSend (
-                            color: "#2A42EE", 
-                            message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                        )                   
-                        
                         sh 'docker-compose -f /home/ubuntu/docker-compose.yml down'
                         sh 'docker-compose -f /home/ubuntu/docker-compose.yml up -d'
                     } catch(e) {
