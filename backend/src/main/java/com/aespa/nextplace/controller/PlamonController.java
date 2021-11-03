@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlamonController {
     private final PlamonService plamonService;
 
-    @GetMapping("/all/{oauthUid}")
+    @GetMapping("/{oauthUid}")
     public ResponseEntity<ListPlamonResponse> readAllPlamon(@PathVariable String oauthUid) {
         ListPlamonResponse list = plamonService.findAllByUser(oauthUid);
 
