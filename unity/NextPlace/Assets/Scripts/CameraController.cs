@@ -7,8 +7,15 @@ using UnityEngine.EventSystems;
 public class CameraController : MonoBehaviour {
     public GameObject player;
     public Vector3 cameraDistance;
-    public Text text;
-    public float Speed;
+    public float speed;
+    public int maxMoveDistance;
+
+    public Vector3 playerPosition {
+        get {
+            if (_playerTransform == null) return new Vector3(0, 0, 0);
+            return _playerTransform.position;
+        }
+    }
 
     private Transform _mainCameraTransform;
     private Transform _playerTransform;
@@ -22,6 +29,7 @@ public class CameraController : MonoBehaviour {
         _mainCameraTransform = gameObject.transform;
         _playerTransform = player.transform;
         _isMoving = false;
+        _moveDistance = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -31,19 +39,32 @@ public class CameraController : MonoBehaviour {
             if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId)) {
                 if(touch.phase == TouchPhase.Began) {
                     _previousPos = touch.position - touch.deltaPosition;
-                    _moveDistance = new Vector3(0, 0, 0);
                     _isMoving = true;
                 
                 } else if(touch.phase == TouchPhase.Moved) {
                     _currentPos = touch.position - touch.deltaPosition;
                     Vector2 diff = _previousPos - _currentPos;
                     Quaternion quaternion = Quaternion.Euler(new Vector3(0, _playerTransform.rotation.eulerAngles.y, 0));
-                    _moveVector = (quaternion * new Vector3(diff.x, 0, diff.y)) * Speed;
+                    _moveVector = (quaternion * new Vector3(diff.x, 0, diff.y)) * speed;
 
                     _moveDistance += _moveVector;
+                    if(_moveDistance.x > maxMoveDistance) {
+                        _moveVector.x -= (_moveDistance.x - maxMoveDistance);
+                        _moveDistance.x = maxMoveDistance;
+                    } else if(_moveDistance.x < -maxMoveDistance) {
+                        _moveVector.x += (-maxMoveDistance - _moveDistance.x);
+                        _moveDistance.x = -maxMoveDistance;
+                    }
+                    if (_moveDistance.z > maxMoveDistance) {
+                        _moveVector.z -= (_moveDistance.z - maxMoveDistance);
+                        _moveDistance.z = maxMoveDistance;
+                    } else if (_moveDistance.z < -maxMoveDistance) {
+                        _moveVector.z += (-maxMoveDistance - _moveDistance.z);
+                        _moveDistance.z = -maxMoveDistance;
+                    }
+
                     _mainCameraTransform.Translate(_moveVector, Space.World);
                     _previousPos = touch.position - touch.deltaPosition;
-                    text.text = _moveVector + "";
                 }
             }
 
@@ -56,5 +77,6 @@ public class CameraController : MonoBehaviour {
 
     public void ResetPosition() {
         _isMoving = false;
+        _moveDistance = new Vector3(0, 0, 0);
     }
 }

@@ -39,8 +39,6 @@ ScriptsOnlyBuild:
     - UnityARKitPluginSettings
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
-    Unity.Timeline.Editor.dll:
-    - TimelineProjectSettings
     Unity.XR.ARCore.Editor.dll:
     - UnityEditor.XR.ARCore.ARCoreSettings
     Unity.XR.ARCore.dll:
@@ -300,7 +298,7 @@ ScriptsOnlyBuild:
     className: TransitionArmModel
   - hash:
       serializedVersion: 2
-      Hash: a314f7c90081b7d1f43a5a6ddb1385f6
+      Hash: 002a4754cfd5a5fb86399ec531ae3097
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CameraController
