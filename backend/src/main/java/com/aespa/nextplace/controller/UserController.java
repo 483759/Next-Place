@@ -32,7 +32,6 @@ public class UserController {
 		try {
 			uid = userService.getUid(idToken);
 		} catch (FirebaseAuthException e) {
-			e.printStackTrace();
 			return new ResponseEntity<UserResponse>(response,HttpStatus.BAD_REQUEST);
 		}
 		
