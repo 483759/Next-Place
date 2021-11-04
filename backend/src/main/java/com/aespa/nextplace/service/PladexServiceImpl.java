@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class PladexServiceImpl implements PladexService{
+public class PladexServiceImpl implements PladexService {
 
     private final PladexRepository pladexRepo;
 
@@ -22,7 +22,13 @@ public class PladexServiceImpl implements PladexService{
 
     @Override
     public PladexResponse savePladex(Pladex pladex) {
-        return null;
+        Pladex existingPladex = pladexRepo.findByName(pladex.getName());
+
+        if (existingPladex != null) {   //이미 존재하면 Null을 반환
+            return null;
+        }
+
+        return new PladexResponse(pladexRepo.save(pladex));
     }
 
 }
