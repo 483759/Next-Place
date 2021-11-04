@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 	
