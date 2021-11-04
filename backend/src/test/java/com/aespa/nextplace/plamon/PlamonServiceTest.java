@@ -21,7 +21,7 @@ import static org.mockito.BDDMockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @Transactional
-class ReadPlamonList {
+class PlamonServiceTest {
 
     @InjectMocks
     PlamonServiceImpl plamonService;
