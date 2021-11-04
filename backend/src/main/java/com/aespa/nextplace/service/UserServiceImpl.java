@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService {
 	private final CookieUtil cookieUtil;
 	
 
-	public String getUid(String idToken) throws FirebaseAuthException {
+	public String getUid(String idToken) throws FirebaseAuthException {		
+		idToken = idToken.substring(8);				
 		FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
 		String uid = "G-"+decodedToken.getUid();
 
