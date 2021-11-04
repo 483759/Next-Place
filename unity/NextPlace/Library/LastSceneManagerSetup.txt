@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Mapbox/Examples/1_DataExplorer/TrafficAndDirections.unity
+- path: Assets/Scenes/MainScene.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
