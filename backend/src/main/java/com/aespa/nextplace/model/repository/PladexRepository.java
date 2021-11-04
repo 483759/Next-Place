@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PladexRepository extends JpaRepository<Pladex, Long> {
+    Pladex findByName(String name);
 }

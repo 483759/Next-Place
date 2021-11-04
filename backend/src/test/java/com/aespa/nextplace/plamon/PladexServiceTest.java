@@ -3,6 +3,7 @@ package com.aespa.nextplace.plamon;
 import com.aespa.nextplace.model.entity.Pladex;
 import com.aespa.nextplace.model.entity.PlamonRank;
 import com.aespa.nextplace.model.repository.PladexRepository;
+import com.aespa.nextplace.model.response.PladexResponse;
 import com.aespa.nextplace.service.PladexServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,44 @@ public class PladexServiceTest {
                 .information("test info")
                 .rank(PlamonRank.SR)
                 .build();
+    }
+
+    @DisplayName("새로운 플레덱스를 등록한다")
+    @Test
+    public void 플레덱스등록() throws Exception {
+        //given
+        Pladex pladex = createPladexOfId(1L);
+        given(pladexRepo.save(pladex))
+                .willReturn(pladex);
+        given(pladexRepo.findByName("test"))
+                .willReturn(null);
+
+        //when
+        PladexResponse newPladex = pladexService.savePladex(pladex);
+
+        //then
+        verify(pladexRepo.save(pladex));
+        verify(pladexRepo.findByName("test"));
+        assertThat(newPladex.getId())
+                .isEqualTo(1L);
+    }
+
+    @DisplayName("이미 존재하는 플레덱스를 등록하려고 시도한다")
+    @Test
+    public void 이미존재하는플레덱스등록() throws Exception {
+        //given
+        Pladex pladex = createPladexOfId(2L);
+        Pladex existingPladex = createPladexOfId(1L);
+        given(pladexRepo.findByName(pladex.getName()))
+                .willReturn(existingPladex);
+
+        //when
+        PladexResponse newPladex = pladexService.savePladex(pladex);
+
+        //then
+        verify(pladexRepo).findByName(pladex.getName());
+        assertThat(newPladex)
+                .isEqualTo(null);
     }
 
     @DisplayName("모든 플레덱스(고유 플레몬)의 리스트를 반환한다")
