@@ -25,9 +25,9 @@ public class UserController {
 
 	@PostMapping("/login")
 	public ResponseEntity<UserResponse> login(@RequestBody String idToken, HttpServletResponse httpServletRes) {
-
-		UserResponse response = null;
 		
+		
+		UserResponse response = null;
 		String uid;
 		try {
 			uid = userService.getUid(idToken);
@@ -42,6 +42,8 @@ public class UserController {
 			
 		return new ResponseEntity<UserResponse>(response,HttpStatus.OK);
 	}
+	
+
 
 	
 	
