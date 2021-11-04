@@ -53,8 +53,8 @@ public class PladexServiceTest {
         PladexResponse newPladex = pladexService.savePladex(pladex);
 
         //then
-        verify(pladexRepo.save(pladex));
-        verify(pladexRepo.findByName("test"));
+        verify(pladexRepo).save(pladex);
+        verify(pladexRepo).findByName("test");
         assertThat(newPladex.getId())
                 .isEqualTo(1L);
     }
