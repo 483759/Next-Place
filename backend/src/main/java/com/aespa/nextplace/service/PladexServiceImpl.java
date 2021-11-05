@@ -23,6 +23,7 @@ public class PladexServiceImpl implements PladexService {
     }
 
     @Override
+    @Transactional
     public PladexResponse savePladex(PladexRequest request) {
         Pladex pladex = PladexDtoAssembler.convertRequestToEntity(request);
         Pladex existingPladex = pladexRepo.findByName(PladexDtoAssembler.convertRequestToEntity(request).getName());
