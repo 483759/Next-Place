@@ -1,11 +1,13 @@
 package com.aespa.nextplace.model.request;
 
-import com.aespa.nextplace.model.entity.PlamonRank;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class PladexRequest {
     @Schema(example = "실험몬")
@@ -15,5 +17,5 @@ public class PladexRequest {
     private String information;
 
     @Schema(example = "R")
-    private PlamonRank rank;
+    private String rank;
 }

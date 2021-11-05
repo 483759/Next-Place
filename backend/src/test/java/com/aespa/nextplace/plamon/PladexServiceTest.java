@@ -3,7 +3,6 @@ package com.aespa.nextplace.plamon;
 import com.aespa.nextplace.model.entity.Pladex;
 import com.aespa.nextplace.model.entity.PlamonRank;
 import com.aespa.nextplace.model.repository.PladexRepository;
-import com.aespa.nextplace.model.request.PladexDtoAssembler;
 import com.aespa.nextplace.model.request.PladexRequest;
 import com.aespa.nextplace.model.response.PladexResponse;
 import com.aespa.nextplace.service.PladexServiceImpl;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,9 +32,6 @@ public class PladexServiceTest {
     @Mock
     PladexRepository pladexRepo;
 
-    @Spy
-    PladexDtoAssembler pladexDtoAssembler;
-
     private Pladex createPladexOfId(long id) {
         return Pladex.builder()
                 .pladex(new Pladex("test", "test info", PlamonRank.SR))
@@ -47,7 +42,7 @@ public class PladexServiceTest {
     private PladexRequest convertEntityToDto(Pladex pladex) {
         return new PladexRequest(pladex.getName(),
                 pladex.getInformation(),
-                pladex.getRank());
+                pladex.getRank().toString());
     }
 
     @DisplayName("새로운 플레덱스를 등록한다")
