@@ -3,6 +3,8 @@ package com.aespa.nextplace.plamon;
 import com.aespa.nextplace.model.entity.Pladex;
 import com.aespa.nextplace.model.entity.PlamonRank;
 import com.aespa.nextplace.model.repository.PladexRepository;
+import com.aespa.nextplace.model.request.PladexDtoAssembler;
+import com.aespa.nextplace.model.request.PladexRequest;
 import com.aespa.nextplace.model.response.PladexResponse;
 import com.aespa.nextplace.service.PladexServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +20,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.verify;
 
@@ -30,13 +34,20 @@ public class PladexServiceTest {
     @Mock
     PladexRepository pladexRepo;
 
+    @Spy
+    PladexDtoAssembler pladexDtoAssembler;
+
     private Pladex createPladexOfId(long id) {
         return Pladex.builder()
+                .pladex(new Pladex("test", "test info", PlamonRank.SR))
                 .id(id)
-                .name("test")
-                .information("test info")
-                .rank(PlamonRank.SR)
                 .build();
+    }
+
+    private PladexRequest convertEntityToDto(Pladex pladex) {
+        return new PladexRequest(pladex.getName(),
+                pladex.getInformation(),
+                pladex.getRank());
     }
 
     @DisplayName("새로운 플레덱스를 등록한다")
@@ -44,16 +55,17 @@ public class PladexServiceTest {
     public void 플레덱스등록() throws Exception {
         //given
         Pladex pladex = createPladexOfId(1L);
-        given(pladexRepo.save(pladex))
+        PladexRequest request = convertEntityToDto(pladex);
+
+        given(pladexRepo.save(any(Pladex.class)))
                 .willReturn(pladex);
         given(pladexRepo.findByName("test"))
                 .willReturn(null);
 
         //when
-        PladexResponse newPladex = pladexService.savePladex(pladex);
+        PladexResponse newPladex = pladexService.savePladex(request);
 
         //then
-        verify(pladexRepo).save(pladex);
         verify(pladexRepo).findByName("test");
         assertThat(newPladex.getId())
                 .isEqualTo(1L);
@@ -65,11 +77,12 @@ public class PladexServiceTest {
         //given
         Pladex pladex = createPladexOfId(2L);
         Pladex existingPladex = createPladexOfId(1L);
+        PladexRequest request = convertEntityToDto(pladex);
         given(pladexRepo.findByName(pladex.getName()))
                 .willReturn(existingPladex);
 
         //when
-        PladexResponse newPladex = pladexService.savePladex(pladex);
+        PladexResponse newPladex = pladexService.savePladex(request);
 
         //then
         verify(pladexRepo).findByName(pladex.getName());
