@@ -5,6 +5,7 @@ import com.aespa.nextplace.model.entity.User;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListPlamonResponse;
+import com.aespa.nextplace.model.response.PlamonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,5 +25,11 @@ public class PlamonServiceImpl implements PlamonService{
         List<Plamon> plamonList = plamonRepo.findAllByUser(user);
 
         return new ListPlamonResponse(plamonList);
+    }
+
+    @Override
+    @Transactional
+    public PlamonResponse buyNewPlamonWithGold(String oauthUid) {
+        return null;
     }
 }

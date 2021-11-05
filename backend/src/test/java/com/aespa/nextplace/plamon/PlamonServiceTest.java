@@ -4,6 +4,7 @@ import com.aespa.nextplace.model.entity.*;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.service.PlamonServiceImpl;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -55,10 +57,17 @@ class PlamonServiceTest {
         return User.builder()
                 .user(new User(uid, "냉정한 고추참치"))
                 .role(UserRole.USER)
-                .gold(0)
+                .gold(1000)
                 .dalgona(0)
                 .avatar(null)
                 .build();
+    }
+
+    @Before("")
+    public void setup() {
+        User user = createUserOfUid("G-12345");
+        given(userRepo.findByOauthUid("G-12345"))
+                .willReturn(user);
     }
 
     @DisplayName("모든 플레몬의 리스트를 반환한다")
@@ -72,8 +81,6 @@ class PlamonServiceTest {
             createPlamonOfId(3L)
         );
 
-        given(userRepo.findByOauthUid("G-12345"))
-                .willReturn(user);
         given(plamonRepo.findAllByUser(user))
                 .willReturn(plamons);
 
@@ -89,5 +96,23 @@ class PlamonServiceTest {
                         tuple(3L, false)
                 );
         verify(plamonRepo).findAllByUser(user);
+    }
+
+    @DisplayName("골드를 사용해서 새로운 플레몬을 획득한다")
+    @Test
+    public void 플레몬뽑기() throws Exception {
+        //given
+        User user = createUserOfUid("G-12345");
+        Plamon buyingPlamon = createPlamonOfId(1L);
+
+        given(plamonRepo.save(any(Plamon.class)))
+                .willReturn(buyingPlamon);
+
+        //when
+        var plamonResponseDto = plamonService.buyNewPlamonWithGold(user.getOauthUid());
+
+        //then
+        assertThat(plamonResponseDto.getId())
+                .isEqualTo(1L);
     }
 }
