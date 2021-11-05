@@ -1,14 +1,16 @@
 package com.aespa.nextplace.controller;
 
+import com.aespa.nextplace.model.request.PladexRequest;
 import com.aespa.nextplace.model.response.ListPladexResponse;
+import com.aespa.nextplace.model.response.PladexResponse;
 import com.aespa.nextplace.service.PladexService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/pladex")
@@ -24,5 +26,21 @@ public class PladexController {
         ListPladexResponse pladexList = pladexService.findAll();
 
         return ResponseEntity.ok(pladexList);
+    }
+
+    @PostMapping("")
+    @Operation(summary = "새로운 Pladex 등록", description = "새로운 Plamon을 도감에 등록한다", responses = {
+            @ApiResponse(responseCode = "201", description = "등록 성공"),
+            @ApiResponse(responseCode = "409", description = "이미 존재하는 Plamon")
+    })
+    public ResponseEntity<PladexResponse> addNewPladex(@RequestBody @Parameter(name = "새로운 Pladex 정보", required = true) PladexRequest request) {
+        PladexResponse response = pladexService.savePladex(request);
+
+        if(response == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(response);
     }
 }

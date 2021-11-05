@@ -17,7 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.verify;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @Transactional
@@ -34,10 +34,8 @@ class PlamonServiceTest {
 
     private Pladex createPladexOfId(long id) {
         return Pladex.builder()
+                .pladex(new Pladex("test", "test info", PlamonRank.SR))
                 .id(id)
-                .name("test")
-                .information("test info")
-                .rank(PlamonRank.SR)
                 .build();
     }
 
