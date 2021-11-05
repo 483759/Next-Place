@@ -2,6 +2,8 @@ package com.aespa.nextplace.service;
 
 import com.aespa.nextplace.model.entity.Pladex;
 import com.aespa.nextplace.model.repository.PladexRepository;
+import com.aespa.nextplace.model.request.PladexDtoAssembler;
+import com.aespa.nextplace.model.request.PladexRequest;
 import com.aespa.nextplace.model.response.ListPladexResponse;
 import com.aespa.nextplace.model.response.PladexResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +23,9 @@ public class PladexServiceImpl implements PladexService {
     }
 
     @Override
-    public PladexResponse savePladex(Pladex pladex) {
-        Pladex existingPladex = pladexRepo.findByName(pladex.getName());
+    public PladexResponse savePladex(PladexRequest request) {
+        Pladex pladex = PladexDtoAssembler.convertRequestToEntity(request);
+        Pladex existingPladex = pladexRepo.findByName(PladexDtoAssembler.convertRequestToEntity(request).getName());
 
         if (existingPladex != null) {   //이미 존재하면 Null을 반환
             return null;
