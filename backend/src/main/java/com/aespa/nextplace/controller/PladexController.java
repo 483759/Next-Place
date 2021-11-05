@@ -30,14 +30,14 @@ public class PladexController {
 
     @PostMapping("")
     @Operation(summary = "새로운 Pladex 등록", description = "새로운 Plamon을 도감에 등록한다", responses = {
-            @ApiResponse(responseCode = "200", description = "이미 존재하는 Plamon"),
-            @ApiResponse(responseCode = "201", description = "등록 성공")
+            @ApiResponse(responseCode = "201", description = "등록 성공"),
+            @ApiResponse(responseCode = "409", description = "이미 존재하는 Plamon")
     })
     public ResponseEntity<PladexResponse> addNewPladex(@RequestBody @Parameter(name = "새로운 Pladex 정보", required = true) PladexRequest request) {
         PladexResponse response = pladexService.savePladex(request);
 
         if(response == null) {
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
         return ResponseEntity.status(HttpStatus.CREATED)
