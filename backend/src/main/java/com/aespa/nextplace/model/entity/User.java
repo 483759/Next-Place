@@ -54,4 +54,15 @@ public class User {
         this.avatar = avatar;
     }
 
+    public boolean hasEnoughGold(int gold) {
+        return this.gold >= gold;
+    }
+
+    public boolean minusGold(int gold) {
+        if (!hasEnoughGold(gold)) {
+            return false;
+        }
+        this.gold -= gold;
+        return true;
+    }
 }
