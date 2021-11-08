@@ -20,7 +20,7 @@ public class GoogleGeocodeUtil {
 	private String key;
 	
 	
-	public String getAddress(String lat, String lng) {
+	public String getAddress(float lat, float lng) {
 		
 		String realAddress = null;
 

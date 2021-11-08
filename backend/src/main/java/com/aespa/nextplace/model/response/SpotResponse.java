@@ -3,6 +3,9 @@ package com.aespa.nextplace.model.response;
 import com.aespa.nextplace.model.entity.Spot;
 import com.aespa.nextplace.model.entity.SpotType;
 
+import lombok.Getter;
+
+@Getter
 public class SpotResponse {
 	
 	private long id;

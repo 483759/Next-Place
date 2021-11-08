@@ -11,10 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="spot")
 public class Spot {
     @Id
@@ -50,4 +54,32 @@ public class Spot {
 
     @Column(name = "spot_exp")
     private int exp;
+    
+    public Spot(BaseAddress baseAddess,String name, float lat, float lng) {
+    	this.baseAddress = baseAddess;
+    	this.name = name;
+    	this.lat = lat;
+    	this.lng = lng;
+    	
+    }
+    
+    @Builder
+    public Spot(long id, Spot spot, SpotType type, String information, String detail, boolean isRandom, int exp ) {    
+    	this.baseAddress = spot.getBaseAddress();
+    	this.name = spot.getName();
+    	this.lat = spot.getLat();
+    	this.lng = spot.getLng();
+    	
+    	this.id = id;
+    	this.type = type;
+    	this.information = information;
+    	this.detail =detail;
+    	this.exp = exp;
+    	this.isRandom = isRandom;
+    }
+
+    
+    
+    
+    
 }

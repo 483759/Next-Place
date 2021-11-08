@@ -6,9 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name="city")
 public class City {
@@ -19,4 +22,15 @@ public class City {
 
     @Column(name = "city_name")
     private String name;
+    
+    
+    public City(long id, String name) {
+    	this.id = id;
+    	this.name = name;
+    }
+    
+    
+    
+    
+    
 }
