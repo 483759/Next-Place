@@ -3,18 +3,28 @@ package com.aespa.nextplace.model.response;
 import com.aespa.nextplace.model.entity.Spot;
 import com.aespa.nextplace.model.entity.SpotType;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
 public class SpotResponse {
 	
+	@Schema(example="1")
 	private long id;
+	@Schema(example="온천교")
 	private String name;
+	@Schema(example="ATTRACTION")
 	private SpotType type;
+	@Schema(example="유성온천역 주변에서 볼 수 있는 강이 흐르는 다리")
 	private String information;
+	@Schema(example="유성온천역 주변에서 볼 수 있는 강이 흐르는 다리 \n"+
+			" 이 주변에 술집도 많고 조금만 더 걸어가면 궁동이라 만남의 장소로 자주 선택되기도 한다")
 	private String detail;
+	@Schema(example="false")
 	private boolean isRandom;
+	@Schema(example="36.3581")
 	private float lat;
+	@Schema(example="127.343")
 	private float lng;	
 	
 	public SpotResponse(Spot spot) {
