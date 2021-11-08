@@ -1,5 +1,6 @@
 package com.aespa.nextplace.controller;
 
+import com.aespa.nextplace.model.response.ErrorResponse;
 import com.aespa.nextplace.model.response.ListPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonService;
@@ -37,10 +38,10 @@ public class PlamonController {
             response = plamonService.buyNewPlamonWithGold(oauthUid);
         } catch (IllegalArgumentException e) {      // 유저 정보 없음
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(e.getMessage());
+                    .body(new ErrorResponse(e.getMessage()));
         } catch (IllegalStateException e) {         // 골드 부족
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
+                    .body(new ErrorResponse(e.getMessage()));
         }
 
         return ResponseEntity.ok(response);
