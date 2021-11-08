@@ -20,13 +20,13 @@ public class GoogleGeocodeUtil {
 	private String key;
 	
 	
-	public String getAddress(String lat, String lng) {
+	public String getAddress(float lat, float lng) {
 		
 		String realAddress = null;
 
 		try {
 			String apiURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&key="+key
-					+ "&language=ko&result_type=street_address";
+					+ "&language=ko&result_type=political";
 			URL url = new URL(apiURL);
 			
 
@@ -45,16 +45,15 @@ public class GoogleGeocodeUtil {
 			}
 			br.close();
 			
+			
 			String result = response.toString();
 			
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
 			JSONArray results = (JSONArray) jsonObject.get("results");
+			JSONObject object = (JSONObject) results.get(0);
+			realAddress = (String)object.get("formatted_address");
 
-			for (int i = 0; i < results.size(); i++) {
-				JSONObject object = (JSONObject) results.get(i);
-				realAddress = (String)object.get("formatted_address");
-			}			
 			
 			return realAddress;
 		} catch (Exception e) {
