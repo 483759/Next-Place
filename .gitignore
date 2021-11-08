@@ -40,4 +40,13 @@ out/
 .vs/
 
 ### Unity ###
+/unity/user.keystore
+/unity/NextPlace/Assets/google-services.json
+/unity/NextPlace/Assets/google-services.json.meta
 /unity/NextPlace/Assets/Resources/Mapbox
+/unity/NextPlace/Assets/StreamingAssets/google-services-desktop.json
+/unity/NextPlace/Assets/StreamingAssets/google-services-desktop.json.meta
+/unity/NextPlace/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-8_5_0.so
+/unity/NextPlace/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-8_5_0.so.meta
+/unity/NextPlace/Assets/02. Scripts/Data/URLManager.cs
+/unity/NextPlace/Assets/02. Scripts/Data/URLManager.cs.meta

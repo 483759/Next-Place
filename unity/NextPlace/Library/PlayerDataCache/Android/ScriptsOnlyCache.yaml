@@ -1,8 +1,10 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - CameraController
     - GameManager
+    - GoogleSignInDemo
+    - LoadingImage
+    - MapCameraController
     - Mapbox.Examples.CameraBillboard
     - Mapbox.Examples.ChangeShadowDistance
     - Mapbox.Examples.DragableDirectionWaypoint
@@ -25,7 +27,6 @@ ScriptsOnlyBuild:
     - Mapbox.Unity.Location.TransformLocationProvider
     - Mapbox.Unity.Map.AbstractMap
     - Mapbox.Unity.Map.InitializeMapWithLocationProvider
-    - Mapbox.Unity.Map.MapVisualizer
     - Mapbox.Unity.MeshGeneration.Data.AtlasInfo
     - Mapbox.Unity.MeshGeneration.Factories.DirectionsFactory
     - Mapbox.Unity.MeshGeneration.Modifiers.LoftModifier
@@ -39,6 +40,12 @@ ScriptsOnlyBuild:
     - UnityARKitPluginSettings
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
+    Unity.TextMeshPro.dll:
+    - TMPro.TMP_FontAsset
+    - TMPro.TMP_Settings
+    - TMPro.TMP_SpriteAsset
+    - TMPro.TMP_StyleSheet
+    - TMPro.TextMeshProUGUI
     Unity.XR.ARCore.Editor.dll:
     - UnityEditor.XR.ARCore.ARCoreSettings
     Unity.XR.ARCore.dll:
@@ -66,7 +73,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Text
     - UnityEngine.UI.VerticalLayoutGroup
   sceneClasses:
-    Assets/Scenes/MainScene.unity:
+    Assets/01. Scenes/Login.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -106,97 +113,111 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1578}
+      Script: {instanceID: 1802}
     - Class: 114
-      Script: {instanceID: 1582}
+      Script: {instanceID: 1806}
     - Class: 114
-      Script: {instanceID: 1584}
+      Script: {instanceID: 1808}
     - Class: 114
-      Script: {instanceID: 1746}
+      Script: {instanceID: 1880}
     - Class: 114
-      Script: {instanceID: 1828}
+      Script: {instanceID: 1976}
     - Class: 114
-      Script: {instanceID: 1830}
+      Script: {instanceID: 2058}
     - Class: 114
-      Script: {instanceID: 1874}
+      Script: {instanceID: 2060}
     - Class: 114
-      Script: {instanceID: 1904}
+      Script: {instanceID: 2106}
     - Class: 114
-      Script: {instanceID: 1968}
+      Script: {instanceID: 2136}
     - Class: 114
-      Script: {instanceID: 2068}
+      Script: {instanceID: 2202}
     - Class: 114
-      Script: {instanceID: 2074}
+      Script: {instanceID: 2242}
     - Class: 114
-      Script: {instanceID: 2194}
+      Script: {instanceID: 2308}
     - Class: 114
-      Script: {instanceID: 2258}
+      Script: {instanceID: 2314}
     - Class: 114
-      Script: {instanceID: 2410}
+      Script: {instanceID: 2438}
     - Class: 114
-      Script: {instanceID: 2454}
+      Script: {instanceID: 2504}
     - Class: 114
-      Script: {instanceID: 2510}
+      Script: {instanceID: 2662}
     - Class: 114
-      Script: {instanceID: 2584}
+      Script: {instanceID: 2698}
     - Class: 114
-      Script: {instanceID: 2668}
+      Script: {instanceID: 2708}
     - Class: 114
-      Script: {instanceID: 2682}
+      Script: {instanceID: 2766}
     - Class: 114
-      Script: {instanceID: 2740}
+      Script: {instanceID: 2842}
     - Class: 114
-      Script: {instanceID: 2774}
+      Script: {instanceID: 2936}
     - Class: 114
-      Script: {instanceID: 2828}
+      Script: {instanceID: 2954}
     - Class: 114
-      Script: {instanceID: 2922}
+      Script: {instanceID: 3014}
     - Class: 114
-      Script: {instanceID: 2926}
+      Script: {instanceID: 3050}
     - Class: 114
-      Script: {instanceID: 3044}
+      Script: {instanceID: 3106}
     - Class: 114
-      Script: {instanceID: 3084}
+      Script: {instanceID: 3202}
     - Class: 114
-      Script: {instanceID: 3162}
+      Script: {instanceID: 3206}
+    - Class: 114
+      Script: {instanceID: 3332}
+    - Class: 114
+      Script: {instanceID: 3372}
     - Class: 114
       Script: {instanceID: 3432}
     - Class: 114
-      Script: {instanceID: 3624}
+      Script: {instanceID: 3452}
     - Class: 114
-      Script: {instanceID: 3772}
+      Script: {instanceID: 3740}
     - Class: 114
-      Script: {instanceID: 3866}
+      Script: {instanceID: 3938}
     - Class: 114
-      Script: {instanceID: 4030}
+      Script: {instanceID: 4094}
     - Class: 114
-      Script: {instanceID: 4102}
+      Script: {instanceID: 4190}
     - Class: 114
-      Script: {instanceID: 4222}
+      Script: {instanceID: 4192}
     - Class: 114
-      Script: {instanceID: 4320}
+      Script: {instanceID: 4368}
     - Class: 114
-      Script: {instanceID: 4394}
+      Script: {instanceID: 4440}
     - Class: 114
-      Script: {instanceID: 4546}
+      Script: {instanceID: 4568}
     - Class: 114
-      Script: {instanceID: 4748}
+      Script: {instanceID: 4666}
     - Class: 114
-      Script: {instanceID: 4806}
+      Script: {instanceID: 4744}
     - Class: 114
-      Script: {instanceID: 4830}
+      Script: {instanceID: 4908}
     - Class: 114
-      Script: {instanceID: 4894}
+      Script: {instanceID: 5130}
     - Class: 114
-      Script: {instanceID: 4944}
+      Script: {instanceID: 5192}
     - Class: 114
-      Script: {instanceID: 5212}
+      Script: {instanceID: 5216}
     - Class: 114
-      Script: {instanceID: 5718}
+      Script: {instanceID: 5280}
     - Class: 114
-      Script: {instanceID: 6128}
+      Script: {instanceID: 5332}
     - Class: 114
-      Script: {instanceID: 6264}
+      Script: {instanceID: 5608}
+    - Class: 114
+      Script: {instanceID: 5714}
+    - Class: 114
+      Script: {instanceID: 6132}
+    - Class: 114
+      Script: {instanceID: 6140}
+    - Class: 114
+      Script: {instanceID: 6586}
+    - Class: 114
+      Script: {instanceID: 6736}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 124
@@ -274,6 +295,12 @@ ScriptsOnlyBuild:
     className: AnimationPlayableAsset
   - hash:
       serializedVersion: 2
+      Hash: 39a7d13fc0cb70444cc5574a2867fbbe
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GoogleSignInDemo
+  - hash:
+      serializedVersion: 2
       Hash: a7c91ead796087612ab9b5731410c7c5
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Examples
@@ -298,10 +325,10 @@ ScriptsOnlyBuild:
     className: TransitionArmModel
   - hash:
       serializedVersion: 2
-      Hash: 002a4754cfd5a5fb86399ec531ae3097
+      Hash: 9f2ed4d7068f1f2c87f2fab36f35e6e6
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: CameraController
+    className: MapCameraController
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -976,6 +1003,12 @@ ScriptsOnlyBuild:
     className: ScenesList
   - hash:
       serializedVersion: 2
+      Hash: c5864f8cb6b45d68503746e86c2ec66f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LoadingImage
+  - hash:
+      serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -992,6 +1025,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Unity.MeshGeneration.Modifiers
     className: NoiseOffsetModifier
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Firebase.Platform.dll
+    namespaceName: Firebase.Platform
+    className: FirebaseMonoBehaviour
   - hash:
       serializedVersion: 2
       Hash: 0909bc52453e138a9962458847ac1eb1
@@ -1258,6 +1297,12 @@ ScriptsOnlyBuild:
     className: ARPlaneManager
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: RestRequest
+  - hash:
+      serializedVersion: 2
       Hash: ea34d08e7f97e87a4da43fb433578303
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Examples
@@ -1334,6 +1379,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.XR.ARCore.dll
     namespaceName: UnityEngine.XR.ARCore
     className: ARCoreLoaderSettings
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: Google.Impl
+    className: SignInHelperObject
   - hash:
       serializedVersion: 2
       Hash: 7bd336f889f512c1d4b12b39eec549c3
@@ -1468,7 +1519,7 @@ ScriptsOnlyBuild:
     className: ARRaycast
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 0a2bb6028555e285697fe08240b25707
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -1780,5 +1831,5 @@ ScriptsOnlyBuild:
     className: ImageDataFetcher
   platform: 13
   scenePathNames:
-  - Assets/Scenes/MainScene.unity
+  - Assets/01. Scenes/Login.unity
   playerPath: "C:/Users/lsh10/Desktop/\uBE4C\uB4DC/NextPlace.apk"
