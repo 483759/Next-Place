@@ -1,12 +1,17 @@
 package com.aespa.nextplace.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aespa.nextplace.model.response.ListSpotResponse;
+import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.service.SpotService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,4 +47,23 @@ public class SpotController {
     	return ResponseEntity.ok(response);
     	
     }
+    
+    
+    @PostMapping("/{spotId}")
+    public ResponseEntity<Object> addPlaction(@PathVariable long spotId, HttpServletRequest httpServletReq){
+    	
+    	PlactionResponse response = null;
+    	
+    	try {
+    		response = spotService.savePlaction(1, "G-12345", 100);
+    	}catch(Exception e) {
+    		return ResponseEntity.badRequest().body(e.getMessage());
+    	}
+    	
+    	
+    	
+    	return ResponseEntity.ok(response);
+    }
+    
+    
 }

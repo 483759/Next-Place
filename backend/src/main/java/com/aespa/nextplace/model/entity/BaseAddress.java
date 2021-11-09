@@ -21,22 +21,20 @@ public class BaseAddress {
     @Id
     @GeneratedValue
     @Column(name = "baseaddress_id")
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_id", referencedColumnName = "city_id")
-    private City city;
-
+    private Long id; 
+    
+    @Column(name = "baseaddress_city")
+    private String city;
+    
     @Column(name = "baseaddress_gugun")
     private String gugun;
 
     @Column(name = "baseaddress_dong")
-    private String dong;
+    private String dong;    
     
-    
-    public BaseAddress(long id, City city, String gugun, String dong) {
+    public BaseAddress(long id,String city, String gugun, String dong) {
     	this.id = id;
-    	this.city =city;
+    	this.city = city;
     	this.gugun = gugun;
     	this.dong = dong;
     }
