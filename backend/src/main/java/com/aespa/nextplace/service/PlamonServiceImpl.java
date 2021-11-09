@@ -55,7 +55,6 @@ public class PlamonServiceImpl implements PlamonService {
         int randomValue = (int) (Math.random() * (100 - 1 + 1)) + 1;
         PlamonRank plamonRank = null;
 
-        // 랜덤 값으로 뽑기를 시도할 랭크 지정
         if (randomValue <= gatchaProbability.get(PlamonRank.N)) {
             plamonRank = PlamonRank.N;
         } else if (randomValue <= gatchaProbability.get(PlamonRank.R)) {
@@ -89,7 +88,6 @@ public class PlamonServiceImpl implements PlamonService {
         while (size != checkList.size()) {
             PlamonRank plamonRank = getPlamonRank();
 
-            // 이미 시도해본 값(해당 랭크의 플레몬이 존재하지 않음)일 때는 continue
             if (checkList.containsKey(plamonRank)) {
                 continue;
             }
@@ -97,7 +95,7 @@ public class PlamonServiceImpl implements PlamonService {
             checkList.put(plamonRank, true);
 
             pladexList = pladexRepo.findAllByRank(plamonRank);
-            if (pladexList.isEmpty()) {  // 만약 해당 랭크에 속하는 플레몬이 없으면 다시 뽑기 해야함
+            if (pladexList.isEmpty()) {
                 continue;
             }
 
