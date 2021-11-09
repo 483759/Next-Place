@@ -22,23 +22,23 @@ import org.springframework.web.bind.annotation.*;
 public class PlamonController {
     private final PlamonService plamonService;
 
-//    @GetMapping("/{oauthUid}")
-//    @Operation(summary = "내 캐릭터 조회", description = "유저가 소유한 캐릭터 목록을 조회한다", responses = {
-//            @ApiResponse(responseCode = "200", description = "조회 성공")
-//    })
-//    public ResponseEntity<?> readAllPlamon(@PathVariable String oauthUid) {
-//        try {
-//            ListPlamonResponse list = plamonService.findAllByUser(oauthUid);
-//
-//            return ResponseEntity.ok(list);
-//        } catch (IllegalArgumentException e) {      // 유저 정보 없음
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//                    .body(new ErrorResponse(e.getMessage()));
-//        }
-//    }
+    @GetMapping("/all/{oauthUid}")
+    @Operation(summary = "내 캐릭터 조회", description = "유저가 소유한 캐릭터 목록을 조회한다", responses = {
+            @ApiResponse(responseCode = "200", description = "조회 성공")
+    })
+    public ResponseEntity<?> readAllPlamon(@PathVariable String oauthUid) {
+        try {
+            ListPlamonResponse list = plamonService.findAllByUser(oauthUid);
+
+            return ResponseEntity.ok(list);
+        } catch (IllegalArgumentException e) {      // 유저 정보 없음
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse(e.getMessage()));
+        }
+    }
 
     @GetMapping("/{oauthUid}")
-    @Operation(summary = "내 캐릭터 조회", description = "유저가 소유한 캐릭터 목록을 조회한다", responses = {
+    @Operation(summary = "내 캐릭터 조회", description = "유저가 소유한 캐릭터 목록을 조회한다(페이징)", responses = {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
     public ResponseEntity<?> readAllPlamonWithPagination(@PathVariable String oauthUid,
