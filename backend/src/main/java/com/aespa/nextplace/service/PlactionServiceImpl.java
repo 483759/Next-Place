@@ -43,10 +43,8 @@ public class PlactionServiceImpl implements PlactionService {
 		}
 		
 		
-		Plaction plaction = null;
-		System.out.println("--------------------------");
-		if(plactionRepo.existsByUserAndSpot(user, spot)) {
-			plaction = plactionRepo.findByUserAndSpot(user, spot);
+		Plaction plaction = plactionRepo.findByUserAndSpot(user, spot);
+		if(plaction != null) {			
 			score = Math.max(score, plaction.getScore());			
 			plaction = Plaction.builder()
 					.id(plaction.getId())
@@ -54,14 +52,12 @@ public class PlactionServiceImpl implements PlactionService {
 					.score(score)
 					.build();
 		}
-		System.out.println("--------------------------");
-		if(plaction == null) {
+		else {
 			plaction = Plaction.builder()
 			.plaction(new Plaction(user, spot))
 			.score(score)
 			.build();
 		}
-		System.out.println("--------------------------");
 				
 		
 		plactionRepo.save(plaction);		
