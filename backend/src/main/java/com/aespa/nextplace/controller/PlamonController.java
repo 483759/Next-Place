@@ -29,7 +29,8 @@ public class PlamonController {
     @Operation(summary = "캐릭터 구매", description = "골드를 지불해서 새로운 캐릭터를 구매한다", responses = {
             @ApiResponse(responseCode = "200", description = "구매 성공"),
             @ApiResponse(responseCode = "400", description = "구매할 골드 부족"),
-            @ApiResponse(responseCode = "401", description = "유저 정보 없음")
+            @ApiResponse(responseCode = "401", description = "유저 정보 없음"),
+            @ApiResponse(responseCode = "501", description = "서버에서 캐릭터를 얻을 수 없음")
     })
     public ResponseEntity<?> buyNewPlamonByGold(@PathVariable String oauthUid) throws ParseException {
         PlamonResponse response;
@@ -41,6 +42,9 @@ public class PlamonController {
                     .body(new ErrorResponse(e.getMessage()));
         } catch (IllegalStateException e) {         // 골드 부족
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(e.getMessage()));
+        } catch (UnsupportedOperationException e) {     // 서버에 캐릭터 없음
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
                     .body(new ErrorResponse(e.getMessage()));
         }
 

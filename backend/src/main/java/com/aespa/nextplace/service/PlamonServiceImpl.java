@@ -110,10 +110,10 @@ public class PlamonServiceImpl implements PlamonService {
     @Override
     @Transactional
     /**
-     * 유저 검증(골드가 뽑기에 충분한지)
-     * 등급 별 확률 조정
-     * 랜덤 확률에 따른 등급 선정
-     * 해당 등급의 플레몬 뽑기 -> if 없다면? 다른 등급 뽑기
+     * 캐릭터 뽑기
+     * 유저를 인증한 뒤, 뽑기를 할 수 있는 골드가 있는지 확인한다
+     * 랭크 별 획득 확률에 따라 뽑을 캐릭터의 랭크를 먼저 정한다
+     * 해당 랭크에 속한 캐릭터 중 랜덤으로 한 캐릭터를 뽑아 저장한다
      * */
     public PlamonResponse buyNewPlamonWithGold(String oauthUid) throws IllegalArgumentException, IllegalStateException{
         User user = findUserByOauthUid(oauthUid);
@@ -127,10 +127,14 @@ public class PlamonServiceImpl implements PlamonService {
         }
 
         List<Pladex> pladexList = getRandomPlamonListByRank();
-        Pladex randomPlamon = selectOnePlamon(pladexList);      //얻을 플레몬 선택
+        Pladex randomPlamon = selectOnePlamon(pladexList);
 
-        Plamon plamon = plamonRepo.save(new Plamon(randomPlamon, user));    // 디폴트 캐릭터 생성 후 저장
-        user.minusGold(gatchaPrice);    // 유저에게서 금액 마이너스
+        if (randomPlamon == null) {
+            throw new UnsupportedOperationException("얻을 수 있는 캐릭터가 없습니다");
+        }
+
+        Plamon plamon = plamonRepo.save(new Plamon(randomPlamon, user));
+        user.minusGold(gatchaPrice);
 
         return new PlamonResponse(plamon);
     }
