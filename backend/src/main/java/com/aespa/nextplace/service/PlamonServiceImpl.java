@@ -59,7 +59,16 @@ public class PlamonServiceImpl implements PlamonService {
 
     @Override
     public ListPlamonResponse findAllByUserWithPagination(String oauthUid, Pageable pageable) {
-        return null;
+        User user = findUserByOauthUid(oauthUid);
+
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+        }
+
+        System.out.println(pageable.toString());
+        List<Plamon> plamonList = plamonRepo.findAllByUser(user, pageable);
+
+        return new ListPlamonResponse(plamonList);
     }
 
     public PlamonRank getPlamonRank() {
