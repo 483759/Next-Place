@@ -6,7 +6,6 @@ build/
 !**/src/test/**/build/
 application.yml
 fir-d1e55-firebase-adminsdk-tm2jt-6ef434d608.json
-
 ### STS ###
 .apt_generated
 .classpath
@@ -18,7 +17,6 @@ fir-d1e55-firebase-adminsdk-tm2jt-6ef434d608.json
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -27,18 +25,15 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-
 ### VS Code ###
 .vscode/
 .vs/
-
 ### Unity ###
 /unity/user.keystore
 /unity/NextPlace/Assets/google-services.json
@@ -47,6 +42,4 @@ out/
 /unity/NextPlace/Assets/StreamingAssets/google-services-desktop.json
 /unity/NextPlace/Assets/StreamingAssets/google-services-desktop.json.meta
 /unity/NextPlace/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-8_5_0.so
-/unity/NextPlace/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-8_5_0.so.meta
-/unity/NextPlace/Assets/02. Scripts/Data/URLManager.cs
-/unity/NextPlace/Assets/02. Scripts/Data/URLManager.cs.meta
+/unity/NextPlace/Assets/Firebase/Plugins/x86_64/F
