@@ -68,8 +68,7 @@ public class Spot {
     	this.baseAddress = spot.getBaseAddress();
     	this.name = spot.getName();
     	this.lat = spot.getLat();
-    	this.lng = spot.getLng();
-    	
+    	this.lng = spot.getLng();    	
     	this.id = id;
     	this.type = type;
     	this.information = information;

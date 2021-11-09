@@ -35,5 +35,6 @@ public class SpotResponse {
 		this.isRandom = spot.isRandom();
 		this.lat = spot.getLat();
 		this.lng = spot.getLng();
+		this.type = spot.getType();
 	}
 }
