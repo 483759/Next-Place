@@ -65,7 +65,6 @@ public class PlamonServiceImpl implements PlamonService {
             throw new IllegalArgumentException("존재하지 않는 유저입니다");
         }
 
-        System.out.println(pageable.toString());
         List<Plamon> plamonList = plamonRepo.findAllByUser(user, pageable);
 
         return new ListPlamonResponse(plamonList);
