@@ -6,14 +6,14 @@ import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 class PlamonServiceTest {
 
@@ -122,9 +121,39 @@ class PlamonServiceTest {
         verify(plamonRepo).findAllByUser(user);
     }
 
+    @DisplayName("페이지를 적용한 모든 플레몬 리스트를 반환한다")
+    @Test
+    public void 플레몬리스트반환페이징() throws Exception {
+        //given
+        User user = createUserOfUid("G-12345");
+        Pageable pageable = PageRequest.of(0, 3);
+        List<Plamon> plamons = List.of(
+                createPlamonOfId(1L),
+                createPlamonOfId(2L),
+                createPlamonOfId(3L)
+        );
+
+        given(userRepo.findByOauthUid("G-12345"))
+                .willReturn(user);
+        given(plamonRepo.findAllByUser(user, pageable))
+                .willReturn(plamons);
+
+        //when
+        var plamonResponseDto = plamonService.findAllByUserWithPagination("G-12345", pageable).getPlamonList();
+
+        //then
+        assertThat(plamonResponseDto)
+                .extracting("id", "isMain")
+                .containsExactly(
+                        tuple(1L, false),
+                        tuple(2L, false),
+                        tuple(3L, false)
+                );
+        verify(plamonRepo).findAllByUser(user, pageable);
+    }
+
     @DisplayName("N 등급을 랜덤으로 뽑을 수 있는지 검증한다")
     @Test
-    @Disabled
     public void N등급뽑기() throws Exception {
         //given
         List<Pladex> normalPlamonList = List.of(
@@ -187,7 +216,6 @@ class PlamonServiceTest {
 
     @DisplayName("각각의 등급을 랜덤으로 뽑을 수 있는지 검증한다")
     @Test
-    @Disabled
     public void 각각의등급뽑기() throws Exception {
         //given
         int count;
