@@ -89,6 +89,7 @@ public class SpotServiceImpl implements SpotService {
 		
 		if(plactionRepo.existsByUserAndSpot(user, spot)) {
 			plaction = plactionRepo.findByUserAndSpot(user, spot);
+			score = Math.max(score, plaction.getScore());			
 			plaction = plaction.builder()
 					.id(plaction.getId())
 					.plaction(plaction)
