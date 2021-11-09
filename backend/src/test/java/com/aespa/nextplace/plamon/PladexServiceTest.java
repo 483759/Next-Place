@@ -45,9 +45,9 @@ public class PladexServiceTest {
                 pladex.getRank().toString());
     }
 
-    @DisplayName("새로운 플레덱스를 등록한다")
+    @DisplayName("새로운 캐릭터를 등록한다")
     @Test
-    public void 플레덱스등록() throws Exception {
+    public void 캐릭터등록() throws Exception {
         //given
         Pladex pladex = createPladexOfId(1L);
         PladexRequest request = convertEntityToDto(pladex);
@@ -66,9 +66,9 @@ public class PladexServiceTest {
                 .isEqualTo(1L);
     }
 
-    @DisplayName("이미 존재하는 플레덱스를 등록하려고 시도한다")
+    @DisplayName("이미 존재하는 캐릭터를 등록하려고 시도한다")
     @Test
-    public void 이미존재하는플레덱스등록() throws Exception {
+    public void 이미존재하는캐릭터등록() throws Exception {
         //given
         Pladex pladex = createPladexOfId(2L);
         Pladex existingPladex = createPladexOfId(1L);
@@ -85,9 +85,9 @@ public class PladexServiceTest {
                 .isEqualTo(null);
     }
 
-    @DisplayName("모든 플레덱스(고유 플레몬)의 리스트를 반환한다")
+    @DisplayName("모든 캐릭터(고유 플레몬)의 리스트를 반환한다")
     @Test
-    public void 플레덱스리스트반환() throws Exception {
+    public void 캐릭터리스트반환() throws Exception {
         //given
         List<Pladex> pladexes = List.of(
                 createPladexOfId(1L),
