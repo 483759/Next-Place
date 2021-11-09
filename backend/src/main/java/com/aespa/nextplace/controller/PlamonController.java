@@ -5,9 +5,13 @@ import com.aespa.nextplace.model.response.ListPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +22,37 @@ import org.springframework.web.bind.annotation.*;
 public class PlamonController {
     private final PlamonService plamonService;
 
+//    @GetMapping("/{oauthUid}")
+//    @Operation(summary = "내 캐릭터 조회", description = "유저가 소유한 캐릭터 목록을 조회한다", responses = {
+//            @ApiResponse(responseCode = "200", description = "조회 성공")
+//    })
+//    public ResponseEntity<?> readAllPlamon(@PathVariable String oauthUid) {
+//        try {
+//            ListPlamonResponse list = plamonService.findAllByUser(oauthUid);
+//
+//            return ResponseEntity.ok(list);
+//        } catch (IllegalArgumentException e) {      // 유저 정보 없음
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body(new ErrorResponse(e.getMessage()));
+//        }
+//    }
+
     @GetMapping("/{oauthUid}")
     @Operation(summary = "내 캐릭터 조회", description = "유저가 소유한 캐릭터 목록을 조회한다", responses = {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
-    public ResponseEntity<?> readAllPlamon(@PathVariable String oauthUid) {
+    public ResponseEntity<?> readAllPlamonWithPagination(@PathVariable String oauthUid,
+                                                         @Parameter(required = true) int page, @Parameter(required = true) int size, @Parameter Sort sort) {
+        Pageable pageable;
+
+        if(sort==null) {
+            pageable = PageRequest.of(page, size);
+        } else {
+            pageable = PageRequest.of(page, size, sort);
+        }
+
         try {
-            ListPlamonResponse list = plamonService.findAllByUser(oauthUid);
+            ListPlamonResponse list = plamonService.findAllByUserWithPagination(oauthUid, pageable);
 
             return ResponseEntity.ok(list);
         } catch (IllegalArgumentException e) {      // 유저 정보 없음
