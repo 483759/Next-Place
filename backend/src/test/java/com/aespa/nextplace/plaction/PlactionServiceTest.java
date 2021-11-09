@@ -102,10 +102,7 @@ public class PlactionServiceTest {
 		
 		given(spotRepo.findByIdAllJoinFetch(spotId))
 			.willReturn(spot);
-		
-		given(plactionRepo.existsByUserAndSpot(user, spot))
-			.willReturn(false);		
-		
+				
 		given(plactionRepo.findByUserAndSpot(user,spot))
 			.willReturn(plaction);		
 				
@@ -192,9 +189,6 @@ public class PlactionServiceTest {
 		
 		given(spotRepo.findByIdAllJoinFetch(spotId))
 			.willReturn(spot);
-		
-		given(plactionRepo.existsByUserAndSpot(user, spot))
-			.willReturn(true);
 		
 		given(plactionRepo.findByUserAndSpot(user, spot))
 			.willReturn(plaction);
