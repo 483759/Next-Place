@@ -1,16 +1,16 @@
 package com.aespa.nextplace.model.response;
 
-import java.time.LocalDateTime;
-
 import com.aespa.nextplace.model.entity.Plaction;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
 public class PlactionResponse {
+	@Schema(example="1")
 	private long id;
 	private SpotResponse spot;
-	private LocalDateTime createdTime;
+	@Schema(example="100")
 	private int score;
 	
 	
@@ -18,7 +18,6 @@ public class PlactionResponse {
 	public PlactionResponse(Plaction plaction) {
 		this.id = plaction.getId();
 		this.spot = new SpotResponse(plaction.getSpot());
-		this.createdTime = plaction.getCreatedDate();
 		this.score = plaction.getScore();
 	}
 }
