@@ -29,10 +29,6 @@ public class SpotServiceImpl implements SpotService {
 		
 	private final GoogleGeocodeUtil geocodeUtil;	
 	
-	private final PlactionRepository plactionRepo;	
-	
-	private final UserRepository userRepo;
-	
 	public ListSpotResponse getSpots(float lat, float lng) {				
 		if(lat >90 || lat <-90 || lng >180 || lng <-180) {
 			throw new IllegalArgumentException("Wrong lat or lng");
@@ -65,53 +61,6 @@ public class SpotServiceImpl implements SpotService {
 		return response;
 
 				
-	}
-		
-	
-	public PlactionResponse savePlaction(long spotId, String oauthUid, int score){
-		
-		PlactionResponse response = null;
-		
-		Spot spot = spotRepo.findByIdAllJoinFetch(spotId);
-		
-		if(spot == null) {
-			throw new IllegalArgumentException("Can't find Spot");
-		}
-		
-		User user = userRepo.findByOauthUid(oauthUid);
-		
-		if(user == null) {
-			throw new IllegalArgumentException("Can't find User");
-		}
-		
-		
-		Plaction plaction = null;
-		
-		if(plactionRepo.existsByUserAndSpot(user, spot)) {
-			plaction = plactionRepo.findByUserAndSpot(user, spot);
-			score = Math.max(score, plaction.getScore());			
-			plaction = plaction.builder()
-					.id(plaction.getId())
-					.plaction(plaction)
-					.score(score)
-					.build();
-		}
-		
-		if(plaction == null) {
-			plaction = Plaction.builder()
-			.plaction(new Plaction(user, spot))
-			.score(score)
-			.build();
-		}
-	
-				
-		
-		plactionRepo.save(plaction);		
-		
-		plaction = plactionRepo.findByUserAndSpot(user, spot);		
-		response = new PlactionResponse(plaction);
-		
-		return response;
 	}
 
 }
