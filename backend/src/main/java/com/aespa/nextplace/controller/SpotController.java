@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aespa.nextplace.model.response.ErrorResponse;
 import com.aespa.nextplace.model.response.ListSpotResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.service.SpotService;
@@ -40,7 +41,7 @@ public class SpotController {
     	try {
     		response = spotService.getSpots(lat, lng);
     	} catch(IllegalArgumentException e) {
-    		return ResponseEntity.badRequest().body(e.getMessage());
+    		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     	}
     	
     	
@@ -57,7 +58,7 @@ public class SpotController {
     	try {
     		response = spotService.savePlaction(1, "G-12345", 100);
     	}catch(Exception e) {
-    		return ResponseEntity.badRequest().body(e.getMessage());
+    		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     	}
     	
     	
