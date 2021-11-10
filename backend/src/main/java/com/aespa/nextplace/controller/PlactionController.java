@@ -3,6 +3,8 @@ package com.aespa.nextplace.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aespa.nextplace.model.request.PlactionRequest;
 import com.aespa.nextplace.model.response.ErrorResponse;
+import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.service.PlactionService;
 
@@ -37,7 +40,7 @@ public class PlactionController {
     	
     	try {
     		response = plactionService.savePlaction(request.getSpotId(), "G-12345", request.getScore());
-    	}catch(Exception e) {
+    	}catch(IllegalArgumentException e) {
     		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     	}
     	
@@ -45,4 +48,41 @@ public class PlactionController {
     	
     	return ResponseEntity.ok(response);
     }
+    
+    
+    @GetMapping("/city")
+    public ResponseEntity<?> myPlactionsCountFromCities(HttpServletRequest httpServletReq){
+    	
+    	
+    	String oauthUid = "G-12345";
+    	ListMyPlactionCountResponse response = null;
+    	try {
+    		response = plactionService.getMyPlactionsCountFromCities(oauthUid);
+    	}catch(IllegalArgumentException e){
+    		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+    	}
+    	
+    	
+    	return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/city/{city}")
+    public ResponseEntity<?> myPlactionsCountFromGugun(@PathVariable String city, HttpServletRequest httpServletReq){
+    	
+    	
+    	String oauthUid = "G-12345";
+    	ListMyPlactionCountResponse response = null;
+    	try {
+    		response = plactionService.getMyPlactionsCountFromGugun(oauthUid, city);
+    	}catch(IllegalArgumentException e){
+    		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+    	}
+    	
+    	
+    	return ResponseEntity.ok(response);
+    }
+   
+    
+    
+    
 }
