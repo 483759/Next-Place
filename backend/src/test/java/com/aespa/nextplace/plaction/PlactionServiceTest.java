@@ -3,6 +3,9 @@ package com.aespa.nextplace.plaction;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +24,7 @@ import com.aespa.nextplace.model.repository.BaseAddressRepository;
 import com.aespa.nextplace.model.repository.PlactionRepository;
 import com.aespa.nextplace.model.repository.SpotRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
+import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.service.PlactionServiceImpl;
 
@@ -46,6 +50,8 @@ public class PlactionServiceTest {
 	@Mock
 	UserRepository userRepo;
 	
+	private final String cities[] = {"서울특별시","인천광역시","대전광역시", "부산광역시","울산광역시","광주광역시","제주특별자치도","경기도", "충청북도","충청남도","강원도","경상북도","경상남도","전라북도","전라남도"};
+	private Exception ex;
 	
 	private User getSampleUser() {
 		return 	User.builder()
@@ -83,7 +89,7 @@ public class PlactionServiceTest {
 	
 	
 	
-	private Exception ex;
+	
 	
 	
 	@DisplayName("방문 스팟 플렉션 등록")
@@ -207,4 +213,96 @@ public class PlactionServiceTest {
 		
 		
 	}
+	
+	@DisplayName("도시별 업적 진행률 받기 성공")
+	@Test
+	public void 도시별_플렉션_진행률_받기_성공() throws Exception{
+		
+		String oauthUid = "G-12345";
+		User user = getSampleUser();
+		Spot spot = getSpotSample();
+		List<Spot> spots = List.of(spot);
+		Plaction plaction = getSamplePlaction(user, spot);
+		List<Plaction> plactions = List.of(plaction);
+		
+		//given
+		given(userRepo.findByOauthUid(oauthUid)).willReturn(user);
+		
+		
+		given(spotRepo.findAllByCity(cities[0])).willReturn(spots);
+		given(plactionRepo.findAllByUserAndCity(user,cities[0])).willReturn(plactions);
+		
+		for(int i=1;i<cities.length;i++) {
+			given(spotRepo.findAllByCity(cities[i])).willReturn(new ArrayList());
+			given(plactionRepo.findAllByUserAndCity(user, cities[i])).willReturn(new ArrayList());
+		}
+		
+		//when
+		ListMyPlactionCountResponse response = null;
+		try {
+			response = plactionService.getMyPlactionsCountFromCities(oauthUid);
+		}
+		catch(Exception e) {
+			ex = e;
+		}
+		
+		assertEquals(1, response.getMyPlactionCounts().get(0).getMyCount());
+		
+		
+		
+	}
+	
+	@DisplayName("구군별 업적 진행률 받기 성공")
+	@Test
+	public void 구군별_플렉션_진행률_받기_성공() throws Exception{
+		
+		String oauthUid = "G-12345";
+		String city = "대전광역시";
+		User user = getSampleUser();
+		Spot spot = getSpotSample();
+		List<Spot> spots = List.of(spot);
+		Plaction plaction = getSamplePlaction(user, spot);
+		List<Plaction> plactions = List.of(plaction);
+		
+		String gugun[] = {"유성구","서구","중구","동구","대덕구"};
+		
+		//given
+		given(userRepo.findByOauthUid(oauthUid)).willReturn(user);
+		
+		
+		given(spotRepo.findAllByGugun(gugun[0])).willReturn(spots);
+		given(plactionRepo.findAllByUserAndGugun(user,gugun[0])).willReturn(plactions);
+		
+		for(int i=1;i<gugun.length;i++) {
+			given(spotRepo.findAllByGugun(gugun[i])).willReturn(new ArrayList());
+			given(plactionRepo.findAllByUserAndGugun(user, gugun[i])).willReturn(new ArrayList());
+		}
+		
+		//when
+		ListMyPlactionCountResponse response = null;
+		try {
+			response = plactionService.getMyPlactionsCountFromGugun(oauthUid,city);
+		}
+		catch(Exception e) {
+			ex = e;
+		}
+		
+		
+		assertEquals(1, response.getMyPlactionCounts().get(0).getMyCount());
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
