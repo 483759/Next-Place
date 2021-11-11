@@ -65,4 +65,8 @@ public class User {
         this.gold -= gold;
         return true;
     }
+
+    public void plusGold(int gold) {
+        this.gold += gold;
+    }
 }
