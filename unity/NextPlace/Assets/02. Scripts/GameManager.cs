@@ -5,6 +5,23 @@ using UnityEngine;
 
 
 public class GameManager : MonoBehaviour {
+
+    private static GameManager _instance = null;
+    public static GameManager instance {
+        get {
+            if (_instance == null) {
+                var obj = GameObject.FindObjectOfType<GameManager>();
+
+                if (obj != null) {
+                    _instance = obj;
+                } else {
+                    _instance = new GameObject("GameManager").AddComponent<GameManager>();
+                }
+            }
+            return _instance;
+        }
+    }
+
     public enum GameState {
         Login = 0,
         Map = 1,

@@ -50,3 +50,5 @@ out/
 /unity/NextPlace/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-8_5_0.so.meta
 /unity/NextPlace/Assets/02. Scripts/Data/URLManager.cs
 /unity/NextPlace/Assets/02. Scripts/Data/URLManager.cs.meta
+/unity/NextPlace/Library/**/libil2cpp.dbg.so
+/unity/NextPlace/Library/**/libil2cpp.sym.so
