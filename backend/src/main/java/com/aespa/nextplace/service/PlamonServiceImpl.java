@@ -14,7 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
@@ -157,26 +160,32 @@ public class PlamonServiceImpl implements PlamonService {
      * 자신의 대표 캐릭터는 판매할 수 없음
      * */
     @Override
-    public ListPlamonResponse sell(String oauthUid, Long plamonId) throws IllegalArgumentException {
+    @Transactional
+    public ListPlamonResponse sell(String oauthUid, Long plamonId) throws IllegalArgumentException, IllegalStateException {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
             throw new IllegalArgumentException("존재하지 않는 유저입니다");
         }
 
-        Optional<Plamon> plamon = plamonRepo.findPlamonByUserAndId(user, plamonId);
+        Plamon plamon = plamonRepo.findPlamonByUserAndId(user, plamonId);
 
-        if (plamon.isEmpty()) {
+        if (plamon == null) {
             throw new IllegalArgumentException("해당 캐릭터는 보유 중이 아닙니다");
         }
 
+        if (plamon.isMain()) {
+            throw new IllegalStateException("대표 캐릭터는 삭제할 수 없습니다");
+        }
+
         // 해당 플레몬의 등급만큼의 금액을 번다
-        PlamonRank rank = plamon.get().getPladex().getRank();
+        PlamonRank rank = plamon.getPladex().getRank();
         // int sellingPrice = rankUtil.getSellingPrice(rank);
         // user.plusGold(sellingPrice);
+        user.plusGold(100);
 
-        plamonRepo.delete(plamon.get());        //해당 플레몬 제거
-        userRepo.save(user);
+        plamonRepo.delete(plamon);        //해당 플레몬 제거
+        //userRepo.save(user);
 
         return findAllByUser(oauthUid);
     }
