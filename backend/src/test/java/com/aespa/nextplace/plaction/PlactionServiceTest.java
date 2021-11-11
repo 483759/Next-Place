@@ -270,12 +270,12 @@ public class PlactionServiceTest {
 		given(userRepo.findByOauthUid(oauthUid)).willReturn(user);
 		
 		
-		given(spotRepo.findAllByGugun(gugun[0])).willReturn(spots);
-		given(plactionRepo.findAllByUserAndGugun(user,gugun[0])).willReturn(plactions);
+		given(spotRepo.findAllByCityAndGugun(city,gugun[0])).willReturn(spots);
+		given(plactionRepo.findAllByUserAndCityAndGugun(user,city,gugun[0])).willReturn(plactions);
 		
 		for(int i=1;i<gugun.length;i++) {
-			given(spotRepo.findAllByGugun(gugun[i])).willReturn(new ArrayList());
-			given(plactionRepo.findAllByUserAndGugun(user, gugun[i])).willReturn(new ArrayList());
+			given(spotRepo.findAllByCityAndGugun(city,gugun[i])).willReturn(new ArrayList());
+			given(plactionRepo.findAllByUserAndCityAndGugun(user,city, gugun[i])).willReturn(new ArrayList());
 		}
 		
 		//when
@@ -289,9 +289,7 @@ public class PlactionServiceTest {
 		
 		
 		assertEquals(1, response.getMyPlactionCounts().get(0).getMyCount());
-		
-		
-		
+
 	}
 	
 	

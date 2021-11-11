@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aespa.nextplace.model.entity.Plaction;
 import com.aespa.nextplace.model.entity.Spot;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PlactionServiceImpl implements PlactionService {	
 	
 	private final SpotRepository spotRepo;	
@@ -34,6 +36,7 @@ public class PlactionServiceImpl implements PlactionService {
 	
 	
 	
+	@Transactional
 	public PlactionResponse savePlaction(long spotId, String oauthUid, int score){
 		
 		PlactionResponse response = null;
@@ -122,9 +125,6 @@ public class PlactionServiceImpl implements PlactionService {
 	
 	
 	public ListMyPlactionCountResponse getMyPlactionsCountFromGugun(String oauthUid, String city) {
-		
-		
-		
 		User user = userRepo.findByOauthUid(oauthUid);
 		
 		if(user == null) {
@@ -144,11 +144,11 @@ public class PlactionServiceImpl implements PlactionService {
 		for(int i=0;i<gugun.length;i++) {
 			int totalCount = 0;
 			int myCount = 0;
-			List<Spot> spots = spotRepo.findAllByGugun(gugun[i]);
+			List<Spot> spots = spotRepo.findAllByCityAndGugun(city,gugun[i]);
 			
 			totalCount = spots.size();			
 			
-			List<Plaction> plactions = plactionRepo.findAllByUserAndGugun(user, gugun[i]);
+			List<Plaction> plactions = plactionRepo.findAllByUserAndCityAndGugun(user, city, gugun[i]);
 			
 			myCount = plactions.size();
 		
