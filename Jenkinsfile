@@ -25,7 +25,7 @@ pipeline {
                     try{
                         sh 'sudo chmod -R +x+w backend'
                         sh 'sudo ./backend/gradlew clean build -p backend'
-                        sh 'docker build -t $PROJECT:latest .'
+                        sh 'sudo docker build -t $PROJECT:latest .'
                     } catch(e){
                         mattermostSend (
                                     color: "danger", 
@@ -41,8 +41,8 @@ pipeline {
                 
                 script {
                     try {
-                        sh 'docker-compose -f /home/ubuntu/docker-compose.yml down'
-                        sh 'docker-compose -f /home/ubuntu/docker-compose.yml up -d'
+                        sh 'sudo docker-compose -f /home/ubuntu/docker-compose.yml down'
+                        sh 'sudo docker-compose -f /home/ubuntu/docker-compose.yml up -d'
                     } catch(e) {
                         currentBuild.result = "FAILURE"
                     } finally {
