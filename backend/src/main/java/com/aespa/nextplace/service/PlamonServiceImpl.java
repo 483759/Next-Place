@@ -47,8 +47,17 @@ public class PlamonServiceImpl implements PlamonService {
     public ListPlamonResponse findAllByUser(String oauthUid) {
         User user = findUserByOauthUid(oauthUid);
         List<Plamon> plamonList = plamonRepo.findAllByUser(user);
+        ListPlamonResponse response = new ListPlamonResponse(plamonList, true);
 
-        return new ListPlamonResponse(plamonList);
+        List<Plamon> notMinePlamonList = new ArrayList<>();
+
+        for(var plamon: pladexRepo.findAllByUserWithNotMine(user)) {
+            notMinePlamonList.add(new Plamon(plamon, user));
+        }
+
+        response.concatList(notMinePlamonList, false);
+
+        return response;
     }
 
     public PlamonRank getPlamonRank() {
@@ -134,6 +143,6 @@ public class PlamonServiceImpl implements PlamonService {
         Plamon plamon = plamonRepo.save(new Plamon(randomPlamon, user));
         user.minusGold(gatchaPrice);
 
-        return new PlamonResponse(plamon);
+        return new PlamonResponse(plamon, true);
     }
 }
