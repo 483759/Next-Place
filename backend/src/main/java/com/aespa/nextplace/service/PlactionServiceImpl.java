@@ -174,8 +174,9 @@ public class PlactionServiceImpl implements PlactionService {
 		
 		User user = userRepo.findByOauthUid(oauthUid);
 		
-		if(user == null)
+		if(user == null){
 			throw new IllegalArgumentException("Can't find User");
+		}
 		
 		
 		List<Spot> spots = spotRepo.findAllJoinFetch();		
@@ -194,8 +195,9 @@ public class PlactionServiceImpl implements PlactionService {
 		
 		User user = userRepo.findByOauthUid(oauthUid);
 		
-		if(user == null)
+		if(user == null){
 			throw new IllegalArgumentException("Can't find User");
+		}
 		
 		
 		List<Spot> spots = spotRepo.findAllByCity(city);		
@@ -213,8 +215,9 @@ public class PlactionServiceImpl implements PlactionService {
 		
 		User user = userRepo.findByOauthUid(oauthUid);
 		
-		if(user == null)
+		if(user == null){
 			throw new IllegalArgumentException("Can't find User");
+		}
 		
 		
 		List<Spot> spots = spotRepo.findAllByCityAndGugun(city,gugun);		
