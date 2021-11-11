@@ -67,6 +67,18 @@ class PlamonServiceTest {
                 .build();
     }
 
+    private Plamon createPlamonOfIdAndRank(long id, PlamonRank rank) {
+        return Plamon.builder()
+                .id(id)
+                .level(1)
+                .exp(10)
+                .nickname("랩실노예")
+                .isMain(false)
+                .pladex(createPladexOfIdAndRank(1L, rank))
+                .user(createUserOfUid("G-12345"))
+                .build();
+    }
+
     private User createUserOfUid(String uid) {
         return User.builder()
                 .id(1L)
@@ -117,6 +129,45 @@ class PlamonServiceTest {
                         tuple(2L, false),
                         tuple(3L, false)
                 );
+        verify(plamonRepo).findAllByUser(user);
+    }
+
+    @DisplayName("내가 가지지 않은 캐릭터 확인")
+    @Test
+    public void 소유구분해서뽑기() throws Exception {
+        //given
+        User user = createUserOfUid("G-12345");
+        List<Plamon> plamons = List.of(
+                createPlamonOfIdAndRank(1L, PlamonRank.N),
+                createPlamonOfIdAndRank(2L, PlamonRank.N),
+                createPlamonOfIdAndRank(3L, PlamonRank.N)
+        );
+        List<Pladex> pladexes = List.of(
+                createPladexOfIdAndRank(2L, PlamonRank.SSR),
+                createPladexOfIdAndRank(3L, PlamonRank.SR)
+        );
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+        given(plamonRepo.findAllByUser(user))
+                .willReturn(plamons);
+        given(pladexRepo.findAllByUserWithNotMine(user))
+                .willReturn(pladexes);
+
+        //when
+        List<PlamonResponse> list = plamonService.findAllByUser(user.getOauthUid()).getPlamonList();
+
+        //then
+        assertThat(list).isNotNull();
+        assertThat(list)
+                .extracting("id", "pladex.rank", "ownFlag")
+                .containsExactly(
+                        tuple(1L, PlamonRank.N, true),
+                        tuple(2L, PlamonRank.N, true),
+                        tuple(3L, PlamonRank.N, true),
+                        tuple(null, PlamonRank.SSR, false),
+                        tuple(null, PlamonRank.SR, false)
+                );
+        verify(pladexRepo).findAllByUserWithNotMine(user);
         verify(plamonRepo).findAllByUser(user);
     }
 
