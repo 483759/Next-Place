@@ -9,7 +9,7 @@ public class MyPlactionCountResponse {
 	private int totalCount;
 	@Schema(example="1")
 	private int myCount;
-	@Schema(example="대전광역시")
+	@Schema(example="지역이름")
 	private String name;
 	@Schema(example="1")
 	private int id;
