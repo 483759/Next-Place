@@ -10,14 +10,16 @@ public class PlamonResponse {
     private int exp;
     private String nickname;
     private boolean isMain;
+    private boolean ownFlag;
     private PladexResponse pladex;
 
-    public PlamonResponse(Plamon plamon) {
+    public PlamonResponse(Plamon plamon, boolean ownFlag) {
         this.id = plamon.getId();
         this.level = plamon.getLevel();
         this.exp = plamon.getExp();
         this.nickname = plamon.getNickname();
         this.isMain = plamon.isMain();
+        this.ownFlag = ownFlag;
         this.pladex = new PladexResponse(plamon.getPladex());
     }
 }
