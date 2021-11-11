@@ -3,23 +3,20 @@ package com.aespa.nextplace.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aespa.nextplace.model.entity.BaseAddress;
-import com.aespa.nextplace.model.entity.Plaction;
 import com.aespa.nextplace.model.entity.Spot;
-import com.aespa.nextplace.model.entity.User;
 import com.aespa.nextplace.model.repository.BaseAddressRepository;
-import com.aespa.nextplace.model.repository.PlactionRepository;
 import com.aespa.nextplace.model.repository.SpotRepository;
-import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListSpotResponse;
-import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.util.GoogleGeocodeUtil;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class SpotServiceImpl implements SpotService {
 
 	
