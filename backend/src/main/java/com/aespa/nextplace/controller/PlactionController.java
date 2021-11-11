@@ -31,7 +31,7 @@ public class PlactionController {
     
     @PostMapping
     @Operation(summary = "Plaction 등록 혹은 갱신", description = "해당하는 Spot에 Plaction을 등록 혹은 갱신한다", responses = {
-            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=PlactionResponse.class))),
+            @ApiResponse(responseCode = "200", description = "등록 성공", content = @Content(schema = @Schema(implementation=PlactionResponse.class))),
             @ApiResponse(responseCode = "400", description = "등록 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
     })
     public ResponseEntity<Object> addPlaction(@RequestBody PlactionRequest request,HttpServletRequest httpServletReq){
@@ -50,7 +50,11 @@ public class PlactionController {
     }
     
     
-    @GetMapping("/city")
+    @GetMapping
+    @Operation(summary = "Plaction 시도별 달성률 받기", description = "시도별로 업적 달성률을 반환합니다", responses = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListMyPlactionCountResponse.class))),
+            @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
+    })
     public ResponseEntity<?> myPlactionsCountFromCities(HttpServletRequest httpServletReq){
     	
     	
@@ -66,7 +70,11 @@ public class PlactionController {
     	return ResponseEntity.ok(response);
     }
     
-    @GetMapping("/city/{city}")
+    @GetMapping("/{city}")
+    @Operation(summary = "Plaction 도시 내 구군별 달성률 받기", description = "도시 내에 구군별로 업적 달성률을 반환합니다", responses = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListMyPlactionCountResponse.class))),
+            @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
+    })
     public ResponseEntity<?> myPlactionsCountFromGugun(@PathVariable String city, HttpServletRequest httpServletReq){
     	
     	
