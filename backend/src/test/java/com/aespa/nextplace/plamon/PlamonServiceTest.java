@@ -4,6 +4,7 @@ import com.aespa.nextplace.model.entity.*;
 import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
+import com.aespa.nextplace.model.response.ListPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -303,4 +305,38 @@ class PlamonServiceTest {
         assertThat(exception.getMessage())
                 .isEqualTo("존재하지 않는 유저입니다");
     }
+
+    @DisplayName("내가 가지고 있는 캐릭터를 판매한다")
+    @Test
+    public void 캐릭터팔기() throws Exception {
+        //given
+        User user = createUserOfUid("G-12345");
+        List<Plamon> plamons = List.of(
+                createPlamonOfId(1L),
+                createPlamonOfId(2L),
+                createPlamonOfId(3L)
+        );
+        List<Plamon> afterPlamons = List.of(
+                createPlamonOfId(1L),
+                createPlamonOfId(3L)
+        );
+        Plamon sellingPlamon = createPlamonOfId(2L);
+        given(userRepo.findByOauthUid("G-12345"))
+                .willReturn(user);
+        given(plamonRepo.findAllByUser(user))
+                .willReturn(plamons);
+        ListPlamonResponse response = new ListPlamonResponse(afterPlamons);
+
+        //when
+        ListPlamonResponse sell = plamonService.sell(user.getOauthUid(), sellingPlamon.getId());
+        given(plamonRepo.findAllByUser(user))
+                .willReturn(afterPlamons);
+
+        //then
+        verify(userRepo).findByOauthUid(user.getOauthUid());
+        verify(plamonRepo, times(2)).findAllByUser(user);
+        assertThat(sell)
+                .isEqualTo(response);
+    }
+
 }

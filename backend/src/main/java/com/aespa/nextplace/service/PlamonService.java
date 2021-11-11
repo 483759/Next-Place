@@ -8,4 +8,5 @@ public interface PlamonService {
     ListPlamonResponse findAllByUser(String oauthUid);
     ListPlamonResponse findAllByUserWithPagination(String oauthUid, Pageable pageable);
     PlamonResponse buyNewPlamonWithGold(String oauthUid);
+    ListPlamonResponse sell(String oauthUid, Long plamonId);
 }

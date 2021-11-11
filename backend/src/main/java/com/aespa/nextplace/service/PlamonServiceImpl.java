@@ -155,4 +155,9 @@ public class PlamonServiceImpl implements PlamonService {
 
         return new PlamonResponse(plamon);
     }
+
+    @Override
+    public ListPlamonResponse sell(String oauthUid, Long plamonId) {
+        return null;
+    }
 }
