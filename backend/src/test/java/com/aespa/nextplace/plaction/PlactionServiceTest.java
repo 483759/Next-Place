@@ -2,6 +2,7 @@ package com.aespa.nextplace.plaction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import com.aespa.nextplace.model.repository.PlactionRepository;
 import com.aespa.nextplace.model.repository.SpotRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
+import com.aespa.nextplace.model.response.ListPlactionResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.service.PlactionServiceImpl;
 
@@ -117,7 +119,7 @@ public class PlactionServiceTest {
 		
 		
 		//then		
-		assertEquals(plaction.getId(),response.getId());
+		assertEquals(plaction.getScore(),response.getScore());
 		
 		
 	}
@@ -287,17 +289,117 @@ public class PlactionServiceTest {
 			ex = e;
 		}
 		
-		
+		//then
 		assertEquals(1, response.getMyPlactionCounts().get(0).getMyCount());
 
 	}
 	
+	@DisplayName("사용자 플렉션 전체 반환")
+	@Test
+	public void 사용자_플렉션_반환() {
+		String oauthUid = "G-12345";
+		String city = "대전광역시";
+		User user = getSampleUser();
+		Spot spot = getSpotSample();
+		List<Spot> spots = List.of(spot);
+		Plaction plaction = getSamplePlaction(user, spot);
+		List<Plaction> plactions = List.of(plaction);
+		
+		
+		//given
+		given(userRepo.findByOauthUid(oauthUid)).willReturn(user);
+		given(spotRepo.findAllJoinFetch()).willReturn(spots);
+		given(plactionRepo.findAllByUser(user)).willReturn(plactions);
+		
+		
+		//when
+		ListPlactionResponse response = null;
+		try {
+			response = plactionService.getMyPlactions(oauthUid);			
+		} catch(Exception e){
+			System.out.println("에러 발생");
+			
+		}
+		//then
+		verify(userRepo).findByOauthUid(oauthUid);
+		verify(spotRepo).findAllJoinFetch();
+		verify(plactionRepo).findAllByUser(user);
+		assertEquals(plaction.getScore(),response.getPlactions().get(0).getScore());
+		
+		
+	}
 	
 	
+	@DisplayName("사용자 플렉션 도시 기준 반환")
+	@Test
+	public void 사용자_플렉션_도시_기준_반환() {
+		String oauthUid = "G-12345";
+		String city = "대전광역시";
+		User user = getSampleUser();
+		Spot spot = getSpotSample();
+		List<Spot> spots = List.of(spot);
+		Plaction plaction = getSamplePlaction(user, spot);
+		List<Plaction> plactions = List.of(plaction);
+		
+		
+		//given
+		given(userRepo.findByOauthUid(oauthUid)).willReturn(user);
+		given(spotRepo.findAllByCity(city)).willReturn(spots);
+		given(plactionRepo.findAllByUserAndCity(user,city)).willReturn(plactions);
+		
+		
+		//when
+		ListPlactionResponse response = null;
+		try {
+			response = plactionService.getMyPlactionsFromCity(oauthUid,city);			
+		} catch(Exception e){
+			
+		}
+		//then
+		verify(userRepo).findByOauthUid(oauthUid);
+		verify(spotRepo).findAllByCity(city);
+		verify(plactionRepo).findAllByUserAndCity(user,city);
+		assertEquals(plaction.getScore(),response.getPlactions().get(0).getScore());
+		
+		
+	}
 	
 	
-	
-	
+	@DisplayName("사용자 플렉션 구군 기준 반환")
+	@Test
+	public void 사용자_플렉션_구군_기준_반환() {
+		String oauthUid = "G-12345";
+		String city = "대전광역시";
+		String gugun ="유성구";
+		User user = getSampleUser();
+		Spot spot = getSpotSample();
+		List<Spot> spots = List.of(spot);
+		Plaction plaction = getSamplePlaction(user, spot);
+		List<Plaction> plactions = List.of(plaction);
+		
+		
+		//given
+		given(userRepo.findByOauthUid(oauthUid)).willReturn(user);
+		given(spotRepo.findAllByCityAndGugun(city, gugun)).willReturn(spots);
+		given(plactionRepo.findAllByUserAndCityAndGugun(user,city,gugun)).willReturn(plactions);
+		
+		
+		//when
+		ListPlactionResponse response = null;
+		try {
+			response = plactionService.getMyPlactionsFromGugun(oauthUid,city,gugun);			
+		} catch(Exception e){
+			
+		}
+		
+		//then
+		verify(userRepo).findByOauthUid(oauthUid);
+		verify(spotRepo).findAllByCityAndGugun(city,gugun);
+		verify(plactionRepo).findAllByUserAndCityAndGugun(user,city,gugun);
+		assertEquals(plaction.getScore(),response.getPlactions().get(0).getScore());
+		
+		
+	}
 	
 	
 	
