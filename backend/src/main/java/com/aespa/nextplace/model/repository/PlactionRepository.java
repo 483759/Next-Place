@@ -22,4 +22,9 @@ public interface PlactionRepository extends JpaRepository<Plaction,Long> {
 	@Query("select DISTINCT p from Plaction p join fetch p.baseAddress where p.user = :user and p.baseAddress.city = :city and p.baseAddress.gugun = :gugun")
 	List<Plaction> findAllByUserAndCityAndGugun(@Param("user")User user,@Param("city")String city, @Param("gugun")String gugun);
 	
+	@Query("select DISTINCT p from Plaction p join fetch p.spot where p.user=:user")
+	List<Plaction> findAllByUserJoinFetch(@Param("user")User user);
+	
+	List<Plaction> findAllByUser(User user);
+	
 }

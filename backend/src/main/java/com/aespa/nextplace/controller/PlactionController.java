@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aespa.nextplace.model.request.PlactionRequest;
 import com.aespa.nextplace.model.response.ErrorResponse;
 import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
+import com.aespa.nextplace.model.response.ListPlactionResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.service.PlactionService;
 
@@ -34,7 +35,7 @@ public class PlactionController {
             @ApiResponse(responseCode = "200", description = "등록 성공", content = @Content(schema = @Schema(implementation=PlactionResponse.class))),
             @ApiResponse(responseCode = "400", description = "등록 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
     })
-    public ResponseEntity<Object> addPlaction(@RequestBody PlactionRequest request,HttpServletRequest httpServletReq){
+    public ResponseEntity<?> addPlaction(@RequestBody PlactionRequest request,HttpServletRequest httpServletReq){
     	
     	PlactionResponse response = null;
     	
@@ -50,7 +51,7 @@ public class PlactionController {
     }
     
     
-    @GetMapping
+    @GetMapping("/count")
     @Operation(summary = "Plaction 시도별 달성률 받기", description = "시도별로 업적 달성률을 반환합니다", responses = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListMyPlactionCountResponse.class))),
             @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
@@ -70,7 +71,7 @@ public class PlactionController {
     	return ResponseEntity.ok(response);
     }
     
-    @GetMapping("/{city}")
+    @GetMapping("/count/{city}")
     @Operation(summary = "Plaction 도시 내 구군별 달성률 받기", description = "도시 내에 구군별로 업적 달성률을 반환합니다", responses = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListMyPlactionCountResponse.class))),
             @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
@@ -91,6 +92,66 @@ public class PlactionController {
     }
    
     
+    
+   @GetMapping
+   @Operation(summary = "Plaction 전체 조회", description = "본인의 Plaction과 획득 못한 Spot 목록 반환", responses = {
+           @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListPlactionResponse.class))),
+           @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
+   })
+   public ResponseEntity<?> myPlactions(HttpServletRequest httpServletRequest){
+	   
+	   String oauthUid = "G-12345";
+	   
+	   ListPlactionResponse response = null;
+	   
+	   try {
+		   response = plactionService.getMyPlactions(oauthUid);
+	   }catch(IllegalArgumentException e) {
+		   return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+	   }
+	   
+	   return ResponseEntity.ok(response);
+   }
+    
+   @GetMapping("/{city}")
+   @Operation(summary = "Plaction 도시 기준 전체 조회", description = "도시 기준 본인의 Plaction과 획득 못한 Spot 목록 반환", responses = {
+           @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListPlactionResponse.class))),
+           @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
+   })
+   public ResponseEntity<?> myPlactionsFromCity(@PathVariable("city") String city, HttpServletRequest httpServletRequest){
+	   
+	   String oauthUid = "G-12345";
+	   
+	   ListPlactionResponse response = null;
+	   
+	   try {
+		   response = plactionService.getMyPlactionsFromCity(oauthUid, city);
+	   }catch(IllegalArgumentException e) {
+		   return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+	   }
+	   
+	   return ResponseEntity.ok(response);
+   }
+   
+   @GetMapping("/{city}/{gugun}")
+   @Operation(summary = "Plaction 구군 기준 전체 조회", description = "구군 기준 본인의 Plaction과 획득 못한 Spot 목록 반환", responses = {
+           @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListPlactionResponse.class))),
+           @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
+   })
+   public ResponseEntity<?> myPlactionsFromGugun(@PathVariable("city") String city, @PathVariable("gugun") String gugun, HttpServletRequest httpServletRequest){
+	   
+	   String oauthUid = "G-12345";
+	   
+	   ListPlactionResponse response = null;
+	   
+	   try {
+		   response = plactionService.getMyPlactionsFromGugun(oauthUid,city,gugun);
+	   }catch(IllegalArgumentException e) {
+		   return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+	   }
+	   
+	   return ResponseEntity.ok(response);
+   }
     
     
 }
