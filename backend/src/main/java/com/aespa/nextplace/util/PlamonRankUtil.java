@@ -1,0 +1,55 @@
+package com.aespa.nextplace.util;
+
+import com.aespa.nextplace.model.entity.PlamonRank;
+import com.google.common.collect.ImmutableMap;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
+
+@Component
+public class PlamonRankUtil {
+
+    private final int gatchaPrice = 100;
+    private final Map<PlamonRank, Integer> gatchaProbability;
+    private final Map<PlamonRank, Integer> salesPrice;
+    //Map<String, String[]> gugun = new HashMap();
+
+    private PlamonRankUtil() {
+        this.gatchaProbability = ImmutableMap.of(
+                PlamonRank.N, 40,
+                PlamonRank.R, 70,
+                PlamonRank.SR, 90,
+                PlamonRank.SSR, 100
+        );
+        this.salesPrice = ImmutableMap.of(
+                PlamonRank.N, 10,
+                PlamonRank.R, 50,
+                PlamonRank.SR, 100,
+                PlamonRank.SSR, 500
+        );
+    }
+
+    public static PlamonRankUtil getInstance() {
+        return LazyHolder.instance;
+    }
+
+    public int getNumberOfRanks() {
+        return this.gatchaProbability.size();
+    }
+
+	public int getGatchaPrice() {
+		return this.gatchaPrice;
+	}
+
+    public int getProbabilityOfRank(PlamonRank rank) {
+        return this.gatchaProbability.get(rank);
+    }
+
+    public int getSalesPriceOfRank(PlamonRank rank) {
+    	return this.salesPrice.get(rank);
+	}
+
+    private static class LazyHolder {
+        private static final PlamonRankUtil instance = new PlamonRankUtil();
+    }
+}

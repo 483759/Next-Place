@@ -6,14 +6,13 @@ import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -323,4 +322,21 @@ class PlamonServiceTest {
         assertThat(exception.getMessage())
                 .isEqualTo("존재하지 않는 유저입니다");
     }
+
+    @DisplayName("내가 가지고 있는 캐릭터를 판매한다")
+    @Test
+    @Disabled
+    public void 캐릭터팔기() throws Exception {
+        //given
+        User user = createUserOfUidAndGold("G-12345", 50);
+        given(userRepo.findByOauthUid("G-12345"))
+                .willReturn(user);
+
+
+        //when
+
+        //then
+    }
+
+
 }

@@ -9,8 +9,7 @@ import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
-import com.google.common.collect.ImmutableMap;
-import org.springframework.data.domain.Pageable;
+import com.aespa.nextplace.util.PlamonRankUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,19 +24,13 @@ public class PlamonServiceImpl implements PlamonService {
     private final PlamonRepository plamonRepo;
     private final PladexRepository pladexRepo;
     private final UserRepository userRepo;
-    private final int gatchaPrice = 100;
-    private final Map<PlamonRank, Integer> gatchaProbability;
+    private final PlamonRankUtil rankUtil;
 
     public PlamonServiceImpl(PlamonRepository plamonRepo, PladexRepository pladexRepo, UserRepository userRepo) {
         this.plamonRepo = plamonRepo;
         this.pladexRepo = pladexRepo;
         this.userRepo = userRepo;
-        this.gatchaProbability = ImmutableMap.of(
-                PlamonRank.N, 40,
-                PlamonRank.R, 70,
-                PlamonRank.SR, 90,
-                PlamonRank.SSR, 100
-        );
+        this.rankUtil = PlamonRankUtil.getInstance();
     }
 
     public User findUserByOauthUid(String oauthUid){
@@ -66,30 +59,17 @@ public class PlamonServiceImpl implements PlamonService {
         return response;
     }
 
-    @Override
-    public ListPlamonResponse findAllByUserWithPagination(String oauthUid, Pageable pageable) {
-        User user = findUserByOauthUid(oauthUid);
-
-        if (user == null) {
-            throw new IllegalArgumentException("존재하지 않는 유저입니다");
-        }
-
-        List<Plamon> plamonList = plamonRepo.findAllByUser(user, pageable);
-
-        return new ListPlamonResponse(plamonList);
-    }
-
     public PlamonRank getPlamonRank() {
         int randomValue = (int) (Math.random() * (100 - 1 + 1)) + 1;
         PlamonRank plamonRank = null;
 
-        if (randomValue <= gatchaProbability.get(PlamonRank.N)) {
+        if (randomValue <= rankUtil.getProbabilityOfRank(PlamonRank.N)) {
             plamonRank = PlamonRank.N;
-        } else if (randomValue <= gatchaProbability.get(PlamonRank.R)) {
+        } else if (randomValue <= rankUtil.getProbabilityOfRank(PlamonRank.R)) {
             plamonRank = PlamonRank.R;
-        } else if (randomValue <= gatchaProbability.get(PlamonRank.SR)) {
+        } else if (randomValue <= rankUtil.getProbabilityOfRank(PlamonRank.SR)) {
             plamonRank = PlamonRank.SR;
-        } else if (randomValue <= gatchaProbability.get(PlamonRank.SSR)) {
+        } else if (randomValue <= rankUtil.getProbabilityOfRank(PlamonRank.SSR)) {
             plamonRank = PlamonRank.SSR;
         }
         return plamonRank;
@@ -109,7 +89,7 @@ public class PlamonServiceImpl implements PlamonService {
      * 만약 해당 랭크의 플레몬이 없다면 다른 랭크 선정
      */
     public List<Pladex> getRandomPlamonListByRank() {
-        int size = gatchaProbability.size();
+        int size = rankUtil.getNumberOfRanks();
         Map<PlamonRank, Boolean> checkList = new HashMap<>();
         List<Pladex> pladexList = new ArrayList<>();
 
@@ -148,7 +128,7 @@ public class PlamonServiceImpl implements PlamonService {
             throw new IllegalArgumentException("존재하지 않는 유저입니다");
         }
 
-        if (!user.hasEnoughGold(gatchaPrice)) {
+        if (!user.hasEnoughGold(rankUtil.getGatchaPrice())) {
             throw new IllegalStateException("캐릭터를 구매할 골드가 부족합니다");
         }
 
@@ -160,7 +140,7 @@ public class PlamonServiceImpl implements PlamonService {
         }
 
         Plamon plamon = plamonRepo.save(new Plamon(randomPlamon, user));
-        user.minusGold(gatchaPrice);
+        user.minusGold(rankUtil.getGatchaPrice());
 
         return new PlamonResponse(plamon, true);
     }
