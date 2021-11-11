@@ -6,13 +6,14 @@ import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -173,7 +174,6 @@ class PlamonServiceTest {
 
     @DisplayName("N 등급을 랜덤으로 뽑을 수 있는지 검증한다")
     @Test
-    @Disabled
     public void N등급뽑기() throws Exception {
         //given
         List<Pladex> normalPlamonList = List.of(
@@ -236,7 +236,6 @@ class PlamonServiceTest {
 
     @DisplayName("각각의 등급을 랜덤으로 뽑을 수 있는지 검증한다")
     @Test
-    @Disabled
     public void 각각의등급뽑기() throws Exception {
         //given
         int count;

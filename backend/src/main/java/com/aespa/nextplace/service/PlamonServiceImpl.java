@@ -10,6 +10,7 @@ import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.google.common.collect.ImmutableMap;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +47,11 @@ public class PlamonServiceImpl implements PlamonService {
     @Override
     public ListPlamonResponse findAllByUser(String oauthUid) {
         User user = findUserByOauthUid(oauthUid);
+
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+        }
+
         List<Plamon> plamonList = plamonRepo.findAllByUser(user);
         ListPlamonResponse response = new ListPlamonResponse(plamonList, true);
 
@@ -58,6 +64,19 @@ public class PlamonServiceImpl implements PlamonService {
         response.concatList(notMinePlamonList, false);
 
         return response;
+    }
+
+    @Override
+    public ListPlamonResponse findAllByUserWithPagination(String oauthUid, Pageable pageable) {
+        User user = findUserByOauthUid(oauthUid);
+
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+        }
+
+        List<Plamon> plamonList = plamonRepo.findAllByUser(user, pageable);
+
+        return new ListPlamonResponse(plamonList);
     }
 
     public PlamonRank getPlamonRank() {
