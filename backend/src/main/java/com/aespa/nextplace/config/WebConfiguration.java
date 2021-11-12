@@ -9,6 +9,6 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") //모든 요청에 대해서
-                .allowedOrigins("http://localhost", "https://localhost", "https://k5b106.p.ssafy.io"); //허용할 오리진들
+                .allowedOrigins("http://localhost", "https://localhost", "http://k5b106.p.ssafy.io", "https://k5b106.p.ssafy.io"); //허용할 오리진들
     }
 }
