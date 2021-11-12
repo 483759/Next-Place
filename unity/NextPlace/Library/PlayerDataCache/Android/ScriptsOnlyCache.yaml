@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - BallController
     - GameManager
     - GoogleSignInDemo
     - LoadingImage
@@ -36,8 +37,10 @@ ScriptsOnlyBuild:
     - Mapbox.Unity.Utilities.DebugTools.SceneData
     - Mapbox.Unity.Utilities.DebugTools.ScenesList
     - Mapbox.Unity.Utilities.Runnable
+    - PlamonManager
+    - PlamonObject
+    - PlaneObject
     - ScriptablePalette
-    - UnityARKitPluginSettings
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     Unity.TextMeshPro.dll:
@@ -50,6 +53,17 @@ ScriptsOnlyBuild:
     - UnityEditor.XR.ARCore.ARCoreSettings
     Unity.XR.ARCore.dll:
     - UnityEngine.XR.ARCore.ARCoreLoader
+    Unity.XR.ARFoundation.dll:
+    - UnityEngine.XR.ARFoundation.ARCameraBackground
+    - UnityEngine.XR.ARFoundation.ARCameraManager
+    - UnityEngine.XR.ARFoundation.ARInputManager
+    - UnityEngine.XR.ARFoundation.ARPlane
+    - UnityEngine.XR.ARFoundation.ARPlaneManager
+    - UnityEngine.XR.ARFoundation.ARPlaneMeshVisualizer
+    - UnityEngine.XR.ARFoundation.ARPoseDriver
+    - UnityEngine.XR.ARFoundation.ARRaycastManager
+    - UnityEngine.XR.ARFoundation.ARSession
+    - UnityEngine.XR.ARFoundation.ARSessionOrigin
     Unity.XR.Management.Editor.dll:
     - UnityEditor.XR.Management.XRGeneralSettingsPerBuildTarget
     Unity.XR.Management.dll:
@@ -94,6 +108,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 49
       Script: {instanceID: 0}
+    - Class: 54
+      Script: {instanceID: 0}
     - Class: 64
       Script: {instanceID: 0}
     - Class: 65
@@ -119,106 +135,134 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1808}
     - Class: 114
-      Script: {instanceID: 1880}
+      Script: {instanceID: 2028}
     - Class: 114
-      Script: {instanceID: 1976}
+      Script: {instanceID: 2056}
     - Class: 114
-      Script: {instanceID: 2058}
+      Script: {instanceID: 2152}
     - Class: 114
-      Script: {instanceID: 2060}
+      Script: {instanceID: 2184}
     - Class: 114
-      Script: {instanceID: 2106}
+      Script: {instanceID: 2234}
     - Class: 114
-      Script: {instanceID: 2136}
+      Script: {instanceID: 2236}
     - Class: 114
-      Script: {instanceID: 2202}
+      Script: {instanceID: 2282}
     - Class: 114
-      Script: {instanceID: 2242}
+      Script: {instanceID: 2312}
     - Class: 114
-      Script: {instanceID: 2308}
+      Script: {instanceID: 2376}
     - Class: 114
-      Script: {instanceID: 2314}
+      Script: {instanceID: 2416}
     - Class: 114
-      Script: {instanceID: 2438}
+      Script: {instanceID: 2480}
     - Class: 114
-      Script: {instanceID: 2504}
+      Script: {instanceID: 2606}
     - Class: 114
-      Script: {instanceID: 2662}
+      Script: {instanceID: 2672}
     - Class: 114
-      Script: {instanceID: 2698}
+      Script: {instanceID: 2828}
     - Class: 114
-      Script: {instanceID: 2708}
+      Script: {instanceID: 2862}
     - Class: 114
-      Script: {instanceID: 2766}
+      Script: {instanceID: 2872}
     - Class: 114
-      Script: {instanceID: 2842}
+      Script: {instanceID: 2930}
     - Class: 114
-      Script: {instanceID: 2936}
+      Script: {instanceID: 3004}
     - Class: 114
-      Script: {instanceID: 2954}
+      Script: {instanceID: 3090}
     - Class: 114
-      Script: {instanceID: 3014}
+      Script: {instanceID: 3108}
     - Class: 114
-      Script: {instanceID: 3050}
+      Script: {instanceID: 3166}
     - Class: 114
-      Script: {instanceID: 3106}
+      Script: {instanceID: 3200}
     - Class: 114
-      Script: {instanceID: 3202}
+      Script: {instanceID: 3256}
     - Class: 114
-      Script: {instanceID: 3206}
+      Script: {instanceID: 3350}
     - Class: 114
-      Script: {instanceID: 3332}
+      Script: {instanceID: 3354}
     - Class: 114
-      Script: {instanceID: 3372}
+      Script: {instanceID: 3396}
     - Class: 114
-      Script: {instanceID: 3432}
+      Script: {instanceID: 3472}
     - Class: 114
-      Script: {instanceID: 3452}
+      Script: {instanceID: 3512}
     - Class: 114
-      Script: {instanceID: 3740}
+      Script: {instanceID: 3574}
     - Class: 114
-      Script: {instanceID: 3938}
+      Script: {instanceID: 3592}
     - Class: 114
-      Script: {instanceID: 4094}
+      Script: {instanceID: 3870}
     - Class: 114
-      Script: {instanceID: 4190}
+      Script: {instanceID: 4066}
     - Class: 114
-      Script: {instanceID: 4192}
+      Script: {instanceID: 4214}
     - Class: 114
-      Script: {instanceID: 4368}
+      Script: {instanceID: 4310}
     - Class: 114
-      Script: {instanceID: 4440}
+      Script: {instanceID: 4312}
     - Class: 114
-      Script: {instanceID: 4568}
+      Script: {instanceID: 4470}
     - Class: 114
-      Script: {instanceID: 4666}
+      Script: {instanceID: 4480}
     - Class: 114
-      Script: {instanceID: 4744}
+      Script: {instanceID: 4484}
     - Class: 114
-      Script: {instanceID: 4908}
+      Script: {instanceID: 4556}
     - Class: 114
-      Script: {instanceID: 5130}
+      Script: {instanceID: 4678}
     - Class: 114
-      Script: {instanceID: 5192}
+      Script: {instanceID: 4776}
     - Class: 114
-      Script: {instanceID: 5216}
+      Script: {instanceID: 4852}
     - Class: 114
-      Script: {instanceID: 5280}
+      Script: {instanceID: 5008}
     - Class: 114
-      Script: {instanceID: 5332}
+      Script: {instanceID: 5084}
     - Class: 114
-      Script: {instanceID: 5608}
+      Script: {instanceID: 5170}
     - Class: 114
-      Script: {instanceID: 5714}
+      Script: {instanceID: 5222}
     - Class: 114
-      Script: {instanceID: 6132}
+      Script: {instanceID: 5282}
     - Class: 114
-      Script: {instanceID: 6140}
+      Script: {instanceID: 5306}
     - Class: 114
-      Script: {instanceID: 6586}
+      Script: {instanceID: 5370}
     - Class: 114
-      Script: {instanceID: 6736}
+      Script: {instanceID: 5420}
+    - Class: 114
+      Script: {instanceID: 5556}
+    - Class: 114
+      Script: {instanceID: 5694}
+    - Class: 114
+      Script: {instanceID: 5798}
+    - Class: 114
+      Script: {instanceID: 6206}
+    - Class: 114
+      Script: {instanceID: 6212}
+    - Class: 114
+      Script: {instanceID: 6216}
+    - Class: 114
+      Script: {instanceID: 6442}
+    - Class: 114
+      Script: {instanceID: 6646}
+    - Class: 114
+      Script: {instanceID: 6792}
+    - Class: 114
+      Script: {instanceID: 23102}
+    - Class: 114
+      Script: {instanceID: 23104}
+    - Class: 114
+      Script: {instanceID: 23106}
+    - Class: 114
+      Script: {instanceID: 23108}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 120
       Script: {instanceID: 0}
     - Class: 124
       Script: {instanceID: 0}
@@ -433,12 +477,6 @@ ScriptsOnlyBuild:
     className: PoiLabelTextSetter
   - hash:
       serializedVersion: 2
-      Hash: 1b4ceb9d121f213f5a18f8b37359a6a7
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: UnityARGeneratePlane
-  - hash:
-      serializedVersion: 2
       Hash: 300fd99066f8c288e85f5e81ce65fe34
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -461,12 +499,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Examples
     className: ImmediatePositionWithLocationProvider
-  - hash:
-      serializedVersion: 2
-      Hash: c896001203784eaf50c0839b7a358365
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: UnityARKitPluginSettings
   - hash:
       serializedVersion: 2
       Hash: 81aa2f3956c3649e94fcaa509db16308
@@ -619,12 +651,6 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
-      Hash: a50a3b681b149ec791e07715df860522
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: UnityARCameraManager
-  - hash:
-      serializedVersion: 2
       Hash: 2bf10386e8148345863adece3980e018
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Unity.Map.TileProviders
@@ -649,12 +675,6 @@ ScriptsOnlyBuild:
     className: LocationArrayEditorLocationProvider
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: DontDestroyOnLoad
-  - hash:
-      serializedVersion: 2
       Hash: a025e202161d2d86b8191a064c3c4c33
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Examples
@@ -677,12 +697,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Examples
     className: PoiMarkerHelper
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: UnityARKitControl
   - hash:
       serializedVersion: 2
       Hash: 42b2fdf293c62c25afaabcfdfd18a742
@@ -725,12 +739,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Unity.MeshGeneration.Interfaces
     className: VectorLayerVisualizer
-  - hash:
-      serializedVersion: 2
-      Hash: 3edf99f1f23f40846178ab8f08418322
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: UnityPointCloudExample
   - hash:
       serializedVersion: 2
       Hash: 290afc8da8e459e0b8dc7444bfaf5e35
@@ -799,12 +807,6 @@ ScriptsOnlyBuild:
     className: ColliderModifier
   - hash:
       serializedVersion: 2
-      Hash: b85846f48e1ece0b134e0e1251b6301d
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: UnityRemoteVideo
-  - hash:
-      serializedVersion: 2
       Hash: 288575b84760e7bba1f06821fe8228c6
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Unity.Utilities.DebugTools
@@ -835,12 +837,6 @@ ScriptsOnlyBuild:
     className: SmoothLineModifier
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: UnityARCameraNearFar
-  - hash:
-      serializedVersion: 2
       Hash: f40fedccd4adbc76605bea6d67537e4b
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -869,12 +865,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Unity.MeshGeneration.Modifiers
     className: ReplaceFeatureCollectionModifier
-  - hash:
-      serializedVersion: 2
-      Hash: 0c75fb72ff9a06eca9a0253ccdc656b2
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: ARKitRemoteConnection
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -935,18 +925,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: MarkerTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: UnityARKitLightManager
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: UnityARAmbient
   - hash:
       serializedVersion: 2
       Hash: 8e6ceabfd38a184413d69b7db56c89cc
@@ -1046,12 +1024,6 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: UnityARUserAnchorComponent
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.XR.ARFoundation.dll
     namespaceName: UnityEngine.XR.ARFoundation
     className: ARPoseDriver
@@ -1091,12 +1063,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Examples
     className: CameraMovement
-  - hash:
-      serializedVersion: 2
-      Hash: 344c74b3abf2e69061c6763dbfbabcea
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: FocusSquare
   - hash:
       serializedVersion: 2
       Hash: caa533b001ae39b864ba8425019e2268
@@ -1175,18 +1141,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Unity.MeshGeneration.Components
     className: TextureSelector
-  - hash:
-      serializedVersion: 2
-      Hash: b13222200b65a7aab07dab0db3a30002
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: UnityARVideo
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: ConnectToEditor
   - hash:
       serializedVersion: 2
       Hash: 1711f431c953660882254a1b8835ddd8
@@ -1357,12 +1311,6 @@ ScriptsOnlyBuild:
     className: ARBackgroundRendererFeature
   - hash:
       serializedVersion: 2
-      Hash: ec8bbdee3e84b5490dd4c061918ad87d
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: PointCloudParticleExample
-  - hash:
-      serializedVersion: 2
       Hash: 57218997c1c8facfc9c494649a7995ac
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Examples
@@ -1489,12 +1437,6 @@ ScriptsOnlyBuild:
     className: ControlTrack
   - hash:
       serializedVersion: 2
-      Hash: 2cd35ebae3db4154d9fd79871066abfa
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: AR3DOFCameraManager
-  - hash:
-      serializedVersion: 2
       Hash: 3165968ba45c74472d279ba04455fccb
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -1571,12 +1513,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Unity.MeshGeneration.Modifiers
     className: ModifierBase
-  - hash:
-      serializedVersion: 2
-      Hash: bf7611f578cc4391f4c42d7d2643311c
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: EditorHitTest
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -1759,12 +1695,6 @@ ScriptsOnlyBuild:
     className: ARPointCloud
   - hash:
       serializedVersion: 2
-      Hash: fea2d676bca3c708f6b399119fa3ca3f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: UnityARUserAnchorExample
-  - hash:
-      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.XR.ARFoundation.dll
     namespaceName: UnityEngine.XR.ARFoundation
@@ -1795,12 +1725,6 @@ ScriptsOnlyBuild:
     className: ActivationPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: d3f8dc4ddc19872acfaba7fdf6ab7d04
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: UnityEngine.XR.iOS
-    className: UnityARHitTestExample
-  - hash:
-      serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -1829,7 +1753,31 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ImageDataFetcher
+  - hash:
+      serializedVersion: 2
+      Hash: 99c13e789c8a88d5fc115407f8fb6952
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BallController
+  - hash:
+      serializedVersion: 2
+      Hash: 283cf703e2c7ab2f7fc1ad883cd14c88
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlamonManager
+  - hash:
+      serializedVersion: 2
+      Hash: ca910f344cf61e78b3f04492ad1faa3e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlamonObject
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlaneObject
   platform: 13
   scenePathNames:
   - Assets/01. Scenes/Login.unity
-  playerPath: "C:/Users/lsh10/Desktop/\uBE4C\uB4DC/NextPlace.apk"
+  playerPath: C:/Users/lsh10/Desktop/build/NextPlace.apk
