@@ -66,7 +66,7 @@ public class User {
         return true;
     }
 
-    public void plusGold(int gold) {
-        this.gold += gold;
+    public void earnDalgona(int dalgona) {
+        this.dalgona += dalgona;
     }
 }
