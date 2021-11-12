@@ -2,6 +2,7 @@ package com.aespa.nextplace.controller;
 
 import com.aespa.nextplace.model.response.ErrorResponse;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
+import com.aespa.nextplace.model.response.ListSellPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,5 +59,27 @@ public class PlamonController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{plamonId}")
+    @Operation(summary = "캐릭터 판매", description = "캐릭터를 팔아서 달고나를 얻는다", responses = {
+            @ApiResponse(responseCode = "200", description = "구매 성공"),
+            @ApiResponse(responseCode = "400", description = "구매할 골드 부족"),
+            @ApiResponse(responseCode = "401", description = "유저 정보 없음")
+    })
+    public ResponseEntity<?> sellMyPlamon(@PathVariable Long plamonId) throws ParseException {
+        String oauthUid = "G-12345";
+
+        try {
+            ListSellPlamonResponse response = plamonService.sell(oauthUid, plamonId);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {      // 유저 정보 없음
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse(e.getMessage()));
+        } catch (IllegalStateException e) {         // 판매할 수 없음(소유X or 대표캐릭터)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(e.getMessage()));
+        }
+
     }
 }

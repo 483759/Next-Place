@@ -8,6 +8,7 @@ import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
+import com.aespa.nextplace.model.response.ListSellPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.util.PlamonRankUtil;
 import org.springframework.stereotype.Service;
@@ -139,11 +140,11 @@ public class PlamonServiceImpl implements PlamonService {
 
     /**
      * 자신의 대표 캐릭터는 판매할 수 없음
-     *
-     * @return*/
+     * 레벨 * 캐릭터의 등급만큼 달고나를 얻음
+     * */
     @Override
     @Transactional
-    public ListAllPlamonResponse sell(String oauthUid, Long plamonId) throws IllegalArgumentException, IllegalStateException {
+    public ListSellPlamonResponse sell(String oauthUid, Long plamonId) throws IllegalArgumentException, IllegalStateException {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
@@ -153,7 +154,7 @@ public class PlamonServiceImpl implements PlamonService {
         Plamon plamon = plamonRepo.findPlamonByUserAndId(user, plamonId);
 
         if (plamon == null) {
-            throw new IllegalArgumentException("해당 캐릭터는 보유 중이 아닙니다");
+            throw new IllegalStateException("해당 캐릭터는 보유 중이 아닙니다");
         }
 
         if (plamon.isMain()) {
@@ -162,13 +163,12 @@ public class PlamonServiceImpl implements PlamonService {
 
         // 해당 플레몬의 등급만큼의 금액을 번다
         PlamonRank rank = plamon.getPladex().getRank();
-        // int sellingPrice = rankUtil.getSellingPrice(rank);
-        // user.plusGold(sellingPrice);
-        user.plusGold(100);
+        int sellingDalgona = rankUtil.getSalesPriceOfRankAndLevel(rank, plamon.getLevel());
+        user.earnDalgona(sellingDalgona);
 
         plamonRepo.delete(plamon);        //해당 플레몬 제거
-        //userRepo.save(user);
+        ListAllPlamonResponse allByUser = findAllByUser(oauthUid);
 
-        return findAllByUser(oauthUid);
+        return new ListSellPlamonResponse(user.getDalgona(), allByUser.getMyPlamon(), allByUser.getNotMyPlamon());
     }
 }
