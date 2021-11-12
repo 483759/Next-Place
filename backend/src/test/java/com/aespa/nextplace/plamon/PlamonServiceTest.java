@@ -10,6 +10,7 @@ import com.aespa.nextplace.model.response.PladexResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
 import com.aespa.nextplace.util.PlamonRankUtil;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
