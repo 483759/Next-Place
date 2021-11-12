@@ -8,6 +8,7 @@ import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.PladexResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -216,6 +217,7 @@ class PlamonServiceTest {
 
     @DisplayName("각각의 등급을 랜덤으로 뽑을 수 있는지 검증한다")
     @Test
+    @Disabled
     public void 각각의등급뽑기() throws Exception {
         //given
         int count;
