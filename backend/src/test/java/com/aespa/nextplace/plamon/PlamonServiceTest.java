@@ -5,9 +5,11 @@ import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
+import com.aespa.nextplace.model.response.ListSellPlamonResponse;
 import com.aespa.nextplace.model.response.PladexResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
+import com.aespa.nextplace.util.PlamonRankUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -323,6 +325,7 @@ class PlamonServiceTest {
     public void 캐릭터팔기() throws Exception {
         //given
         User user = createUserOfUid("G-12345");
+        int preDalgona = user.getDalgona();
         List<Plamon> afterPlamons = List.of(
                 createPlamonOfId(1L),
                 createPlamonOfId(3L)
@@ -338,12 +341,15 @@ class PlamonServiceTest {
                 .willReturn(List.of(sellingPlamon.getPladex()));
 
         //when
-        ListAllPlamonResponse allPlamonResponse = plamonService.sell(user.getOauthUid(), sellingPlamon.getId());
+        ListSellPlamonResponse allPlamonResponse = plamonService.sell(user.getOauthUid(), sellingPlamon.getId());
 
         //then
         verify(userRepo, times(2)).findByOauthUid(user.getOauthUid());
         verify(plamonRepo).findAllByUser(user);
         verify(plamonRepo).delete(sellingPlamon);
+        assertThat(allPlamonResponse.getDalgona())
+                .isEqualTo(preDalgona
+                        + PlamonRankUtil.getInstance().getSalesPriceOfRankAndLevel(PlamonRank.SR, 1));
         assertThat(allPlamonResponse.getMyPlamon())
                 .extracting("id", "level")
                 .containsExactly(
