@@ -323,20 +323,4 @@ class PlamonServiceTest {
                 .isEqualTo("존재하지 않는 유저입니다");
     }
 
-    @DisplayName("내가 가지고 있는 캐릭터를 판매한다")
-    @Test
-    @Disabled
-    public void 캐릭터팔기() throws Exception {
-        //given
-        User user = createUserOfUidAndGold("G-12345", 50);
-        given(userRepo.findByOauthUid("G-12345"))
-                .willReturn(user);
-
-
-        //when
-
-        //then
-    }
-
-
 }
