@@ -1,12 +1,11 @@
 package com.aespa.nextplace.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.threeten.bp.LocalDateTime;
 
 import com.aespa.nextplace.model.entity.Plaction;
 import com.aespa.nextplace.model.entity.Spot;
@@ -19,6 +18,7 @@ import com.aespa.nextplace.model.response.ListPlactionResponse;
 import com.aespa.nextplace.model.response.MyPlactionCountResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.util.GugunUtil;
+import com.aespa.nextplace.util.RedisUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,10 +33,9 @@ public class PlactionServiceImpl implements PlactionService {
 	
 	private final UserRepository userRepo;
 	
+	private final RedisUtil redisUtil;
 	
 	private final String cities[] = {"서울특별시","인천광역시","대전광역시", "부산광역시","울산광역시","광주광역시","제주특별자치도","경기도" ,"강원도", "충청북도","충청남도","경상북도","경상남도","전라북도","전라남도"};
-	
-	
 	
 	
 	@Transactional
@@ -56,6 +55,13 @@ public class PlactionServiceImpl implements PlactionService {
 			throw new IllegalArgumentException("Can't find User");
 		}
 		
+		String visited = redisUtil.getData(oauthUid+"+"+spotId);
+		System.out.println(visited);
+		
+		if(visited != null)
+			throw new IllegalStateException("Illegal game play");
+		
+		
 		
 		Plaction plaction = plactionRepo.findByUserAndSpot(user, spot);
 		if(plaction != null) {			
@@ -73,11 +79,11 @@ public class PlactionServiceImpl implements PlactionService {
 			.build();
 		}
 				
-		
 		plactionRepo.save(plaction);		
-		
 		plaction = plactionRepo.findByUserAndSpot(user, spot);		
 		response = new PlactionResponse(plaction);
+		
+		redisUtil.setDataExpire(oauthUid+"+"+spotId, LocalDateTime.now().toString(), redisUtil.HOUR);
 		
 		return response;
 	}

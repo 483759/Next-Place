@@ -22,6 +22,9 @@ public interface SpotRepository extends JpaRepository<Spot,Long>{
 	@Query("select DISTINCT s from Spot s join fetch s.baseAddress where s.baseAddress.city = :city and s.baseAddress.gugun = :gugun")
 	List<Spot> findAllByCityAndGugun(@Param("city") String city, @Param("gugun") String gugun);
 	
+	@Query("select DISTINCT s from Spot s join fetch s.baseAddress where s.baseAddress.city = :city and s.baseAddress.dong = :dong")
+	List<Spot> findAllByCityAndDong(@Param("city") String city, @Param("dong") String dong);
+	
 	@Query("select DISTINCT s from Spot s join fetch s.baseAddress")
 	List<Spot> findAllJoinFetch();
 }

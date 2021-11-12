@@ -29,6 +29,7 @@ import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
 import com.aespa.nextplace.model.response.ListPlactionResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.service.PlactionServiceImpl;
+import com.aespa.nextplace.util.RedisUtil;
 
 
 
@@ -51,6 +52,9 @@ public class PlactionServiceTest {
 	
 	@Mock
 	UserRepository userRepo;
+	
+	@Mock
+	RedisUtil redisUtil;
 	
 	private final String cities[] = {"서울특별시","인천광역시","대전광역시", "부산광역시","울산광역시","광주광역시","제주특별자치도","경기도", "충청북도","충청남도","강원도","경상북도","경상남도","전라북도","전라남도"};
 	private Exception ex;
@@ -113,6 +117,9 @@ public class PlactionServiceTest {
 				
 		given(plactionRepo.findByUserAndSpot(user,spot))
 			.willReturn(plaction);		
+		
+		given(redisUtil.getData(oauthUid+"+"+spotId))
+		.willReturn(null);
 				
 		//when		
 		PlactionResponse response = plactionService.savePlaction(spotId, oauthUid, 100);
@@ -165,6 +172,8 @@ public class PlactionServiceTest {
 		given(spotRepo.findByIdAllJoinFetch(spotId))
 			.willReturn(spot);
 		
+
+		
 		//when		
 		PlactionResponse response = null;
 		
@@ -201,6 +210,10 @@ public class PlactionServiceTest {
 		given(plactionRepo.findByUserAndSpot(user, spot))
 			.willReturn(plaction);
 		
+		given(redisUtil.getData(oauthUid+"+"+spotId))
+		.willReturn(null);
+		
+		
 		//when		
 		PlactionResponse response = null;
 		try{
@@ -215,6 +228,43 @@ public class PlactionServiceTest {
 		
 		
 	}
+	
+	@DisplayName("방문한지 일정 시간이 안 지난 스팟이라서 플렉션 갱신 실패")
+	@Test
+	public void 시간제한으로_플렉션_등록_실패() throws Exception{
+		
+		long spotId = 10L;
+		String oauthUid = "G-12345";
+		User user = getSampleUser();
+		Spot spot = getSpotSample();
+		Plaction plaction = getSamplePlaction(user, spot);
+		int score = 100;
+		//given
+		given(userRepo.findByOauthUid(oauthUid))
+			.willReturn(user);
+		
+		given(spotRepo.findByIdAllJoinFetch(spotId))
+			.willReturn(spot);
+		
+		given(redisUtil.getData(oauthUid+"+"+spotId))
+			.willReturn("something");
+		
+		
+		//when		
+		PlactionResponse response = null;
+		try{
+			response = plactionService.savePlaction(spotId, oauthUid, score);
+		}catch(Exception e) {
+			ex = e;
+		}
+		
+		
+		//then		
+		assertEquals("Illegal game play",ex.getMessage());
+		
+		
+	}
+	
 	
 	@DisplayName("도시별 업적 진행률 받기 성공")
 	@Test
@@ -317,8 +367,7 @@ public class PlactionServiceTest {
 		try {
 			response = plactionService.getMyPlactions(oauthUid);			
 		} catch(Exception e){
-			System.out.println("에러 발생");
-			
+			ex = e;			
 		}
 		//then
 		verify(userRepo).findByOauthUid(oauthUid);
