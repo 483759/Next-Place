@@ -6,14 +6,13 @@ import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -64,6 +63,18 @@ class PlamonServiceTest {
                 .nickname("랩실노예")
                 .isMain(false)
                 .pladex(createPladexOfId(1L))
+                .user(createUserOfUid("G-12345"))
+                .build();
+    }
+
+    private Plamon createPlamonOfIdAndRank(long id, PlamonRank rank) {
+        return Plamon.builder()
+                .id(id)
+                .level(1)
+                .exp(10)
+                .nickname("랩실노예")
+                .isMain(false)
+                .pladex(createPladexOfIdAndRank(1L, rank))
                 .user(createUserOfUid("G-12345"))
                 .build();
     }
@@ -121,35 +132,43 @@ class PlamonServiceTest {
         verify(plamonRepo).findAllByUser(user);
     }
 
-    @DisplayName("페이지를 적용한 모든 플레몬 리스트를 반환한다")
+    @DisplayName("내가 가지지 않은 캐릭터 확인")
     @Test
-    public void 플레몬리스트반환페이징() throws Exception {
+    public void 소유구분해서뽑기() throws Exception {
         //given
         User user = createUserOfUid("G-12345");
-        Pageable pageable = PageRequest.of(0, 3);
         List<Plamon> plamons = List.of(
-                createPlamonOfId(1L),
-                createPlamonOfId(2L),
-                createPlamonOfId(3L)
+                createPlamonOfIdAndRank(1L, PlamonRank.N),
+                createPlamonOfIdAndRank(2L, PlamonRank.N),
+                createPlamonOfIdAndRank(3L, PlamonRank.N)
         );
-
-        given(userRepo.findByOauthUid("G-12345"))
+        List<Pladex> pladexes = List.of(
+                createPladexOfIdAndRank(2L, PlamonRank.SSR),
+                createPladexOfIdAndRank(3L, PlamonRank.SR)
+        );
+        given(userRepo.findByOauthUid(user.getOauthUid()))
                 .willReturn(user);
-        given(plamonRepo.findAllByUser(user, pageable))
+        given(plamonRepo.findAllByUser(user))
                 .willReturn(plamons);
+        given(pladexRepo.findAllByUserWithNotMine(user))
+                .willReturn(pladexes);
 
         //when
-        var plamonResponseDto = plamonService.findAllByUserWithPagination("G-12345", pageable).getPlamonList();
+        List<PlamonResponse> list = plamonService.findAllByUser(user.getOauthUid()).getPlamonList();
 
         //then
-        assertThat(plamonResponseDto)
-                .extracting("id", "isMain")
+        assertThat(list).isNotNull();
+        assertThat(list)
+                .extracting("id", "pladex.rank", "ownFlag")
                 .containsExactly(
-                        tuple(1L, false),
-                        tuple(2L, false),
-                        tuple(3L, false)
+                        tuple(1L, PlamonRank.N, true),
+                        tuple(2L, PlamonRank.N, true),
+                        tuple(3L, PlamonRank.N, true),
+                        tuple(null, PlamonRank.SSR, false),
+                        tuple(null, PlamonRank.SR, false)
                 );
-        verify(plamonRepo).findAllByUser(user, pageable);
+        verify(pladexRepo).findAllByUserWithNotMine(user);
+        verify(plamonRepo).findAllByUser(user);
     }
 
     @DisplayName("N 등급을 랜덤으로 뽑을 수 있는지 검증한다")
@@ -303,4 +322,5 @@ class PlamonServiceTest {
         assertThat(exception.getMessage())
                 .isEqualTo("존재하지 않는 유저입니다");
     }
+
 }
