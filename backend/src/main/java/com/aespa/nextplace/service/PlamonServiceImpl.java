@@ -7,7 +7,7 @@ import com.aespa.nextplace.model.entity.User;
 import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
-import com.aespa.nextplace.model.response.ListPlamonResponse;
+import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.util.PlamonRankUtil;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class PlamonServiceImpl implements PlamonService {
     }
 
     @Override
-    public ListPlamonResponse findAllByUser(String oauthUid) {
+    public ListAllPlamonResponse findAllByUser(String oauthUid) {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
@@ -46,17 +46,9 @@ public class PlamonServiceImpl implements PlamonService {
         }
 
         List<Plamon> plamonList = plamonRepo.findAllByUser(user);
-        ListPlamonResponse response = new ListPlamonResponse(plamonList, true);
+        List<Pladex> notMyPlamonList = pladexRepo.findAllByUserWithNotMine(user);
 
-        List<Plamon> notMinePlamonList = new ArrayList<>();
-
-        for(var plamon: pladexRepo.findAllByUserWithNotMine(user)) {
-            notMinePlamonList.add(new Plamon(plamon, user));
-        }
-
-        response.concatList(notMinePlamonList, false);
-
-        return response;
+        return new ListAllPlamonResponse(plamonList, notMyPlamonList);
     }
 
     public PlamonRank getPlamonRank() {
@@ -142,6 +134,6 @@ public class PlamonServiceImpl implements PlamonService {
         Plamon plamon = plamonRepo.save(new Plamon(randomPlamon, user));
         user.minusGold(rankUtil.getGatchaPrice());
 
-        return new PlamonResponse(plamon, true);
+        return new PlamonResponse(plamon);
     }
 }
