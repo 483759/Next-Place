@@ -8,8 +8,6 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,21 +17,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aespa.nextplace.model.entity.BaseAddress;
-import com.aespa.nextplace.model.entity.Plaction;
 import com.aespa.nextplace.model.entity.Spot;
 import com.aespa.nextplace.model.entity.SpotType;
-import com.aespa.nextplace.model.entity.User;
-import com.aespa.nextplace.model.entity.UserRole;
 import com.aespa.nextplace.model.repository.BaseAddressRepository;
 import com.aespa.nextplace.model.repository.PlactionRepository;
 import com.aespa.nextplace.model.repository.SpotRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListSpotResponse;
-import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.model.response.SpotResponse;
 import com.aespa.nextplace.service.SpotServiceImpl;
-import com.aespa.nextplace.util.GoogleGeocodeUtil;
-import com.google.firebase.auth.FirebaseToken;
+import com.aespa.nextplace.util.NaverMapUtil;
+import com.aespa.nextplace.util.RedisUtil;
 
 @ExtendWith(MockitoExtension.class)
 @Transactional
@@ -44,7 +38,7 @@ public class SpotServiceTest {
 	SpotServiceImpl spotService;	
 	
 	@Mock
-	GoogleGeocodeUtil geocodeUtil;
+	NaverMapUtil geocodeUtil;
 	
 	@Mock
 	SpotRepository spotRepo;
@@ -57,6 +51,9 @@ public class SpotServiceTest {
 	
 	@Mock
 	UserRepository userRepo;
+	
+	@Mock
+	RedisUtil redisUtil;
 	
 	private Exception ex;
 	
@@ -105,34 +102,30 @@ public class SpotServiceTest {
 	public void 스팟조회_성공() throws Exception{
 		
 		//given
-		
+		String oauthUid = "G-12345";
 		String daejeon = "대전광역시";
 		BaseAddress baseAddress = getSampleBaseAddress();
 		String gugun ="유성구";
 		String dong = "봉명동";
-		float lat = 50, lng =100;
+		String lat = "50", lng = "100";
 		
 		given(geocodeUtil.getAddress(lat, lng))
-		.willReturn("대한민국 대전광역시 유성구 봉명동");
+		.willReturn("대전광역시 유성구 봉명동");
 		
-		
-		given(baseAddressRepo.findByCityAndGugunAndDong(daejeon,gugun, dong))
-			.willReturn(baseAddress);
 		
 		List<Spot> spotList = List.of(getSpotSample(baseAddress));
 		
-		given(spotRepo.findAllByBaseAddress(baseAddress))
+		given(spotRepo.findAllByCityAndDong(daejeon,dong))
 			.willReturn(spotList);
 		
 		
 		//when		
-		ListSpotResponse response = spotService.getSpots(lat,lng);
+		ListSpotResponse response = spotService.getSpots(oauthUid,lat,lng);
 		
 		
 		//then
 		verify(geocodeUtil).getAddress(lat,lng);
-		verify(baseAddressRepo).findByCityAndGugunAndDong(daejeon,gugun, dong);
-		verify(spotRepo).findAllByBaseAddress(baseAddress);
+		verify(spotRepo).findAllByCityAndDong(daejeon,dong);
 		
 		for(SpotResponse res : response.getSpotList())
 			assertThat(res.getName())
@@ -147,17 +140,17 @@ public class SpotServiceTest {
 	@Test
 	public void 잘못된_좌표() throws Exception{
 		//given
-		
+		String oauthUid = "G-12345";
 		String daejeon = "대전광역시";
 		BaseAddress baseAddress = getSampleBaseAddress();
 		String dong = "봉명동";
-		float lat = 1000, lng =100;
+		String lat = "500", lng = "100";
 		
 
 		
 		//when
 		try {
-			ListSpotResponse response = spotService.getSpots(lat,lng);					
+			ListSpotResponse response = spotService.getSpots(oauthUid,lat,lng);					
 		}
 		catch(IllegalArgumentException e){
 			ex = e;
@@ -175,18 +168,18 @@ public class SpotServiceTest {
 	@Test
 	public void 잘못된_주소_스팟조회_실패() throws Exception{
 		//given
-		
+		String oauthUid = "G-12345";
 		String daejeon = "대전광역시";
 		BaseAddress baseAddress = getSampleBaseAddress();
 		String dong = "봉명동";
-		float lat = 50, lng =100;
+		String lat = "50", lng = "100";
 		
 		given(geocodeUtil.getAddress(lat, lng))
 		.willReturn("");
 		
 		//when
 		try {
-			ListSpotResponse response = spotService.getSpots(lat,lng);					
+			ListSpotResponse response = spotService.getSpots(oauthUid,lat,lng);					
 		}
 		catch(IllegalArgumentException e){
 			ex = e;
@@ -200,40 +193,39 @@ public class SpotServiceTest {
 		
 	}
 	
-	@DisplayName("조회 시 스팟이 없는 경우")
+	@DisplayName("조회 시 스팟이 없거나 방문한 스팟인 경우")
 	@Test
 	public void 스팟_성공_결과없음() throws Exception{
 		//given
-		
+		String oauthUid = "G-12345";
 		String daejeon = "대전광역시";
 		BaseAddress baseAddress = getSampleBaseAddress();
 		String gugun ="유성구";
 		String dong = "봉명동";
-		float lat = 50, lng =100;
+		String lat = "50", lng = "100";
 		
 		given(geocodeUtil.getAddress(lat, lng))
-		.willReturn("대한민국 대전광역시 유성구 봉명동");
+		.willReturn("대전광역시 유성구 봉명동");
 		
-		
-		given(baseAddressRepo.findByCityAndGugunAndDong(daejeon,gugun, dong))
-			.willReturn(baseAddress);
-		
+			
 		List<Spot> spotList = new ArrayList();
 		spotList.add(getSpotSample(baseAddress));
 		
-		given(spotRepo.findAllByBaseAddress(baseAddress))
-			.willReturn(new ArrayList());
+		given(redisUtil.getData(oauthUid+"+1"))
+		.willReturn("123");
+		
+		given(spotRepo.findAllByCityAndDong(daejeon,dong))
+		.willReturn(spotList);
 		
 		
 		//when
 		
-		ListSpotResponse response = spotService.getSpots(lat,lng);
+		ListSpotResponse response = spotService.getSpots(oauthUid,lat,lng);
 		
 		
 		//then
 		verify(geocodeUtil).getAddress(lat,lng);
-		verify(baseAddressRepo).findByCityAndGugunAndDong(daejeon,gugun, dong);
-		verify(spotRepo).findAllByBaseAddress(baseAddress);
+		verify(spotRepo).findAllByCityAndDong(daejeon,dong);
 		
 		
 		assertEquals(0,response.getSpotList().size());
