@@ -4,7 +4,6 @@ import com.aespa.nextplace.model.entity.Plaction;
 import com.aespa.nextplace.model.entity.Spot;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

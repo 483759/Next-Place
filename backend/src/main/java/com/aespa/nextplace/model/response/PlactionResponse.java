@@ -1,5 +1,7 @@
 package com.aespa.nextplace.model.response;
 
+import java.time.LocalDateTime;
+
 import com.aespa.nextplace.model.entity.Plaction;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

@@ -53,9 +53,10 @@ public class Plaction extends BaseTimeEntity{
     public Plaction(Plaction plaction, long id, int score) {
     	this.user = plaction.getUser();
     	this.spot = plaction.getSpot();
+    	this.setCreatedDate(plaction.getCreatedDate());
     	this.baseAddress = plaction.getBaseAddress();
     	this.id = id;
-    	this.score = score;    	
+    	this.score = score;
     }
     
     

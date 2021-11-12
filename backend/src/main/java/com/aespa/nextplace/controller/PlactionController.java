@@ -6,6 +6,7 @@ import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
 import com.aespa.nextplace.model.response.ListPlactionResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.service.PlactionService;
+import com.aespa.nextplace.util.RedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,6 +37,8 @@ public class PlactionController {
     		response = plactionService.savePlaction(request.getSpotId(), "G-12345", request.getScore());
     	}catch(IllegalArgumentException e) {
     		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+    	}catch(IllegalStateException e) {
+    		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));    		
     	}
     	
     	

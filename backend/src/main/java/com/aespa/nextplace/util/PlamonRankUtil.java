@@ -36,9 +36,9 @@ public class PlamonRankUtil {
         return this.gatchaProbability.size();
     }
 
-    public int getGatchaPrice() {
-        return this.gatchaPrice;
-    }
+	public int getGatchaPrice() {
+		return this.gatchaPrice;
+	}
 
     public int getProbabilityOfRank(PlamonRank rank) {
         return this.gatchaProbability.get(rank);

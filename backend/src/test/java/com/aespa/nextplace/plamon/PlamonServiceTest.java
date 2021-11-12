@@ -95,7 +95,6 @@ class PlamonServiceTest {
                 .build();
     }
 
-
     private User createUserOfUid(String uid) {
         return User.builder()
                 .id(1L)
@@ -232,6 +231,7 @@ class PlamonServiceTest {
 
     @DisplayName("각각의 등급을 랜덤으로 뽑을 수 있는지 검증한다")
     @Test
+    @Disabled
     public void 각각의등급뽑기() throws Exception {
         //given
         int count;
