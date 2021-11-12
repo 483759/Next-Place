@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface PlamonRepository extends JpaRepository<Plamon, Long> {
     List<Plamon> findAllByUser(User user);
+    Plamon findPlamonByUserAndId(User user, Long id);
 }

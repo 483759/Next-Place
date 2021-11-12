@@ -32,7 +32,6 @@ import com.aespa.nextplace.service.PlactionServiceImpl;
 import com.aespa.nextplace.util.RedisUtil;
 
 
-
 @ExtendWith(MockitoExtension.class)
 @Transactional
 public class PlactionServiceTest {

@@ -12,7 +12,6 @@ public class PlamonRankUtil {
     private final int gatchaPrice = 100;
     private final Map<PlamonRank, Integer> gatchaProbability;
     private final Map<PlamonRank, Integer> salesPrice;
-    //Map<String, String[]> gugun = new HashMap();
 
     private PlamonRankUtil() {
         this.gatchaProbability = ImmutableMap.of(
@@ -22,10 +21,10 @@ public class PlamonRankUtil {
                 PlamonRank.SSR, 100
         );
         this.salesPrice = ImmutableMap.of(
-                PlamonRank.N, 10,
-                PlamonRank.R, 50,
-                PlamonRank.SR, 100,
-                PlamonRank.SSR, 500
+                PlamonRank.N, 1,
+                PlamonRank.R, 2,
+                PlamonRank.SR, 5,
+                PlamonRank.SSR, 10
         );
     }
 
@@ -45,9 +44,9 @@ public class PlamonRankUtil {
         return this.gatchaProbability.get(rank);
     }
 
-    public int getSalesPriceOfRank(PlamonRank rank) {
-    	return this.salesPrice.get(rank);
-	}
+    public int getSalesPriceOfRankAndLevel(PlamonRank rank, int level) {
+        return this.salesPrice.get(rank) * level;
+    }
 
     private static class LazyHolder {
         private static final PlamonRankUtil instance = new PlamonRankUtil();

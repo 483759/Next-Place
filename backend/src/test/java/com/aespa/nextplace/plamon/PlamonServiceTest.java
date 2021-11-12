@@ -5,10 +5,11 @@ import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
+import com.aespa.nextplace.model.response.ListSellPlamonResponse;
 import com.aespa.nextplace.model.response.PladexResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
-import org.junit.jupiter.api.Disabled;
+import com.aespa.nextplace.util.PlamonRankUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,7 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -77,6 +79,18 @@ class PlamonServiceTest {
                 .nickname("랩실노예")
                 .isMain(false)
                 .pladex(createPladexOfIdAndRank(1L, rank))
+                .user(createUserOfUid("G-12345"))
+                .build();
+    }
+
+    private Plamon createPlamonOfIdAndMain(long id, boolean isMain) {
+        return Plamon.builder()
+                .id(id)
+                .level(1)
+                .exp(10)
+                .nickname("랩실노예")
+                .isMain(isMain)
+                .pladex(createPladexOfId(1L))
                 .user(createUserOfUid("G-12345"))
                 .build();
     }
@@ -304,6 +318,93 @@ class PlamonServiceTest {
         //then
         assertThat(exception.getMessage())
                 .isEqualTo("존재하지 않는 유저입니다");
+    }
+
+    @DisplayName("내가 가지고 있는 캐릭터를 판매한다")
+    @Test
+    public void 캐릭터팔기() throws Exception {
+        //given
+        User user = createUserOfUid("G-12345");
+        int preDalgona = user.getDalgona();
+        List<Plamon> afterPlamons = List.of(
+                createPlamonOfId(1L),
+                createPlamonOfId(3L)
+        );
+        Plamon sellingPlamon = createPlamonOfIdAndRank(2L, PlamonRank.SR);
+        given(userRepo.findByOauthUid("G-12345"))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndId(user, 2L))
+                .willReturn(sellingPlamon);
+        given(plamonRepo.findAllByUser(user))
+                .willReturn(afterPlamons);
+        given(pladexRepo.findAllByUserWithNotMine(user))
+                .willReturn(List.of(sellingPlamon.getPladex()));
+
+        //when
+        ListSellPlamonResponse allPlamonResponse = plamonService.sell(user.getOauthUid(), sellingPlamon.getId());
+
+        //then
+        verify(userRepo, times(2)).findByOauthUid(user.getOauthUid());
+        verify(plamonRepo).findAllByUser(user);
+        verify(plamonRepo).delete(sellingPlamon);
+        assertThat(allPlamonResponse.getDalgona())
+                .isEqualTo(preDalgona
+                        + PlamonRankUtil.getInstance().getSalesPriceOfRankAndLevel(PlamonRank.SR, 1));
+        assertThat(allPlamonResponse.getMyPlamon())
+                .extracting("id", "level")
+                .containsExactly(
+                        tuple(1L, 1),
+                        tuple(3L, 1)
+                );
+        assertThat(allPlamonResponse.getNotMyPlamon().getPladexList())
+                .extracting("id", "rank")
+                .containsExactly(
+                        tuple(1L, PlamonRank.SR)
+                );
+        assertThat(user.getDalgona())
+                .isEqualTo(5);
+    }
+
+    @DisplayName("소유중이 아닌 캐릭터는 판매할 수 없다")
+    @Test
+    public void 미소유캐릭터팔기() throws Exception {
+        //given
+        User user = createUserOfUid("G-12345");
+        given(userRepo.findByOauthUid("G-12345"))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndId(user, 2L))
+                .willReturn(null);
+
+        //when
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class,
+                        ()-> plamonService.sell(user.getOauthUid(), 2L));
+
+        //then
+        assertThat(exception.getMessage())
+                .isEqualTo("해당 캐릭터는 보유 중이 아닙니다");
+    }
+
+    @DisplayName("대표 캐릭터는 판매할 수 없다")
+    @Test
+    public void 대표캐릭터팔기() throws Exception {
+        //given
+        User user = createUserOfUid("G-12345");
+        Plamon sellingPlamon = createPlamonOfIdAndMain(2L, true);
+        given(userRepo.findByOauthUid("G-12345"))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndId(user, 2L))
+                .willReturn(sellingPlamon);
+
+        //when
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class,
+                        ()-> plamonService.sell(user.getOauthUid(), sellingPlamon.getId()));
+
+
+        //then
+        assertThat(exception.getMessage())
+                .isEqualTo("대표 캐릭터는 삭제할 수 없습니다");
     }
 
 }

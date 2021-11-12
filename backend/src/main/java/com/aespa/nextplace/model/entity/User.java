@@ -65,4 +65,8 @@ public class User {
         this.gold -= gold;
         return true;
     }
+
+    public void earnDalgona(int dalgona) {
+        this.dalgona += dalgona;
+    }
 }

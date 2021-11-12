@@ -1,14 +1,13 @@
 package com.aespa.nextplace.model.repository;
 
-import java.util.List;
-
+import com.aespa.nextplace.model.entity.BaseAddress;
+import com.aespa.nextplace.model.entity.Spot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.aespa.nextplace.model.entity.BaseAddress;
-import com.aespa.nextplace.model.entity.Spot;
+import java.util.List;
 
 @Repository
 public interface SpotRepository extends JpaRepository<Spot,Long>{
