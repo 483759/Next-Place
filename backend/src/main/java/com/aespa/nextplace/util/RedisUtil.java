@@ -1,18 +1,21 @@
 package com.aespa.nextplace.util;
 
 import java.time.Duration;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+import lombok.RequiredArgsConstructor;
+
+@Component
+@RequiredArgsConstructor
 public class RedisUtil {
 	
 	public final long HOUR = 60L * 60; 
 	
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    
+    private final StringRedisTemplate stringRedisTemplate;
 
     public String getData(String key){
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
