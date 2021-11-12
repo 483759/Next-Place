@@ -1,14 +1,13 @@
 package com.aespa.nextplace.model.repository;
 
-import java.util.List;
-
+import com.aespa.nextplace.model.entity.BaseAddress;
+import com.aespa.nextplace.model.entity.Spot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.aespa.nextplace.model.entity.BaseAddress;
-import com.aespa.nextplace.model.entity.Spot;
+import java.util.List;
 
 @Repository
 public interface SpotRepository extends JpaRepository<Spot,Long>{
@@ -22,5 +21,6 @@ public interface SpotRepository extends JpaRepository<Spot,Long>{
 	@Query("select DISTINCT s from Spot s join fetch s.baseAddress where s.baseAddress.city = :city and s.baseAddress.gugun = :gugun")
 	List<Spot> findAllByCityAndGugun(@Param("city") String city, @Param("gugun") String gugun);
 	
-	
+	@Query("select DISTINCT s from Spot s join fetch s.baseAddress")
+	List<Spot> findAllJoinFetch();
 }

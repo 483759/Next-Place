@@ -1,15 +1,14 @@
 package com.aespa.nextplace.model.repository;
 
-import java.util.List;
-
+import com.aespa.nextplace.model.entity.Plaction;
+import com.aespa.nextplace.model.entity.Spot;
+import com.aespa.nextplace.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.aespa.nextplace.model.entity.Plaction;
-import com.aespa.nextplace.model.entity.Spot;
-import com.aespa.nextplace.model.entity.User;
+import java.util.List;
 
 @Repository
 public interface PlactionRepository extends JpaRepository<Plaction,Long> {
@@ -21,5 +20,10 @@ public interface PlactionRepository extends JpaRepository<Plaction,Long> {
 	
 	@Query("select DISTINCT p from Plaction p join fetch p.baseAddress where p.user = :user and p.baseAddress.city = :city and p.baseAddress.gugun = :gugun")
 	List<Plaction> findAllByUserAndCityAndGugun(@Param("user")User user,@Param("city")String city, @Param("gugun")String gugun);
+	
+	@Query("select DISTINCT p from Plaction p join fetch p.spot where p.user=:user")
+	List<Plaction> findAllByUserJoinFetch(@Param("user")User user);
+	
+	List<Plaction> findAllByUser(User user);
 	
 }

@@ -1,12 +1,10 @@
 package com.aespa.nextplace.service;
 
-import com.aespa.nextplace.model.response.ListPlamonResponse;
+import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
-import org.springframework.data.domain.Pageable;
 
 public interface PlamonService {
-    ListPlamonResponse findAllByUser(String oauthUid);
-    ListPlamonResponse findAllByUserWithPagination(String oauthUid, Pageable pageable);
+    ListAllPlamonResponse findAllByUser(String oauthUid);
     PlamonResponse buyNewPlamonWithGold(String oauthUid);
-    ListPlamonResponse sell(String oauthUid, Long plamonId);
+    ListAllPlamonResponse sell(String oauthUid, Long plamonId);
 }

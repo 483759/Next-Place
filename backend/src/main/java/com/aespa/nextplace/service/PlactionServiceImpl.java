@@ -1,11 +1,5 @@
 package com.aespa.nextplace.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.aespa.nextplace.model.entity.Plaction;
 import com.aespa.nextplace.model.entity.Spot;
 import com.aespa.nextplace.model.entity.User;
@@ -13,11 +7,16 @@ import com.aespa.nextplace.model.repository.PlactionRepository;
 import com.aespa.nextplace.model.repository.SpotRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
+import com.aespa.nextplace.model.response.ListPlactionResponse;
 import com.aespa.nextplace.model.response.MyPlactionCountResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.util.GugunUtil;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -163,6 +162,67 @@ public class PlactionServiceImpl implements PlactionService {
 		
 	}
 	
+	
+	public ListPlactionResponse getMyPlactions(String oauthUid) {
+		
+		ListPlactionResponse response= null;
+		
+		
+		User user = userRepo.findByOauthUid(oauthUid);
+		
+		if(user == null){
+			throw new IllegalArgumentException("Can't find User");
+		}
+		
+		
+		List<Spot> spots = spotRepo.findAllJoinFetch();		
+		List<Plaction> plactions = plactionRepo.findAllByUser(user);		
+		
+		response = new ListPlactionResponse(plactions, spots);
+
+		return response;
+	}
+	
+	
+	public ListPlactionResponse getMyPlactionsFromCity(String oauthUid, String city) {
+		
+		ListPlactionResponse response= null;
+		
+		
+		User user = userRepo.findByOauthUid(oauthUid);
+		
+		if(user == null){
+			throw new IllegalArgumentException("Can't find User");
+		}
+		
+		
+		List<Spot> spots = spotRepo.findAllByCity(city);		
+		List<Plaction> plactions = plactionRepo.findAllByUserAndCity(user, city);		
+		
+		response = new ListPlactionResponse(plactions, spots);
+
+		return response;
+	}
+	
+	public ListPlactionResponse getMyPlactionsFromGugun(String oauthUid, String city, String gugun) {
+		
+		ListPlactionResponse response= null;
+		
+		
+		User user = userRepo.findByOauthUid(oauthUid);
+		
+		if(user == null){
+			throw new IllegalArgumentException("Can't find User");
+		}
+		
+		
+		List<Spot> spots = spotRepo.findAllByCityAndGugun(city,gugun);		
+		List<Plaction> plactions = plactionRepo.findAllByUserAndCityAndGugun(user, city,gugun);		
+		
+		response = new ListPlactionResponse(plactions, spots);
+
+		return response;
+	}
 	
 	
 	
