@@ -4,9 +4,10 @@ import com.aespa.nextplace.model.entity.*;
 import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
+import com.aespa.nextplace.model.response.ListAllPlamonResponse;
+import com.aespa.nextplace.model.response.PladexResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -102,36 +103,6 @@ class PlamonServiceTest {
                 .build();
     }
 
-    @DisplayName("모든 플레몬의 리스트를 반환한다")
-    @Test
-    public void 플레몬리스트반환() throws Exception {
-        //given
-        User user = createUserOfUid("G-12345");
-        List<Plamon> plamons = List.of(
-                createPlamonOfId(1L),
-                createPlamonOfId(2L),
-                createPlamonOfId(3L)
-        );
-
-        given(userRepo.findByOauthUid("G-12345"))
-                .willReturn(user);
-        given(plamonRepo.findAllByUser(user))
-                .willReturn(plamons);
-
-        //when
-        var plamonResponseDto = plamonService.findAllByUser("G-12345").getPlamonList();
-
-        //then
-        assertThat(plamonResponseDto)
-                .extracting("id", "isMain")
-                .containsExactly(
-                        tuple(1L, false),
-                        tuple(2L, false),
-                        tuple(3L, false)
-                );
-        verify(plamonRepo).findAllByUser(user);
-    }
-
     @DisplayName("내가 가지지 않은 캐릭터 확인")
     @Test
     public void 소유구분해서뽑기() throws Exception {
@@ -154,18 +125,28 @@ class PlamonServiceTest {
                 .willReturn(pladexes);
 
         //when
-        List<PlamonResponse> list = plamonService.findAllByUser(user.getOauthUid()).getPlamonList();
+        ListAllPlamonResponse all = plamonService.findAllByUser(user.getOauthUid());
+        List<PlamonResponse> myPlamon = all.getMyPlamon();
+        List<PladexResponse> notMyPlamon = all.getNotMyPlamon().getPladexList();
 
         //then
-        assertThat(list).isNotNull();
-        assertThat(list)
-                .extracting("id", "pladex.rank", "ownFlag")
+        assertThat(all).isNotNull();
+        assertThat(myPlamon.size())
+                .isEqualTo(3);
+        assertThat(notMyPlamon.size())
+                .isEqualTo(2);
+        assertThat(myPlamon)
+                .extracting("id", "pladex.rank")
                 .containsExactly(
-                        tuple(1L, PlamonRank.N, true),
-                        tuple(2L, PlamonRank.N, true),
-                        tuple(3L, PlamonRank.N, true),
-                        tuple(null, PlamonRank.SSR, false),
-                        tuple(null, PlamonRank.SR, false)
+                        tuple(1L, PlamonRank.N),
+                        tuple(2L, PlamonRank.N),
+                        tuple(3L, PlamonRank.N)
+                );
+        assertThat(notMyPlamon)
+                .extracting("id", "rank")
+                .containsExactly(
+                        tuple(2L, PlamonRank.SSR),
+                        tuple(3L, PlamonRank.SR)
                 );
         verify(pladexRepo).findAllByUserWithNotMine(user);
         verify(plamonRepo).findAllByUser(user);
