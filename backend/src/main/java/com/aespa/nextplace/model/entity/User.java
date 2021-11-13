@@ -69,4 +69,16 @@ public class User {
     public void earnDalgona(int dalgona) {
         this.dalgona += dalgona;
     }
+
+    public boolean hasEnoughDalgona(int dalgona) {
+        return this.dalgona >= dalgona;
+    }
+
+    public boolean comsumeDalgona(int dalgona) {
+        if(!hasEnoughDalgona(dalgona)) {
+            return false;
+        }
+        this.dalgona -= dalgona;
+        return true;
+    }
 }
