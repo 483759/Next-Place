@@ -60,4 +60,14 @@ public class Plamon {
         this.pladex = pladex;
         this.user = user;
     }
+
+    /**
+     * @param newExp 새로운 누적 경험치
+     * @param next 다음 레벨에 대한 정보
+     * @implNote 레벨과 경험치를 갱신한다
+     * */
+    public void levelUp(int newExp, Experience next) {
+        this.level = next.getLevel();
+        this.exp = newExp - next.getAccumulated();
+    }
 }
