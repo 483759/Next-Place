@@ -14,10 +14,11 @@ import javax.persistence.Id;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Experience {
-    @Id @Column(name = "exp_level")
-    int level;
+    @Id
+    @Column(name = "exp_level")
+    private int level;
     @Column(name = "exp_accumulated")
-    int accumulated;
+    private int accumulated;
     @Column(name = "exp_next")
-    int next;
+    private int next;
 }
