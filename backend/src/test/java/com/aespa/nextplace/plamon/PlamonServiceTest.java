@@ -460,4 +460,25 @@ class PlamonServiceTest {
         assertThat(response.getExp())
                 .isEqualTo(1490);
     }
+
+    @DisplayName("사용하려는 달고나 개수가 보유 개수보다 부족하다")
+    @Test
+    public void 달고나부족() throws Exception {
+        //given
+        User user = createUser("G-12345", 1000, 3);
+
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+
+        //when
+
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class,
+                        ()-> plamonService.levelUpWithDalgona(user.getOauthUid(), new PlamonLevelUpRequest(1L, 5)));
+
+        //then
+        assertThat(exception.getMessage())
+                .isEqualTo("달고나가 부족합니다");
+    }
+
 }

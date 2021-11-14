@@ -185,7 +185,7 @@ public class PlamonServiceImpl implements PlamonService {
      * */
     @Override
     @Transactional
-    public PlamonResponse levelUpWithDalgona(String oauthUid, PlamonLevelUpRequest request) throws IllegalArgumentException {
+    public PlamonResponse levelUpWithDalgona(String oauthUid, PlamonLevelUpRequest request) throws IllegalArgumentException, IllegalStateException {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
@@ -193,7 +193,7 @@ public class PlamonServiceImpl implements PlamonService {
         }
 
         if (!user.hasEnoughDalgona(request.getDalgona())) {
-            throw new IllegalArgumentException("달고나가 부족합니다");
+            throw new IllegalStateException("달고나가 부족합니다");
         }
 
         Plamon plamon = plamonRepo.findPlamonByUserAndId(user, request.getPlamonId());
