@@ -69,5 +69,8 @@ public class Plamon {
     public void levelUp(int newExp, Experience next) {
         this.level = next.getLevel();
         this.exp = newExp - next.getAccumulated();
+        if (this.level == 15 && this.exp > 1490) {
+            this.exp = 1490;
+        }
     }
 }
