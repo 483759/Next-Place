@@ -199,7 +199,7 @@ public class PlamonServiceImpl implements PlamonService {
         Plamon plamon = plamonRepo.findPlamonByUserAndId(user, request.getPlamonId());
 
         if(plamon == null) {
-            throw  new IllegalArgumentException("존재하지 않는 캐릭터입니다");
+            throw  new IllegalStateException("존재하지 않는 캐릭터입니다");
         }
 
         Experience current = expRepo.findByLevel(plamon.getLevel());        // 현재 레벨에 해당하는 레벨 및 경험치 정보 조회
