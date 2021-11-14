@@ -1,11 +1,13 @@
 package com.aespa.nextplace.controller;
 
+import com.aespa.nextplace.model.request.PlamonLevelUpRequest;
 import com.aespa.nextplace.model.response.ErrorResponse;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.ListSellPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
@@ -81,5 +83,27 @@ public class PlamonController {
                     .body(new ErrorResponse(e.getMessage()));
         }
 
+    }
+
+    @PostMapping("/levelup")
+    @Operation(summary = "캐릭터 레벨 업", description = "달고나를 사용해서 캐릭터를 레벨 업 시킨다", responses = {
+            @ApiResponse(responseCode = "200", description = "구매 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못 된 요청"),
+            @ApiResponse(responseCode = "401", description = "유저 정보 없음")
+    })
+    public ResponseEntity<?> levelUpPlamonByDalgona(@RequestBody @Parameter(description = "레벨 업에 필요한 정보", required = true) PlamonLevelUpRequest request) throws ParseException {
+        String oauthUid = "G-12345";
+
+        try {
+            PlamonResponse response = plamonService.levelUpWithDalgona(oauthUid, request);
+
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {      // 유저 정보 없음
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse(e.getMessage()));
+        } catch (IllegalStateException e) {         // 달고나 부족 or 존재하지 않는 캐릭터
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(e.getMessage()));
+        }
     }
 }
