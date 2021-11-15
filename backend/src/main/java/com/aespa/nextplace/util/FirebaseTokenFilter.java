@@ -25,13 +25,14 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 
 	private final MyUserDetailsService userDetailsService;
 	private final FirebaseAuth firebaseAuth;
+	private final CookieUtil cookieUtil;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
 		FirebaseToken decodedToken;
-		String token = request.getHeader("Authorization");
+		String token = cookieUtil.getAuthToken(request);
 		
 		if (token == null) {
 			setUnauthorizedResponse(response, "INVALID_HEADER");
