@@ -17,14 +17,11 @@ import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
 import com.aespa.nextplace.model.response.ListPlactionResponse;
 import com.aespa.nextplace.model.response.MyPlactionCountResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
+import com.aespa.nextplace.model.response.PlactionUpdateResponse;
 import com.aespa.nextplace.util.GugunUtil;
 import com.aespa.nextplace.util.RedisUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -43,9 +40,9 @@ public class PlactionServiceImpl implements PlactionService {
 	
 	
 	@Transactional
-	public PlactionResponse savePlaction(long spotId, String oauthUid, int score){
+	public PlactionUpdateResponse savePlaction(long spotId, String oauthUid, int score){
 		
-		PlactionResponse response = null;
+		PlactionUpdateResponse response = null;
 		
 		Spot spot = spotRepo.findByIdAllJoinFetch(spotId);
 		
@@ -60,7 +57,6 @@ public class PlactionServiceImpl implements PlactionService {
 		}
 		
 		String visited = redisUtil.getData(oauthUid+"+"+spotId);
-		System.out.println(visited);
 		
 		if(visited != null)
 			throw new IllegalStateException("Illegal game play");
@@ -84,8 +80,9 @@ public class PlactionServiceImpl implements PlactionService {
 		}
 				
 		plactionRepo.save(plaction);		
-		plaction = plactionRepo.findByUserAndSpot(user, spot);		
-		response = new PlactionResponse(plaction);
+		plaction = plactionRepo.findByUserAndSpot(user, spot);	
+		user.earnGold(spot.getExp());		
+		response = new PlactionUpdateResponse(plaction);
 		
 		redisUtil.setDataExpire(oauthUid+"+"+spotId, LocalDateTime.now().toString(), redisUtil.HOUR);
 		
