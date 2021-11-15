@@ -1,5 +1,7 @@
 package com.aespa.nextplace.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +32,9 @@ public class SpotController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListSpotResponse.class))),
             @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
     })
-    public ResponseEntity<Object> getSpots(@RequestParam("lat")String lat, @RequestParam("lng")String lng){    	
-    	ListSpotResponse response = null;
-    	String oauthUid = "G-12345";
+    public ResponseEntity<Object> getSpots(@RequestParam("lat")String lat, @RequestParam("lng")String lng, HttpServletRequest request){    	
+    	ListSpotResponse response = null;    	
+    	String oauthUid = (String) request.getAttribute("uid");    
     	
     	try {
     		response = spotService.getSpots(oauthUid,lat, lng);

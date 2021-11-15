@@ -8,13 +8,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.aespa.nextplace.service.MyUserDetailsService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -24,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FirebaseTokenFilter extends OncePerRequestFilter {
 
-	private final UserDetailsService userDetailsService;
+	private final MyUserDetailsService userDetailsService;
 	private final FirebaseAuth firebaseAuth;
 
 	@Override
@@ -32,30 +31,43 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		FirebaseToken decodedToken;
-		String token = request.getHeader("token");
+		String token = request.getHeader("Authorization");
+		
 		if (token == null) {
 			setUnauthorizedResponse(response, "INVALID_HEADER");
 			return;
 		}
+		try {
+			String suffix = token.substring(0,7);
+			if (!suffix.equals("Bearer ")) {
+				setUnauthorizedResponse(response, "INVALID_HEADER");
+				return;
+			}
+			
+			token = token.substring(7);
+			
+		}catch(StringIndexOutOfBoundsException e) {
+			setUnauthorizedResponse(response, "INVALID_HEADER");
+			return;
+		}	
 		
-
-
 		try {
 			decodedToken = firebaseAuth.verifyIdToken(token);
 		} catch (FirebaseAuthException e) {
 			setUnauthorizedResponse(response, "INVALID_TOKEN");
 			return;
 		}
-
 		try {
-			UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
+			UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());		
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null,
 					user.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+			request.setAttribute("uid", user.getUsername());
 		} catch (NoSuchElementException e) {
 			setUnauthorizedResponse(response, "USER_NOT_FOUND");
 			return;
 		}
+		
 		filterChain.doFilter(request, response);
 	}
 

@@ -14,7 +14,7 @@ import org.threeten.bp.LocalDateTime;
 import com.aespa.nextplace.model.entity.User;
 import com.aespa.nextplace.model.entity.UserRole;
 import com.aespa.nextplace.model.repository.UserRepository;
-import com.aespa.nextplace.response.UserResponse;
+import com.aespa.nextplace.model.response.UserResponse;
 import com.aespa.nextplace.util.CookieUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	
 	public UserResponse login(String uid, String idToken, HttpServletResponse httpServletRes) {
 		UserResponse response = null;
-		Cookie accessTokenCookie = cookieUtil.createCookie("token",idToken,60* 24 * 5);
+		Cookie accessTokenCookie = cookieUtil.createCookie("Authorization",idToken, cookieUtil.DEFAULT_TIME);
 		
 		httpServletRes.addCookie(accessTokenCookie);
 		Collection<String> headers = httpServletRes.getHeaders(HttpHeaders.SET_COOKIE);

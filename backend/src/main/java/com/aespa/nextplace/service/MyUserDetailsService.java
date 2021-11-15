@@ -22,7 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String userid) throws UsernameNotFoundException {
 		
-		String oauthUid = "G"+userid;
+		String oauthUid = "G-"+userid;
 		
 		User user = userRepo.findByOauthUid(oauthUid);
 		

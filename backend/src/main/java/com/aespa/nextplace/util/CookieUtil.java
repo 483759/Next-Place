@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CookieUtil {
-	 public final static long USER_NULL = -1;
-		
+	public final static long USER_NULL = -1;
+	public final static int DEFAULT_TIME = 60* 24 * 5;
     public Cookie createCookie(String cookieName, String value, int time){
-        Cookie token = new Cookie(cookieName,value);
+        Cookie token = new Cookie(cookieName,"Bearer "+value);
         token.setHttpOnly(true);
         token.setMaxAge(time);
         token.setPath("/");
