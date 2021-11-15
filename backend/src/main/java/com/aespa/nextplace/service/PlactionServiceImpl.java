@@ -57,7 +57,6 @@ public class PlactionServiceImpl implements PlactionService {
 		}
 		
 		String visited = redisUtil.getData(oauthUid+"+"+spotId);
-		System.out.println(visited);
 		
 		if(visited != null)
 			throw new IllegalStateException("Illegal game play");
