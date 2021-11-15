@@ -27,7 +27,6 @@ import com.aespa.nextplace.model.repository.SpotRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
 import com.aespa.nextplace.model.response.ListPlactionResponse;
-import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.model.response.PlactionUpdateResponse;
 import com.aespa.nextplace.service.PlactionServiceImpl;
 import com.aespa.nextplace.util.RedisUtil;

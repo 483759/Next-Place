@@ -40,8 +40,10 @@ public class PlactionController {
     	
     	PlactionUpdateResponse response = null;
     	
+    	String oauthUid = (String) httpServletReq.getAttribute("uid");
+    	
     	try {
-    		response = plactionService.savePlaction(request.getSpotId(), "G-12345", request.getScore());
+    		response = plactionService.savePlaction(request.getSpotId(), oauthUid, request.getScore());
     	}catch(IllegalArgumentException e) {
     		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     	}catch(IllegalStateException e) {
@@ -62,7 +64,7 @@ public class PlactionController {
     public ResponseEntity<?> myPlactionsCountFromCities(HttpServletRequest httpServletReq){
     	
     	
-    	String oauthUid = "G-12345";
+    	String oauthUid = (String) httpServletReq.getAttribute("uid");
     	ListMyPlactionCountResponse response = null;
     	try {
     		response = plactionService.getMyPlactionsCountFromCities(oauthUid);
@@ -82,7 +84,7 @@ public class PlactionController {
     public ResponseEntity<?> myPlactionsCountFromGugun(@PathVariable String city, HttpServletRequest httpServletReq){
     	
     	
-    	String oauthUid = "G-12345";
+    	String oauthUid = (String) httpServletReq.getAttribute("uid");
     	ListMyPlactionCountResponse response = null;
     	try {
     		response = plactionService.getMyPlactionsCountFromGugun(oauthUid, city);
@@ -101,10 +103,9 @@ public class PlactionController {
            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListPlactionResponse.class))),
            @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
    })
-   public ResponseEntity<?> myPlactions(HttpServletRequest httpServletRequest){
+   public ResponseEntity<?> myPlactions(HttpServletRequest httpServletReq){
 	   
-	   String oauthUid = "G-12345";
-	   
+	   String oauthUid = (String) httpServletReq.getAttribute("uid");	   
 	   ListPlactionResponse response = null;
 	   
 	   try {
@@ -121,10 +122,10 @@ public class PlactionController {
            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListPlactionResponse.class))),
            @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
    })
-   public ResponseEntity<?> myPlactionsFromCity(@PathVariable("city") String city, HttpServletRequest httpServletRequest){
+   public ResponseEntity<?> myPlactionsFromCity(@PathVariable("city") String city, HttpServletRequest httpServletReq){
 	   
-	   String oauthUid = "G-12345";
 	   
+	   String oauthUid = (String) httpServletReq.getAttribute("uid");
 	   ListPlactionResponse response = null;
 	   
 	   try {
@@ -141,10 +142,9 @@ public class PlactionController {
            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation=ListPlactionResponse.class))),
            @ApiResponse(responseCode = "400", description = "조회 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
    })
-   public ResponseEntity<?> myPlactionsFromGugun(@PathVariable("city") String city, @PathVariable("gugun") String gugun, HttpServletRequest httpServletRequest){
+   public ResponseEntity<?> myPlactionsFromGugun(@PathVariable("city") String city, @PathVariable("gugun") String gugun, HttpServletRequest httpServletReq){
 	   
-	   String oauthUid = "G-12345";
-	   
+	   String oauthUid = (String) httpServletReq.getAttribute("uid");	   
 	   ListPlactionResponse response = null;
 	   
 	   try {
