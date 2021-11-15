@@ -8,8 +8,6 @@
 
 ## Git Commit Convention
 
-    팀장 : 윤이진
-
     type:[#issue num] commit message
 
 - feat : 기능 개발
