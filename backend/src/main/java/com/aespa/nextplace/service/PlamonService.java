@@ -10,4 +10,5 @@ public interface PlamonService {
     PlamonResponse buyNewPlamonWithGold(String oauthUid);
     ListSellPlamonResponse sell(String oauthUid, Long plamonId);
     PlamonResponse levelUpWithDalgona(String oauthUid, PlamonLevelUpRequest request);
+    PlamonResponse getMyMainPlamon(String oauthUid);
 }

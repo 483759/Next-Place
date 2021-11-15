@@ -4,7 +4,6 @@ import com.aespa.nextplace.model.entity.Plamon;
 import com.aespa.nextplace.model.entity.User;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
-@Disabled
+//@Disabled
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class PlamonRepositoryTest {
     @Autowired private PlamonRepository plamonRepo;
@@ -29,7 +28,6 @@ public class PlamonRepositoryTest {
     @DisplayName("캐릭터를 판매했을 때 정상적으로 삭제되는지 검증")
     @Test
     @Transactional
-    @Disabled
     public void 데이터삭제() throws Exception {
         //given
         User user = userRepo.findByOauthUid("G-12345");
@@ -48,5 +46,19 @@ public class PlamonRepositoryTest {
         //then
         assertThat(plamonRepo.count())
                 .isEqualTo(size-1);
+    }
+
+    @DisplayName("대표 캐릭터 조회")
+    @Test
+    public void 대표_캐릭터() throws Exception {
+        //given
+        User user = userRepo.findByOauthUid("G-12345");
+
+        //when
+        Plamon plamon = plamonRepo.findPlamonByUserAndMainIsTrue(user);
+
+        //then
+        assertThat(plamon.isMain())
+                .isEqualTo(true);
     }
 }

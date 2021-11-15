@@ -214,4 +214,22 @@ public class PlamonServiceImpl implements PlamonService {
 
         return new PlamonResponse(plamon);
     }
+
+    @Override
+    public PlamonResponse getMyMainPlamon(String oauthUid) throws IllegalArgumentException{
+        User user = findUserByOauthUid(oauthUid);
+
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+        }
+
+        Plamon mainPlamon = plamonRepo.findPlamonByUserAndMainIsTrue(user);
+
+        if(mainPlamon == null) {    // 대표 캐릭터가 없음
+            Plamon defaultMainPlamon = plamonRepo.findDefaultPlamon();
+            return new PlamonResponse(defaultMainPlamon);
+        }
+
+        return new PlamonResponse(mainPlamon);
+    }
 }
