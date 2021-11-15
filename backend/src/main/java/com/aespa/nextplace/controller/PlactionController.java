@@ -33,7 +33,7 @@ public class PlactionController {
     
     @PostMapping
     @Operation(summary = "Plaction 등록 혹은 갱신", description = "해당하는 Spot에 Plaction을 등록 혹은 갱신한다", responses = {
-            @ApiResponse(responseCode = "200", description = "등록 성공", content = @Content(schema = @Schema(implementation=PlactionResponse.class))),
+            @ApiResponse(responseCode = "200", description = "등록 성공", content = @Content(schema = @Schema(implementation=PlactionUpdateResponse.class))),
             @ApiResponse(responseCode = "400", description = "등록 실패", content = @Content(schema = @Schema(implementation=Exception.class)))
     })
     public ResponseEntity<?> addPlaction(@RequestBody PlactionRequest request,HttpServletRequest httpServletReq){
