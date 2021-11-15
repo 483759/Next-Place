@@ -74,7 +74,7 @@ public class User {
         return this.dalgona >= dalgona;
     }
 
-    public boolean comsumeDalgona(int dalgona) {
+    public boolean consumeDalgona(int dalgona) {
         if(!hasEnoughDalgona(dalgona)) {
             return false;
         }

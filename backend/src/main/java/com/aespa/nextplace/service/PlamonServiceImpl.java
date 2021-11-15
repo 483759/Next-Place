@@ -210,7 +210,7 @@ public class PlamonServiceImpl implements PlamonService {
         Experience nextLevel = expRepo.findFirstByAccumulatedLessThanEqualOrderByLevelDesc(nextExp);    //해당 경험치로 얻을 수 있는 다음 레벨 정의
 
         plamon.levelUp(nextExp, nextLevel);     //레벨 변화
-        user.comsumeDalgona(request.getDalgona());      //달고나 소모
+        user.consumeDalgona(request.getDalgona());      //달고나 소모
 
         return new PlamonResponse(plamon);
     }
