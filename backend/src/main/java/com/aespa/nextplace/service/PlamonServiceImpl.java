@@ -216,7 +216,7 @@ public class PlamonServiceImpl implements PlamonService {
     }
 
     @Override
-    public PlamonResponse getMyMainPlamon(String oauthUid) {
+    public PlamonResponse getMyMainPlamon(String oauthUid) throws IllegalArgumentException{
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
