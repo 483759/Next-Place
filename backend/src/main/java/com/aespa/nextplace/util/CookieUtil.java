@@ -22,13 +22,13 @@ public class CookieUtil {
 
     public String getAuthToken(HttpServletRequest req) {    
     	Cookie cookie = getCookie(req,"Authorization");    	
-    	String oauthUid = null;  	
+    	String token = null;  	
     	
     	if(cookie != null) {
-    		oauthUid = cookie.getValue();
+    		token = cookie.getValue();
     	}  	
     	
-    	return oauthUid;
+    	return token;
     }
     
     
