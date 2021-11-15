@@ -1,4 +1,4 @@
-package com.aespa.nextplace.response;
+package com.aespa.nextplace.model.response;
 
 import com.aespa.nextplace.model.entity.User;
 import com.aespa.nextplace.model.entity.UserRole;

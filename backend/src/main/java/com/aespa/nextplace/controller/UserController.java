@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aespa.nextplace.response.UserResponse;
+import com.aespa.nextplace.model.response.UserResponse;
 import com.aespa.nextplace.service.UserService;
 import com.google.firebase.auth.FirebaseAuthException;
 

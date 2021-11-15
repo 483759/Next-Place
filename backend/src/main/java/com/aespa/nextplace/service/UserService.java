@@ -2,7 +2,7 @@ package com.aespa.nextplace.service;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.aespa.nextplace.response.UserResponse;
+import com.aespa.nextplace.model.response.UserResponse;
 import com.google.firebase.auth.FirebaseAuthException;
 
 public interface UserService {
