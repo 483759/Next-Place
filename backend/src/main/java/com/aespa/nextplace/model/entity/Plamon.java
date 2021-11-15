@@ -76,4 +76,20 @@ public class Plamon {
             this.exp = levelUtil.getMAXEXP();
         }
     }
+
+    public boolean resignMain() {
+        if (this.isMain) {
+            this.isMain = false;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean appointMain() {
+        if (!this.isMain) {
+            this.isMain = true;
+            return true;
+        }
+        return false;
+    }
 }
