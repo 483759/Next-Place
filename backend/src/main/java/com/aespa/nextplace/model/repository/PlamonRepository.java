@@ -18,6 +18,6 @@ public interface PlamonRepository extends JpaRepository<Plamon, Long> {
     @Query("select m from Plamon m where m.user = :user and m.isMain = true")
     Plamon findPlamonByUserAndMainIsTrue(@Param("user") User user);
 
-    @Query("select m from Plamon m where m.id = 16L")
+    @Query("select m from Plamon m where m.pladex.id = 16L")
     Plamon findDefaultPlamon();
 }
