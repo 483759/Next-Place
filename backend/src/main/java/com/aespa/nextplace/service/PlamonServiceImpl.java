@@ -9,7 +9,6 @@ import com.aespa.nextplace.model.request.PlamonChangeMainRequest;
 import com.aespa.nextplace.model.request.PlamonLevelUpRequest;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.ListSellPlamonResponse;
-import com.aespa.nextplace.model.response.PlamonChangeMainResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.util.LevelUtil;
 import com.aespa.nextplace.util.PlamonRankUtil;
@@ -237,7 +236,7 @@ public class PlamonServiceImpl implements PlamonService {
 
     @Override
     @Transactional
-    public PlamonChangeMainResponse changeMainPlamon(String oauthUid, PlamonChangeMainRequest request) throws IllegalStateException {
+    public PlamonResponse changeMainPlamon(String oauthUid, PlamonChangeMainRequest request) throws IllegalStateException {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
@@ -254,6 +253,6 @@ public class PlamonServiceImpl implements PlamonService {
         existingMainPlamon.resignMain();
         newMainPlamon.appointMain();
 
-        return new PlamonChangeMainResponse(true, newMainPlamon);
+        return new PlamonResponse(newMainPlamon);
     }
 }

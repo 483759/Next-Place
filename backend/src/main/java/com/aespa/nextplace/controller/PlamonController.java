@@ -2,7 +2,10 @@ package com.aespa.nextplace.controller;
 
 import com.aespa.nextplace.model.request.PlamonChangeMainRequest;
 import com.aespa.nextplace.model.request.PlamonLevelUpRequest;
-import com.aespa.nextplace.model.response.*;
+import com.aespa.nextplace.model.response.ErrorResponse;
+import com.aespa.nextplace.model.response.ListAllPlamonResponse;
+import com.aespa.nextplace.model.response.ListSellPlamonResponse;
+import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -132,7 +135,7 @@ public class PlamonController {
     public ResponseEntity<?> changeMyMainPlamon(@RequestBody @Parameter(description = "레벨 업에 필요한 정보", required = true) PlamonChangeMainRequest request) {
         String oauthUid = "G-12345";
         try {
-            PlamonChangeMainResponse response = plamonService.changeMainPlamon(oauthUid, request);
+            PlamonResponse response = plamonService.changeMainPlamon(oauthUid, request);
 
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {      // 유저 정보 없음

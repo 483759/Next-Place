@@ -7,7 +7,10 @@ import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.request.PlamonChangeMainRequest;
 import com.aespa.nextplace.model.request.PlamonLevelUpRequest;
-import com.aespa.nextplace.model.response.*;
+import com.aespa.nextplace.model.response.ListAllPlamonResponse;
+import com.aespa.nextplace.model.response.ListSellPlamonResponse;
+import com.aespa.nextplace.model.response.PladexResponse;
+import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonServiceImpl;
 import com.aespa.nextplace.util.PlamonRankUtil;
 import org.junit.jupiter.api.Disabled;
@@ -546,14 +549,12 @@ class PlamonServiceTest {
                 .willReturn(newMainPlamonBeforeChange);
 
         //when
-        PlamonChangeMainResponse response = plamonService.changeMainPlamon(user.getOauthUid(), request);
+        PlamonResponse response = plamonService.changeMainPlamon(user.getOauthUid(), request);
 
         //then
-        assertThat(response.isSuccess())
+        assertThat(response.isMain())
                 .isTrue();
-        assertThat(response.getPlamon().isMain())
-                .isTrue();
-        assertThat(response.getPlamon().getId())
+        assertThat(response.getId())
                 .isEqualTo(2L);
         verify(userRepo).findByOauthUid(user.getOauthUid());
         verify(plamonRepo).findPlamonByUserAndMainIsTrue(user);
