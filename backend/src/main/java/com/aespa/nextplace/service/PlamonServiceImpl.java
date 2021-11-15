@@ -214,4 +214,9 @@ public class PlamonServiceImpl implements PlamonService {
 
         return new PlamonResponse(plamon);
     }
+
+    @Override
+    public PlamonResponse getMyMainPlamon(String oauthUid) {
+        return null;
+    }
 }

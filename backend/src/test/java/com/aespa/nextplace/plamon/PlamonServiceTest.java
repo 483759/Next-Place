@@ -481,4 +481,55 @@ class PlamonServiceTest {
                 .isEqualTo("달고나가 부족합니다");
     }
 
+    @DisplayName("내 대표 캐릭터 조회")
+    @Test
+    public void 대표캐릭터() throws Exception {
+        //given
+        User user = createUser("G-12345", 1000, 3);
+        Plamon plamon = createPlamon(1L, 1, 0, true, PlamonRank.SR);
+
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndMainIsTrue(user))
+                .willReturn(plamon);
+
+        //when
+        PlamonResponse response = plamonService.getMyMainPlamon(user.getOauthUid());
+
+        //then
+        assertThat(response.isMain())
+                .isEqualTo(true);
+        verify(userRepo).findByOauthUid(user.getOauthUid());
+        verify(plamonRepo).findPlamonByUserAndMainIsTrue(user);
+    }
+
+    @DisplayName("대표 캐릭터가 없음")
+    @Test
+    public void 대표캐릭터_없음() throws Exception {
+        //given
+        User user = createUser("G-12345", 1000, 3);
+        Plamon plamon = createPlamon(1L, 1, 0, true, PlamonRank.SR);
+        Plamon defaultPlamon = createPlamon(16L, 1, 0, true, PlamonRank.SSR);
+
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndMainIsTrue(user))
+                .willReturn(null);
+        given(plamonRepo.findDefaultPlamon())
+                .willReturn(defaultPlamon);
+
+        //when
+        PlamonResponse response = plamonService.getMyMainPlamon(user.getOauthUid());
+
+        //then
+        assertThat(response.isMain())
+                .isEqualTo(true);
+        assertThat(response.getId())
+                .isEqualTo(16L);
+        verify(userRepo).findByOauthUid(user.getOauthUid());
+        verify(plamonRepo).findPlamonByUserAndMainIsTrue(user);
+        verify(plamonRepo).findDefaultPlamon();
+    }
+
+
 }
