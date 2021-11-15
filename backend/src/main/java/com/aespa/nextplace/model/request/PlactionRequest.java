@@ -2,8 +2,10 @@ package com.aespa.nextplace.model.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class PlactionRequest {
 	@Schema(example="1")
 	private long spotId;
