@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
+@Disabled
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class PlamonRepositoryTest {
     @Autowired private PlamonRepository plamonRepo;

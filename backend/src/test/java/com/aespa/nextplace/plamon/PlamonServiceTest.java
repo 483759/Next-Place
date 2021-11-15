@@ -1,9 +1,11 @@
 package com.aespa.nextplace.plamon;
 
 import com.aespa.nextplace.model.entity.*;
+import com.aespa.nextplace.model.repository.ExperienceRepository;
 import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
+import com.aespa.nextplace.model.request.PlamonLevelUpRequest;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.ListSellPlamonResponse;
 import com.aespa.nextplace.model.response.PladexResponse;
@@ -46,6 +48,9 @@ class PlamonServiceTest {
     @Mock
     PladexRepository pladexRepo;
 
+    @Mock
+    ExperienceRepository expRepo;
+
     private Pladex createPladexOfId(long id) {
         return Pladex.builder()
                 .pladex(new Pladex("test", "test info", PlamonRank.SR))
@@ -60,61 +65,25 @@ class PlamonServiceTest {
                 .build();
     }
 
-    private Plamon createPlamonOfId(long id) {
+    private Plamon createPlamon(long id, int level, int exp, boolean main, PlamonRank rank) {
         return Plamon.builder()
                 .id(id)
-                .level(1)
-                .exp(10)
+                .level(level)
+                .exp(exp)
                 .nickname("랩실노예")
-                .isMain(false)
-                .pladex(createPladexOfId(1L))
-                .user(createUserOfUid("G-12345"))
-                .build();
-    }
-
-    private Plamon createPlamonOfIdAndRank(long id, PlamonRank rank) {
-        return Plamon.builder()
-                .id(id)
-                .level(1)
-                .exp(10)
-                .nickname("랩실노예")
-                .isMain(false)
+                .isMain(main)
                 .pladex(createPladexOfIdAndRank(1L, rank))
-                .user(createUserOfUid("G-12345"))
+                .user(createUser("G-12345", 1000, 10))
                 .build();
     }
 
-    private Plamon createPlamonOfIdAndMain(long id, boolean isMain) {
-        return Plamon.builder()
-                .id(id)
-                .level(1)
-                .exp(10)
-                .nickname("랩실노예")
-                .isMain(isMain)
-                .pladex(createPladexOfId(1L))
-                .user(createUserOfUid("G-12345"))
-                .build();
-    }
-
-    private User createUserOfUid(String uid) {
-        return User.builder()
-                .id(1L)
-                .user(new User(uid, "냉정한 고추참치"))
-                .role(UserRole.USER)
-                .gold(1000)
-                .dalgona(0)
-                .avatar(null)
-                .build();
-    }
-
-
-    private User createUserOfUidAndGold(String uid, int gold) {
+    private User createUser(String uid, int gold, int dalgona) {
         return User.builder()
                 .id(1L)
                 .user(new User(uid, "냉정한 고추참치"))
                 .role(UserRole.USER)
                 .gold(gold)
-                .dalgona(0)
+                .dalgona(dalgona)
                 .avatar(null)
                 .build();
     }
@@ -123,11 +92,11 @@ class PlamonServiceTest {
     @Test
     public void 소유구분해서뽑기() throws Exception {
         //given
-        User user = createUserOfUid("G-12345");
+        User user = createUser("G-12345", 0, 0);
         List<Plamon> plamons = List.of(
-                createPlamonOfIdAndRank(1L, PlamonRank.N),
-                createPlamonOfIdAndRank(2L, PlamonRank.N),
-                createPlamonOfIdAndRank(3L, PlamonRank.N)
+                createPlamon(1L, 1, 0, false, PlamonRank.N),
+                createPlamon(2L, 1, 0, false, PlamonRank.N),
+                createPlamon(3L, 1, 0, false, PlamonRank.N)
         );
         List<Pladex> pladexes = List.of(
                 createPladexOfIdAndRank(2L, PlamonRank.SSR),
@@ -254,7 +223,7 @@ class PlamonServiceTest {
     @Test
     public void 플레몬뽑기() throws IllegalArgumentException {
         //given
-        User user = createUserOfUid("G-12345");
+        User user = createUser("G-12345", 1000, 0);
         List<Pladex> pladexList = List.of(
                 createPladexOfIdAndRank(1L, PlamonRank.N),
                 createPladexOfIdAndRank(2L, PlamonRank.N),
@@ -292,7 +261,7 @@ class PlamonServiceTest {
     @Test
     public void 플레몬뽑기골드부족() throws IllegalArgumentException {
         //given
-        User user = createUserOfUidAndGold("G-12345", 50);
+        User user = createUser("G-12345", 50, 0);
         given(userRepo.findByOauthUid("G-12345"))
                 .willReturn(user);
 
@@ -309,7 +278,7 @@ class PlamonServiceTest {
     @Test
     public void 캐릭터인증() throws Exception {
         //given
-        User user = createUserOfUid("B-12345");
+        User user = createUser("B-12345", 0, 0);
         given(userRepo.findByOauthUid("B-12345"))
                 .willReturn(null);
 
@@ -325,13 +294,13 @@ class PlamonServiceTest {
     @Test
     public void 캐릭터팔기() throws Exception {
         //given
-        User user = createUserOfUid("G-12345");
+        User user = createUser("G-12345", 1000, 0);
         int preDalgona = user.getDalgona();
         List<Plamon> afterPlamons = List.of(
-                createPlamonOfId(1L),
-                createPlamonOfId(3L)
+                createPlamon(1L, 1, 0, false, PlamonRank.SR),
+                createPlamon(3L, 1, 0, false, PlamonRank.SR)
         );
-        Plamon sellingPlamon = createPlamonOfIdAndRank(2L, PlamonRank.SR);
+        Plamon sellingPlamon = createPlamon(2L, 1, 0, false, PlamonRank.SR);
         given(userRepo.findByOauthUid("G-12345"))
                 .willReturn(user);
         given(plamonRepo.findPlamonByUserAndId(user, 2L))
@@ -370,7 +339,7 @@ class PlamonServiceTest {
     @Test
     public void 미소유캐릭터팔기() throws Exception {
         //given
-        User user = createUserOfUid("G-12345");
+        User user = createUser("G-12345", 1000, 0);
         given(userRepo.findByOauthUid("G-12345"))
                 .willReturn(user);
         given(plamonRepo.findPlamonByUserAndId(user, 2L))
@@ -390,8 +359,8 @@ class PlamonServiceTest {
     @Test
     public void 대표캐릭터팔기() throws Exception {
         //given
-        User user = createUserOfUid("G-12345");
-        Plamon sellingPlamon = createPlamonOfIdAndMain(2L, true);
+        User user = createUser("G-12345", 1000, 0);
+        Plamon sellingPlamon = createPlamon(2L, 1, 0, true, PlamonRank.N);
         given(userRepo.findByOauthUid("G-12345"))
                 .willReturn(user);
         given(plamonRepo.findPlamonByUserAndId(user, 2L))
@@ -406,6 +375,110 @@ class PlamonServiceTest {
         //then
         assertThat(exception.getMessage())
                 .isEqualTo("대표 캐릭터는 삭제할 수 없습니다");
+    }
+
+    @DisplayName("캐릭터를 1레벨 업한다")
+    @Test
+    public void 레벨업_1() throws Exception {
+        //given
+        User user = createUser("G-12345", 1000, 30);
+        Plamon plamon = createPlamon(1L, 1, 0, false, PlamonRank.SR);
+        Experience next = new Experience(2, 15, 34);
+        Experience cur = new Experience(1, 0, 15);
+
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndId(user, plamon.getId()))
+                .willReturn(plamon);
+        given(expRepo.findFirstByAccumulatedLessThanEqualOrderByLevelDesc(30))
+                .willReturn(next);
+        given(expRepo.findByLevel(1))
+                .willReturn(cur);
+
+        //when
+        PlamonResponse response = plamonService.levelUpWithDalgona(user.getOauthUid(), new PlamonLevelUpRequest(plamon.getId(), 1));
+
+        //then
+        assertThat(response.getLevel())
+                .isEqualTo(2);
+        assertThat(response.getExp())
+                .isEqualTo(15);
+    }
+
+    @DisplayName("캐릭터를 3레벨 업한다")
+    @Test
+    public void 레벨업_3() throws Exception {
+        //given
+        User user = createUser("G-12345", 1000, 30);
+        Plamon plamon = createPlamon(1L, 3, 1, false, PlamonRank.SR);
+        Experience next = new Experience(6, 333, 372);
+        Experience cur = new Experience(3, 49, 57);
+
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndId(user, plamon.getId()))
+                .willReturn(plamon);
+        given(expRepo.findFirstByAccumulatedLessThanEqualOrderByLevelDesc(380))
+                .willReturn(next);
+        given(expRepo.findByLevel(3))
+                .willReturn(cur);
+
+        //when
+        PlamonResponse response = plamonService.levelUpWithDalgona(user.getOauthUid(), new PlamonLevelUpRequest(plamon.getId(), 11));
+
+        //then
+        assertThat(response.getLevel())
+                .isEqualTo(6);
+        assertThat(response.getExp())
+                .isEqualTo(47);
+    }
+
+    @DisplayName("최대 레벨 이상의 레벨업을 시도한다")
+    @Test
+    public void 레벨업_MAX() throws Exception {
+        //given
+        User user = createUser("G-12345", 1000, 50000);
+        Plamon plamon = createPlamon(1L, 3, 1, false, PlamonRank.SR);
+        Experience next = new Experience(15, 9557, 1490);
+        Experience cur = new Experience(3, 49, 57);
+
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndId(user, plamon.getId()))
+                .willReturn(plamon);
+        given(expRepo.findFirstByAccumulatedLessThanEqualOrderByLevelDesc(30050))
+                .willReturn(next);
+        given(expRepo.findByLevel(3))
+                .willReturn(cur);
+
+        //when
+        PlamonResponse response = plamonService.levelUpWithDalgona(user.getOauthUid(), new PlamonLevelUpRequest(plamon.getId(), 1000));
+
+        //then
+        assertThat(response.getLevel())
+                .isEqualTo(15);
+        assertThat(response.getExp())
+                .isEqualTo(1490);
+    }
+
+    @DisplayName("사용하려는 달고나 개수가 보유 개수보다 부족하다")
+    @Test
+    public void 달고나부족() throws Exception {
+        //given
+        User user = createUser("G-12345", 1000, 3);
+
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+
+        //when
+
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class,
+                        ()-> plamonService.levelUpWithDalgona(user.getOauthUid(), new PlamonLevelUpRequest(1L, 5)));
+
+        //then
+        assertThat(exception.getMessage())
+                .isEqualTo("달고나가 부족합니다");
     }
 
 }
