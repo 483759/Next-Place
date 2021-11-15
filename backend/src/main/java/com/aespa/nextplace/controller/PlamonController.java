@@ -8,6 +8,8 @@ import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.service.PlamonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
@@ -103,6 +105,22 @@ public class PlamonController {
                     .body(new ErrorResponse(e.getMessage()));
         } catch (IllegalStateException e) {         // 달고나 부족 or 존재하지 않는 캐릭터
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(e.getMessage()));
+        }
+    }
+
+    @GetMapping("/main")
+    @Operation(summary = "내 대표 캐릭터 조회", description = "유저의 대표 캐릭터를 조회한다", responses = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation= PlamonResponse.class)))
+    })
+    public ResponseEntity<?> readMyMainPlamon() {
+        String oauthUid = "G-12345";
+        try {
+            PlamonResponse myMainPlamon = plamonService.getMyMainPlamon(oauthUid);
+
+            return ResponseEntity.ok(myMainPlamon);
+        } catch (IllegalArgumentException e) {      // 유저 정보 없음
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ErrorResponse(e.getMessage()));
         }
     }
