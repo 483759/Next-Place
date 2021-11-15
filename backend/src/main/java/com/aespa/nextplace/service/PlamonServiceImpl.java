@@ -29,7 +29,7 @@ public class PlamonServiceImpl implements PlamonService {
     private final PlamonRankUtil rankUtil;
     private final LevelUtil levelUtil;
 
-    public PlamonServiceImpl(PlamonRepository plamonRepo, PladexRepository pladexRepo, UserRepository userRepo, ExperienceRepository expRepo, LevelUtil levelUtil) {
+    public PlamonServiceImpl(PlamonRepository plamonRepo, PladexRepository pladexRepo, UserRepository userRepo, ExperienceRepository expRepo) {
         this.plamonRepo = plamonRepo;
         this.pladexRepo = pladexRepo;
         this.userRepo = userRepo;
