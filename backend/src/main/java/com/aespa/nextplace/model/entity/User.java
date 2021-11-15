@@ -53,7 +53,12 @@ public class User {
         this.dalgona = dalgona;
         this.avatar = avatar;
     }
-
+    
+    
+    public void earnGold(int gold) {
+    	this.gold += gold; 
+    }
+        
     public boolean hasEnoughGold(int gold) {
         return this.gold >= gold;
     }
