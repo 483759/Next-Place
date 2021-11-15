@@ -236,7 +236,23 @@ public class PlamonServiceImpl implements PlamonService {
     }
 
     @Override
-    public PlamonChangeMainResponse changeMainPlamon(String oauthUid, PlamonChangeMainRequest request) {
-        return null;
+    public PlamonChangeMainResponse changeMainPlamon(String oauthUid, PlamonChangeMainRequest request) throws IllegalStateException {
+        User user = findUserByOauthUid(oauthUid);
+
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+        }
+
+        Plamon existingMainPlamon = plamonRepo.findPlamonByUserAndMainIsTrue(user);
+        Plamon newMainPlamon = plamonRepo.findPlamonByUserAndId(user, request.getNewMainId());
+
+        if (newMainPlamon == null) {
+            throw new IllegalStateException("보유하지 않은 캐릭터입니다");
+        }
+
+        existingMainPlamon.resignMain();
+        newMainPlamon.appointMain();
+
+        return new PlamonChangeMainResponse(true, newMainPlamon);
     }
 }

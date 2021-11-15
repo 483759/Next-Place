@@ -544,8 +544,6 @@ class PlamonServiceTest {
                 .willReturn(existingMainPlamon);
         given(plamonRepo.findPlamonByUserAndId(user, newMainPlamonBeforeChange.getId()))
                 .willReturn(newMainPlamonBeforeChange);
-        given(plamonRepo.save(newMainPlamonAfterChange))
-                .willReturn(newMainPlamonAfterChange);
 
         //when
         PlamonChangeMainResponse response = plamonService.changeMainPlamon(user.getOauthUid(), request);
@@ -560,7 +558,6 @@ class PlamonServiceTest {
         verify(userRepo).findByOauthUid(user.getOauthUid());
         verify(plamonRepo).findPlamonByUserAndMainIsTrue(user);
         verify(plamonRepo).findPlamonByUserAndId(user, newMainPlamonBeforeChange.getId());
-        verify(plamonRepo).save(newMainPlamonAfterChange);
     }
 
     @DisplayName("보유하지 않은 캐릭터로 대표 변경 시도")
@@ -568,7 +565,6 @@ class PlamonServiceTest {
     public void 가지지않은_캐릭터_대표캐릭터_변경() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 3);
-        Plamon existingMainPlamon = createPlamon(1L, 1, 0, true, PlamonRank.SR);
         Plamon newMainPlamonBeforeChange = createPlamon(2L, 1, 0, false, PlamonRank.SSR);
         Plamon newMainPlamonAfterChange = createPlamon(2L, 1, 0, true, PlamonRank.SSR);
         PlamonChangeMainRequest request = new PlamonChangeMainRequest(newMainPlamonAfterChange.getId());
