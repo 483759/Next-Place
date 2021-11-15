@@ -26,8 +26,7 @@ public class UserController {
 	
 
 	@PostMapping("/login")
-	public ResponseEntity<UserResponse> login(@RequestBody String idToken, HttpServletResponse httpServletRes) {
-		
+	public ResponseEntity<UserResponse> login(@RequestBody String idToken, HttpServletResponse httpServletRes) {		
 		
 		UserResponse response = null;
 		String uid;
@@ -47,8 +46,7 @@ public class UserController {
 	
 
 	@PostMapping("/logout")
-	public ResponseEntity<?> logout(HttpServletResponse httpServletRes){
-		
+	public ResponseEntity<?> logout(HttpServletResponse httpServletRes){		
 		
 		userService.logout(httpServletRes);
 		
@@ -66,8 +64,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/guest")
-	public ResponseEntity<?> guest(HttpServletResponse httpServletRes){
-		
+	public ResponseEntity<?> guest(HttpServletResponse httpServletRes){		
 		
 		userService.guest(httpServletRes);
 		
