@@ -226,8 +226,8 @@ public class PlamonServiceImpl implements PlamonService {
         Plamon mainPlamon = plamonRepo.findPlamonByUserAndMainIsTrue(user);
 
         if(mainPlamon == null) {    // 대표 캐릭터가 없음
-            Plamon defaultMainPlamon = plamonRepo.findDefaultPlamon();
-            return new PlamonResponse(defaultMainPlamon);
+            Pladex defaultPlamon = pladexRepo.findDefaultPlamon();
+            return new PlamonResponse(new Plamon(defaultPlamon, user));
         }
 
         return new PlamonResponse(mainPlamon);

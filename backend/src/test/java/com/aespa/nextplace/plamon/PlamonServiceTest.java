@@ -509,26 +509,25 @@ class PlamonServiceTest {
         //given
         User user = createUser("G-12345", 1000, 3);
         Plamon plamon = createPlamon(1L, 1, 0, true, PlamonRank.SR);
-        Plamon defaultPlamon = createPlamon(16L, 1, 0, true, PlamonRank.SSR);
+        Pladex defaultPladex = createPladexOfId(16L);
+        Plamon defaultPlamon = new Plamon(defaultPladex, user);
 
         given(userRepo.findByOauthUid(user.getOauthUid()))
                 .willReturn(user);
         given(plamonRepo.findPlamonByUserAndMainIsTrue(user))
                 .willReturn(null);
-        given(plamonRepo.findDefaultPlamon())
-                .willReturn(defaultPlamon);
+        given(pladexRepo.findDefaultPlamon())
+                .willReturn(defaultPladex);
 
         //when
         PlamonResponse response = plamonService.getMyMainPlamon(user.getOauthUid());
 
         //then
-        assertThat(response.isMain())
-                .isEqualTo(true);
-        assertThat(response.getId())
+        assertThat(response.getPladex().getId())
                 .isEqualTo(16L);
         verify(userRepo).findByOauthUid(user.getOauthUid());
         verify(plamonRepo).findPlamonByUserAndMainIsTrue(user);
-        verify(plamonRepo).findDefaultPlamon();
+        verify(pladexRepo).findDefaultPlamon();
     }
 
 
