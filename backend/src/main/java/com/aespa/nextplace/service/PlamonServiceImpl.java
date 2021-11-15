@@ -236,6 +236,7 @@ public class PlamonServiceImpl implements PlamonService {
     }
 
     @Override
+    @Transactional
     public PlamonChangeMainResponse changeMainPlamon(String oauthUid, PlamonChangeMainRequest request) throws IllegalStateException {
         User user = findUserByOauthUid(oauthUid);
 
