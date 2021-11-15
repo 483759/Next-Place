@@ -5,9 +5,11 @@ import com.aespa.nextplace.model.repository.ExperienceRepository;
 import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
+import com.aespa.nextplace.model.request.PlamonChangeMainRequest;
 import com.aespa.nextplace.model.request.PlamonLevelUpRequest;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.ListSellPlamonResponse;
+import com.aespa.nextplace.model.response.PlamonChangeMainResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
 import com.aespa.nextplace.util.LevelUtil;
 import com.aespa.nextplace.util.PlamonRankUtil;
@@ -231,5 +233,10 @@ public class PlamonServiceImpl implements PlamonService {
         }
 
         return new PlamonResponse(mainPlamon);
+    }
+
+    @Override
+    public PlamonChangeMainResponse changeMainPlamon(String oauthUid, PlamonChangeMainRequest request) {
+        return null;
     }
 }
