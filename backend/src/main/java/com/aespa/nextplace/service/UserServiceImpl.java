@@ -89,4 +89,35 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+
+	@Override
+	public void logout(HttpServletResponse httpServletRes) {
+		cookieUtil.deleteCookie(httpServletRes, "Authorization");
+		
+	}
+
+
+	@Override
+	public UserResponse getMyInfo(String uid) {
+		
+		User user = userRepo.findByOauthUid(uid);
+		UserResponse response = new UserResponse(user);
+		
+		return response;
+	}
+
+
+	@Override
+	public void guest(HttpServletResponse httpServletRes) {	
+
+		String value = "12345";
+		Cookie accessTokenCookie = cookieUtil.createCookie("Authorization",value, CookieUtil.DEFAULT_TIME);
+		httpServletRes.addCookie(accessTokenCookie);
+		Collection<String> headers = httpServletRes.getHeaders(HttpHeaders.SET_COOKIE);
+		for (String header : headers) {
+			httpServletRes.setHeader(HttpHeaders.SET_COOKIE, header + "; " + "SameSite=None; Secure");
+		}		
+		
+	}
+
 }
