@@ -1,5 +1,6 @@
 package com.aespa.nextplace.model.entity;
 
+import com.aespa.nextplace.util.LevelUtil;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -69,8 +70,10 @@ public class Plamon {
     public void levelUp(int newExp, Experience next) {
         this.level = next.getLevel();
         this.exp = newExp - next.getAccumulated();
-        if (this.level == 15 && this.exp > 1490) {
-            this.exp = 1490;
+
+        LevelUtil levelUtil = LevelUtil.getInstance();
+        if (this.level == levelUtil.getMAXLEVEL() && this.exp > levelUtil.getMAXEXP()) {
+            this.exp = levelUtil.getMAXEXP();
         }
     }
 }
