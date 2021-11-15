@@ -16,9 +16,9 @@ public class NaverMapUtil {
 
 	
 	@Value("${naver.geocode.id}")
-	private String ID="dmelp1mj90";
+	private String ID;
 	@Value("${naver.geocode.key}")
-	private String KEY="9sYRHWx5nTRuXmhIwD6JlFEUbAcKkfW3233dVhHp";
+	private String KEY;
 
 	public String getAddress(String lat, String lng) {
 
