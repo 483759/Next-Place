@@ -60,9 +60,9 @@ public class UserController {
 		
 		String oauthUid = (String) httpServletReq.getAttribute("uid");
 		
-		userService.getMyInfo(oauthUid);
+		UserResponse response = userService.getMyInfo(oauthUid);
 		
-		return ResponseEntity.ok("");
+		return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/guest")
