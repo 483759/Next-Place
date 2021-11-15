@@ -29,7 +29,6 @@ public class PlamonRepositoryTest {
     @DisplayName("캐릭터를 판매했을 때 정상적으로 삭제되는지 검증")
     @Test
     @Transactional
-    @Disabled
     public void 데이터삭제() throws Exception {
         //given
         User user = userRepo.findByOauthUid("G-12345");
@@ -48,5 +47,19 @@ public class PlamonRepositoryTest {
         //then
         assertThat(plamonRepo.count())
                 .isEqualTo(size-1);
+    }
+
+    @DisplayName("대표 캐릭터 조회")
+    @Test
+    public void 대표_캐릭터() throws Exception {
+        //given
+        User user = userRepo.findByOauthUid("G-12345");
+
+        //when
+        Plamon plamon = plamonRepo.findPlamonByUserAndMainIsTrue(user);
+
+        //then
+        assertThat(plamon.isMain())
+                .isEqualTo(true);
     }
 }

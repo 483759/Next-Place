@@ -74,11 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // 회원가입, 메인페이지, 리소스
-        web.ignoring().antMatchers("/user/**", "/swagger/**", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**")
-        		.antMatchers("/user/guest")
-//				web.ignoring().antMatchers(HttpMethod.POST, "/user/**")
-                .antMatchers("/**")
-                .antMatchers("/")
+        web.ignoring().antMatchers("/user/login", "/user/logout", "/swagger/**", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**")
                 .antMatchers("/resources/**");
+              	.antMatchers("/user/guest")
     }
 }
