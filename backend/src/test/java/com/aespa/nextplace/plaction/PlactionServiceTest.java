@@ -28,6 +28,7 @@ import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
 import com.aespa.nextplace.model.response.ListPlactionResponse;
 import com.aespa.nextplace.model.response.PlactionResponse;
+import com.aespa.nextplace.model.response.PlactionUpdateResponse;
 import com.aespa.nextplace.service.PlactionServiceImpl;
 import com.aespa.nextplace.util.RedisUtil;
 
@@ -121,11 +122,12 @@ public class PlactionServiceTest {
 		.willReturn(null);
 				
 		//when		
-		PlactionResponse response = plactionService.savePlaction(spotId, oauthUid, 100);
+		PlactionUpdateResponse response = plactionService.savePlaction(spotId, oauthUid, 100);
 		
 		
 		//then		
-		assertEquals(plaction.getScore(),response.getScore());
+		assertEquals(100,response.getGold());
+		assertEquals(spot.getId(),response.getSpot().getId());
 		
 		
 	}
@@ -142,7 +144,7 @@ public class PlactionServiceTest {
 			.willReturn(null);
 				
 		//when
-		PlactionResponse response;
+		PlactionUpdateResponse response;
 		try {
 			response = plactionService.savePlaction(spotId, oauthUid, 100);
 		} catch(Exception e) {
@@ -174,7 +176,7 @@ public class PlactionServiceTest {
 
 		
 		//when		
-		PlactionResponse response = null;
+		PlactionUpdateResponse response = null;
 		
 		try {
 		response = plactionService.savePlaction(spotId, oauthUid, 100);
@@ -214,7 +216,7 @@ public class PlactionServiceTest {
 		
 		
 		//when		
-		PlactionResponse response = null;
+		PlactionUpdateResponse response = null;
 		try{
 			response = plactionService.savePlaction(spotId, oauthUid, score);
 		}catch(Exception e) {
@@ -223,7 +225,7 @@ public class PlactionServiceTest {
 		
 		
 		//then		
-		assertEquals(score,response.getScore());
+		assertEquals(100,response.getGold());
 		
 		
 	}
@@ -250,7 +252,7 @@ public class PlactionServiceTest {
 		
 		
 		//when		
-		PlactionResponse response = null;
+		PlactionUpdateResponse response = null;
 		try{
 			response = plactionService.savePlaction(spotId, oauthUid, score);
 		}catch(Exception e) {
