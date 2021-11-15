@@ -15,6 +15,6 @@ public class LoggingAspect {
 
     @Before(value = "within(com.aespa.nextplace.service.*)")
     public void logging(JoinPoint joinPoint) {
-        log.info("실행 메서드 : {} 전달 파라미터 : {}", joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+        log.info("실행 메서드 : {}, 전달 파라미터 : {}, 클래스: {}", joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()), joinPoint.getSignature().getDeclaringTypeName());
     }
 }
