@@ -76,5 +76,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 회원가입, 메인페이지, 리소스
         web.ignoring().antMatchers("/user/login", "/user/logout", "/swagger/**", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**")
                 .antMatchers("/resources/**");
+              	.antMatchers("/user/guest")
     }
 }

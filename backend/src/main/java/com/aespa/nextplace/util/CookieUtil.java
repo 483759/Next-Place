@@ -14,7 +14,7 @@ public class CookieUtil {
 	public final static long USER_NULL = -1;
 	public final static int DEFAULT_TIME = 60* 24 * 5;
     public Cookie createCookie(String cookieName, String value, int time){
-        Cookie token = new Cookie(cookieName,"Bearer "+value);
+        Cookie token = new Cookie(cookieName,"Bearer"+value);
         token.setHttpOnly(true);
         token.setMaxAge(time);
         token.setPath("/");
@@ -31,7 +31,7 @@ public class CookieUtil {
         return null;
     }
         
-    public void deleteCookie(HttpServletRequest req, HttpServletResponse res, String cookieName) {
+    public void deleteCookie(HttpServletResponse res, String cookieName) {
     	Cookie cookie = new Cookie(cookieName,null);
     	cookie.setMaxAge(0);
     	cookie.setPath("/");

@@ -10,4 +10,7 @@ public interface UserService {
 	boolean existsByOauthId(String uid);
 	void signUp(String uid);
 	UserResponse login(String uid, String idToken,HttpServletResponse httpServletRes);
+	void logout(HttpServletResponse httpServletRes);
+	UserResponse getMyInfo(String uid);
+	void guest(HttpServletResponse httpServletRes);
 }
