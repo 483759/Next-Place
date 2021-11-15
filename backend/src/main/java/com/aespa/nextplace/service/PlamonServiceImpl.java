@@ -5,6 +5,7 @@ import com.aespa.nextplace.model.repository.ExperienceRepository;
 import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
+import com.aespa.nextplace.model.request.PlamonChangeMainRequest;
 import com.aespa.nextplace.model.request.PlamonLevelUpRequest;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.ListSellPlamonResponse;
@@ -231,5 +232,27 @@ public class PlamonServiceImpl implements PlamonService {
         }
 
         return new PlamonResponse(mainPlamon);
+    }
+
+    @Override
+    @Transactional
+    public PlamonResponse changeMainPlamon(String oauthUid, PlamonChangeMainRequest request) throws IllegalStateException {
+        User user = findUserByOauthUid(oauthUid);
+
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+        }
+
+        Plamon existingMainPlamon = plamonRepo.findPlamonByUserAndMainIsTrue(user);
+        Plamon newMainPlamon = plamonRepo.findPlamonByUserAndId(user, request.getNewMainId());
+
+        if (newMainPlamon == null) {
+            throw new IllegalStateException("보유하지 않은 캐릭터입니다");
+        }
+
+        existingMainPlamon.resignMain();
+        newMainPlamon.appointMain();
+
+        return new PlamonResponse(newMainPlamon);
     }
 }

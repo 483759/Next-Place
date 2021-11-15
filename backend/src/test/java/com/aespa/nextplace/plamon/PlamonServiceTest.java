@@ -5,6 +5,7 @@ import com.aespa.nextplace.model.repository.ExperienceRepository;
 import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
+import com.aespa.nextplace.model.request.PlamonChangeMainRequest;
 import com.aespa.nextplace.model.request.PlamonLevelUpRequest;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.ListSellPlamonResponse;
@@ -266,7 +267,7 @@ class PlamonServiceTest {
                 .willReturn(user);
 
         //when
-        IllegalStateException exception = assertThrows(IllegalStateException.class, ()-> plamonService.buyNewPlamonWithGold(user.getOauthUid()));
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> plamonService.buyNewPlamonWithGold(user.getOauthUid()));
 
 
         //then
@@ -283,7 +284,7 @@ class PlamonServiceTest {
                 .willReturn(null);
 
         //when
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()-> plamonService.buyNewPlamonWithGold(user.getOauthUid()));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> plamonService.buyNewPlamonWithGold(user.getOauthUid()));
 
         //then
         assertThat(exception.getMessage())
@@ -348,7 +349,7 @@ class PlamonServiceTest {
         //when
         IllegalStateException exception =
                 assertThrows(IllegalStateException.class,
-                        ()-> plamonService.sell(user.getOauthUid(), 2L));
+                        () -> plamonService.sell(user.getOauthUid(), 2L));
 
         //then
         assertThat(exception.getMessage())
@@ -369,7 +370,7 @@ class PlamonServiceTest {
         //when
         IllegalStateException exception =
                 assertThrows(IllegalStateException.class,
-                        ()-> plamonService.sell(user.getOauthUid(), sellingPlamon.getId()));
+                        () -> plamonService.sell(user.getOauthUid(), sellingPlamon.getId()));
 
 
         //then
@@ -474,7 +475,7 @@ class PlamonServiceTest {
 
         IllegalStateException exception =
                 assertThrows(IllegalStateException.class,
-                        ()-> plamonService.levelUpWithDalgona(user.getOauthUid(), new PlamonLevelUpRequest(1L, 5)));
+                        () -> plamonService.levelUpWithDalgona(user.getOauthUid(), new PlamonLevelUpRequest(1L, 5)));
 
         //then
         assertThat(exception.getMessage())
@@ -530,5 +531,59 @@ class PlamonServiceTest {
         verify(pladexRepo).findDefaultPlamon();
     }
 
+    @DisplayName("대표 캐릭터 변경")
+    @Test
+    public void 대표캐릭터_변경() throws Exception {
+        //given
+        User user = createUser("G-12345", 1000, 3);
+        Plamon existingMainPlamon = createPlamon(1L, 1, 0, true, PlamonRank.SR);
+        Plamon newMainPlamonBeforeChange = createPlamon(2L, 1, 0, false, PlamonRank.SSR);
+        Plamon newMainPlamonAfterChange = createPlamon(2L, 1, 0, true, PlamonRank.SSR);
+        PlamonChangeMainRequest request = new PlamonChangeMainRequest(newMainPlamonAfterChange.getId());
 
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndMainIsTrue(user))
+                .willReturn(existingMainPlamon);
+        given(plamonRepo.findPlamonByUserAndId(user, newMainPlamonBeforeChange.getId()))
+                .willReturn(newMainPlamonBeforeChange);
+
+        //when
+        PlamonResponse response = plamonService.changeMainPlamon(user.getOauthUid(), request);
+
+        //then
+        assertThat(response.isMain())
+                .isTrue();
+        assertThat(response.getId())
+                .isEqualTo(2L);
+        verify(userRepo).findByOauthUid(user.getOauthUid());
+        verify(plamonRepo).findPlamonByUserAndMainIsTrue(user);
+        verify(plamonRepo).findPlamonByUserAndId(user, newMainPlamonBeforeChange.getId());
+    }
+
+    @DisplayName("보유하지 않은 캐릭터로 대표 변경 시도")
+    @Test
+    public void 가지지않은_캐릭터_대표캐릭터_변경() throws Exception {
+        //given
+        User user = createUser("G-12345", 1000, 3);
+        Plamon newMainPlamonBeforeChange = createPlamon(2L, 1, 0, false, PlamonRank.SSR);
+        Plamon newMainPlamonAfterChange = createPlamon(2L, 1, 0, true, PlamonRank.SSR);
+        PlamonChangeMainRequest request = new PlamonChangeMainRequest(newMainPlamonAfterChange.getId());
+
+        given(userRepo.findByOauthUid(user.getOauthUid()))
+                .willReturn(user);
+        given(plamonRepo.findPlamonByUserAndId(user, newMainPlamonBeforeChange.getId()))
+                .willReturn(null);
+
+        //when
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class,
+                        () -> plamonService.changeMainPlamon(user.getOauthUid(), request));
+
+        //then
+        assertThat(exception.getMessage())
+                .isEqualTo("보유하지 않은 캐릭터입니다");
+        verify(userRepo).findByOauthUid(user.getOauthUid());
+        verify(plamonRepo).findPlamonByUserAndId(user, newMainPlamonBeforeChange.getId());
+    }
 }

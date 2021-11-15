@@ -1,5 +1,6 @@
 package com.aespa.nextplace.controller;
 
+import com.aespa.nextplace.model.request.PlamonChangeMainRequest;
 import com.aespa.nextplace.model.request.PlamonLevelUpRequest;
 import com.aespa.nextplace.model.response.ErrorResponse;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
@@ -121,6 +122,27 @@ public class PlamonController {
             return ResponseEntity.ok(myMainPlamon);
         } catch (IllegalArgumentException e) {      // 유저 정보 없음
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse(e.getMessage()));
+        }
+    }
+
+    @PatchMapping("/main")
+    @Operation(summary = "내 대표 캐릭터 변경", description = "유저의 대표 캐릭터를 변경한다", responses = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation= PlamonResponse.class))),
+            @ApiResponse(responseCode = "400", description = "보유하지 않은 캐릭터", content = @Content(schema = @Schema(implementation= ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = "유저 정보 없음", content = @Content(schema = @Schema(implementation= ErrorResponse.class)))
+    })
+    public ResponseEntity<?> changeMyMainPlamon(@RequestBody @Parameter(description = "레벨 업에 필요한 정보", required = true) PlamonChangeMainRequest request) {
+        String oauthUid = "G-12345";
+        try {
+            PlamonResponse response = plamonService.changeMainPlamon(oauthUid, request);
+
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {      // 유저 정보 없음
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse(e.getMessage()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse(e.getMessage()));
         }
     }
