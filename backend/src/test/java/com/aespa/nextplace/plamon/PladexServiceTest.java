@@ -82,7 +82,7 @@ class PladexServiceTest {
         //then
         verify(pladexRepo).findByName(pladex.getName());
         assertThat(newPladex)
-                .isEqualTo(null);
+                .isNull();
     }
 
     @DisplayName("모든 캐릭터(고유 플레몬)의 리스트를 반환한다")

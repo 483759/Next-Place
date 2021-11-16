@@ -60,6 +60,6 @@ class PlamonRepositoryTest {
 
         //then
         assertThat(plamon.isMain())
-                .isEqualTo(true);
+                .isTrue();
     }
 }
