@@ -15,7 +15,10 @@ import com.aespa.nextplace.util.PlamonRankUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Random;
 
 @Service
 @Transactional(readOnly = true)
@@ -88,7 +91,7 @@ public class PlamonServiceImpl implements PlamonService {
      */
     public List<Pladex> getRandomPlamonListByRank() {
         int size = rankUtil.getNumberOfRanks();
-        Map<PlamonRank, Boolean> checkList = new HashMap<>();
+        EnumMap<PlamonRank, Boolean> checkList = new EnumMap<>(PlamonRank.class);
         List<Pladex> pladexList = new ArrayList<>();
 
         while (size != checkList.size()) {
