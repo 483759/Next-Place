@@ -45,7 +45,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/spot?lat=" + lat + "&lng=" + lng;
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -72,7 +71,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/spot?" + "lat=" + lat + "&lng=" + lng;
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -101,7 +99,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/pladex";
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -129,7 +126,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/plamon";
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -182,7 +178,6 @@ public class DataManager : MonoBehaviour {
             List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
 
             using (UnityWebRequest www = UnityWebRequest.Post(url, formData)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -210,7 +205,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/plaction";
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -238,7 +232,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/plaction/count";
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -284,7 +277,6 @@ public class DataManager : MonoBehaviour {
             string url = URLManager.PUBLIC_URL;
             url = url + "/user/me";
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
                 if (www.error == null) {
                     string text = www.downloadHandler.text;

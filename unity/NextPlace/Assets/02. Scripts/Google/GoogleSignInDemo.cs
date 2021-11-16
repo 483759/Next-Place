@@ -137,13 +137,13 @@ public class GoogleSignInDemo : MonoBehaviour
 
         IEnumerator sendIdToken(string idToken)
         {
-            string url = URLManager.TEST_URL;
+            string url = URLManager.PUBLIC_URL;
+            url = url + "/user/login";
             WWWForm form = new WWWForm();
             form.AddField("IdToken",idToken);
             
             using (UnityWebRequest www = UnityWebRequest.Post(url,form))
             {   
-                
                 yield return www.SendWebRequest();
                 
                 if (www.error == null)
