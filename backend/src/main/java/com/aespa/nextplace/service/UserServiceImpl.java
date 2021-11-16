@@ -82,9 +82,6 @@ public class UserServiceImpl implements UserService {
 		User user = userRepo.findByOauthUid(uid);
 		response = new UserResponse(user);
 		
-		
-		
-		
 		return response;
 
 	}
@@ -92,8 +89,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void logout(HttpServletResponse httpServletRes) {
-		cookieUtil.deleteCookie(httpServletRes, "Authorization");
-		
+		cookieUtil.deleteCookie(httpServletRes, "Authorization");		
 	}
 
 

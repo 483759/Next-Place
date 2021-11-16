@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.aespa.nextplace.service.MyUserDetailsService;
+import com.aespa.nextplace.util.CookieUtil;
 import com.aespa.nextplace.util.FirebaseTokenFilter;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MyUserDetailsService userDetailsService;
     private final FirebaseAuth firebaseAuth;
-
+    private final CookieUtil cookieUtil;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -65,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
-                .addFilterBefore(new FirebaseTokenFilter(userDetailsService, firebaseAuth),
+                .addFilterBefore(new FirebaseTokenFilter(userDetailsService, firebaseAuth, cookieUtil),
                         UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
