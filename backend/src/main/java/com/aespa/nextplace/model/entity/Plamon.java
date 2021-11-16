@@ -67,9 +67,8 @@ public class Plamon {
         this.level = next.getLevel();
         this.exp = newExp - next.getAccumulated();
 
-        LevelUtil levelUtil = LevelUtil.getInstance();
-        if (this.level == levelUtil.getMAXLEVEL() && this.exp > levelUtil.getMAXEXP()) {
-            this.exp = levelUtil.getMAXEXP();
+        if (this.level == LevelUtil.MAX_LEVEL && this.exp > LevelUtil.MAX_EXP) {
+            this.exp = LevelUtil.MAX_EXP;
         }
     }
 
