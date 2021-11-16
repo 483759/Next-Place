@@ -15,11 +15,12 @@ public interface PladexRepository extends JpaRepository<Pladex, Long> {
 
     Pladex findByName(String name);
 
+    @Query("select d from Pladex d where d.name <> '기본캐릭터'")
     List<Pladex> findAllByRank(PlamonRank rank);
 
     @Query("select distinct d from Pladex d left outer join Plamon m on m.pladex=d where m.user <> :user or m.pladex is null")
     List<Pladex> findAllByUserWithNotMine(@Param("user") User user);
 
-    @Query("select d from Pladex d where d.id = 16L")
+    @Query("select d from Pladex d where d.name = '기본캐릭터'")
     Pladex findDefaultPlamon();
 }
