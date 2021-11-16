@@ -91,7 +91,7 @@ class PlamonServiceTest {
 
     @DisplayName("내가 가지지 않은 캐릭터 확인")
     @Test
-    public void 소유구분해서뽑기() throws Exception {
+    void 소유구분해서뽑기() throws Exception {
         //given
         User user = createUser("G-12345", 0, 0);
         List<Plamon> plamons = List.of(
@@ -140,7 +140,7 @@ class PlamonServiceTest {
 
     @DisplayName("N 등급을 랜덤으로 뽑을 수 있는지 검증한다")
     @Test
-    public void N등급뽑기() throws Exception {
+    void N등급뽑기() throws Exception {
         //given
         List<Pladex> normalPlamonList = List.of(
                 createPladexOfIdAndRank(1L, PlamonRank.N),
@@ -168,7 +168,7 @@ class PlamonServiceTest {
 
     @DisplayName("플레몬 리스트 중 랜덤으로 뽑는다")
     @Test
-    public void 여러개중랜덤뽑기() throws Exception {
+    void 여러개중랜덤뽑기() throws Exception {
         //given
         List<Pladex> normalPlamonList = List.of(
                 createPladexOfIdAndRank(1L, PlamonRank.N),
@@ -188,7 +188,7 @@ class PlamonServiceTest {
 
     @DisplayName("아무것도 없는데 뽑을 시 null")
     @Test
-    public void 없는데랜덤뽑기() throws Exception {
+    void 없는데랜덤뽑기() throws Exception {
         //given
         List<Pladex> pladexList = new ArrayList<>();
 
@@ -203,7 +203,7 @@ class PlamonServiceTest {
     @DisplayName("각각의 등급을 랜덤으로 뽑을 수 있는지 검증한다")
     @Test
     @Disabled
-    public void 각각의등급뽑기() throws Exception {
+    void 각각의등급뽑기() throws Exception {
         //given
         int count;
 
@@ -222,7 +222,7 @@ class PlamonServiceTest {
 
     @DisplayName("골드를 사용해서 새로운 플레몬을 획득한다")
     @Test
-    public void 플레몬뽑기() throws IllegalArgumentException {
+    void 플레몬뽑기() throws IllegalArgumentException {
         //given
         User user = createUser("G-12345", 1000, 0);
         List<Pladex> pladexList = List.of(
@@ -260,7 +260,7 @@ class PlamonServiceTest {
 
     @DisplayName("골드가 부족하면 캐릭터 구매 불가능")
     @Test
-    public void 플레몬뽑기골드부족() throws IllegalArgumentException {
+    void 플레몬뽑기골드부족() throws IllegalArgumentException {
         //given
         User user = createUser("G-12345", 50, 0);
         given(userRepo.findByOauthUid("G-12345"))
@@ -277,7 +277,7 @@ class PlamonServiceTest {
 
     @DisplayName("존재하지 않는 유저는 뽑기 불가")
     @Test
-    public void 캐릭터인증() throws Exception {
+    void 캐릭터인증() throws Exception {
         //given
         User user = createUser("B-12345", 0, 0);
         given(userRepo.findByOauthUid("B-12345"))
@@ -293,7 +293,7 @@ class PlamonServiceTest {
 
     @DisplayName("내가 가지고 있는 캐릭터를 판매한다")
     @Test
-    public void 캐릭터팔기() throws Exception {
+    void 캐릭터팔기() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 0);
         int preDalgona = user.getDalgona();
@@ -338,7 +338,7 @@ class PlamonServiceTest {
 
     @DisplayName("소유중이 아닌 캐릭터는 판매할 수 없다")
     @Test
-    public void 미소유캐릭터팔기() throws Exception {
+    void 미소유캐릭터팔기() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 0);
         given(userRepo.findByOauthUid("G-12345"))
@@ -358,7 +358,7 @@ class PlamonServiceTest {
 
     @DisplayName("대표 캐릭터는 판매할 수 없다")
     @Test
-    public void 대표캐릭터팔기() throws Exception {
+    void 대표캐릭터팔기() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 0);
         Plamon sellingPlamon = createPlamon(2L, 1, 0, true, PlamonRank.N);
@@ -380,7 +380,7 @@ class PlamonServiceTest {
 
     @DisplayName("캐릭터를 1레벨 업한다")
     @Test
-    public void 레벨업_1() throws Exception {
+    void 레벨업_1() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 30);
         Plamon plamon = createPlamon(1L, 1, 0, false, PlamonRank.SR);
@@ -408,7 +408,7 @@ class PlamonServiceTest {
 
     @DisplayName("캐릭터를 3레벨 업한다")
     @Test
-    public void 레벨업_3() throws Exception {
+    void 레벨업_3() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 30);
         Plamon plamon = createPlamon(1L, 3, 1, false, PlamonRank.SR);
@@ -436,7 +436,7 @@ class PlamonServiceTest {
 
     @DisplayName("최대 레벨 이상의 레벨업을 시도한다")
     @Test
-    public void 레벨업_MAX() throws Exception {
+    void 레벨업_MAX() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 50000);
         Plamon plamon = createPlamon(1L, 3, 1, false, PlamonRank.SR);
@@ -464,7 +464,7 @@ class PlamonServiceTest {
 
     @DisplayName("사용하려는 달고나 개수가 보유 개수보다 부족하다")
     @Test
-    public void 달고나부족() throws Exception {
+    void 달고나부족() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 3);
 
@@ -484,7 +484,7 @@ class PlamonServiceTest {
 
     @DisplayName("내 대표 캐릭터 조회")
     @Test
-    public void 대표캐릭터() throws Exception {
+    void 대표캐릭터() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 3);
         Plamon plamon = createPlamon(1L, 1, 0, true, PlamonRank.SR);
@@ -506,7 +506,7 @@ class PlamonServiceTest {
 
     @DisplayName("대표 캐릭터가 없음")
     @Test
-    public void 대표캐릭터_없음() throws Exception {
+    void 대표캐릭터_없음() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 3);
         Plamon plamon = createPlamon(1L, 1, 0, true, PlamonRank.SR);
@@ -533,7 +533,7 @@ class PlamonServiceTest {
 
     @DisplayName("대표 캐릭터 변경")
     @Test
-    public void 대표캐릭터_변경() throws Exception {
+    void 대표캐릭터_변경() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 3);
         Plamon existingMainPlamon = createPlamon(1L, 1, 0, true, PlamonRank.SR);
@@ -563,7 +563,7 @@ class PlamonServiceTest {
 
     @DisplayName("보유하지 않은 캐릭터로 대표 변경 시도")
     @Test
-    public void 가지지않은_캐릭터_대표캐릭터_변경() throws Exception {
+    void 가지지않은_캐릭터_대표캐릭터_변경() throws Exception {
         //given
         User user = createUser("G-12345", 1000, 3);
         Plamon newMainPlamonBeforeChange = createPlamon(2L, 1, 0, false, PlamonRank.SSR);

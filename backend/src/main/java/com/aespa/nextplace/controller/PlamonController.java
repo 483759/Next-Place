@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +50,7 @@ public class PlamonController {
             @ApiResponse(responseCode = "401", description = "유저 정보 없음", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "501", description = "서버에서 캐릭터를 얻을 수 없음", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<?> buyNewPlamonByGold(HttpServletRequest httpServletReq) throws ParseException {
+    public ResponseEntity<?> buyNewPlamonByGold(HttpServletRequest httpServletReq) {
         PlamonResponse response;
         String oauthUid = (String) httpServletReq.getAttribute("uid");
 
@@ -77,7 +76,7 @@ public class PlamonController {
             @ApiResponse(responseCode = "400", description = "구매할 골드 부족", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "401", description = "유저 정보 없음", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<?> sellMyPlamon(@PathVariable Long plamonId, HttpServletRequest httpServletReq) throws ParseException {
+    public ResponseEntity<?> sellMyPlamon(@PathVariable Long plamonId, HttpServletRequest httpServletReq) {
         String oauthUid = (String) httpServletReq.getAttribute("uid");
 
         try {
@@ -101,7 +100,7 @@ public class PlamonController {
     })
     public ResponseEntity<?> levelUpPlamonByDalgona(
             @RequestBody @Parameter(description = "레벨 업에 필요한 정보", required = true) PlamonLevelUpRequest levelUpRequest,
-            HttpServletRequest httpServletReq) throws ParseException {
+            HttpServletRequest httpServletReq) {
 
         String oauthUid = (String) httpServletReq.getAttribute("uid");
 

@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "org.sonarqube" version "3.3"
 }
 
 group = 'com.aespa'
@@ -16,6 +17,20 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+
+apply plugin: 'org.sonarqube'
+
+def sonarqubeProperties = new Properties()
+file('src/main/resources/application-sonarqube.properties')
+		.withInputStream {sonarqubeProperties.load(it)}
+
+sonarqube {
+	properties {
+		property 'sonar.projectKey', 'Next-Place'
+		property 'sonar.host.url', sonarqubeProperties.getProperty("host.url")
+		property 'sonar.login', sonarqubeProperties.getProperty("key")
+	}
 }
 
 dependencies {
@@ -50,3 +65,4 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+

@@ -17,15 +17,6 @@ public class SwaggerConfiguration {
     public static final String AUTHORIZATION_SCOPE_GLOBAL = "global";
     public static final String AUTHORIZATION_SCOPE_GLOBAL_DESC = "accessEverything";
 
-    private Info info() {
-        return new Info().title("Next Place")
-                .description("<h2>Next Place API Reference Document for AESPA</h2>")
-                .termsOfService("https://github.com/483759/Next-Place")
-                .contact(new Contact().name("김경원, 박근일, 윤이진, 이상현, 이종은").email("483759@naver.com"))
-                .license(new License().name("Apache License Version 2.0").url("http://www.apache.org/licenses/LICENSE-2.0"))
-                .version("1.0");
-    }
-
     @Bean
     public OpenAPI openAPI(@Value("${springdoc.version}") String appVersion) {
         Info info = new Info().title("Next Place")
@@ -36,7 +27,7 @@ public class SwaggerConfiguration {
                 .version("1.0");
 
         SecurityScheme basicAuth = new SecurityScheme()
-                .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
+                .type(SecurityScheme.Type.HTTP).scheme(SECURITY_SCHEMA_NAME).bearerFormat("JWT")
                 .in(SecurityScheme.In.HEADER).name("Authorization");
         SecurityRequirement securityItem = new SecurityRequirement().addList("bearerAuth");
 
