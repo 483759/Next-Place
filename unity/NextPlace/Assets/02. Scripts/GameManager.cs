@@ -1,25 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
+using System.IO;
 using UnityEngine;
-
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
     private static GameManager _instance = null;
-    public static GameManager instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
+    public static GameManager instance {
+        get {
+            if (_instance == null) {
                 var obj = GameObject.FindObjectOfType<GameManager>();
-                if (obj != null)
-                {
+                if (obj != null) {
                     _instance = obj;
-                }
-                else
-                {
+                } else {
                     _instance = new GameObject("GameManager").AddComponent<GameManager>();
                 }
             }
@@ -66,27 +63,17 @@ public class GameManager : MonoBehaviour {
 
     public Camera[] cameraList;
     public GameState gameState;
+    public GameObject spotUI;
+    public long selectedSpotId { get; set; }
 
-
-
-    // Start is called before the first frame update
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
+    public string myUid = null;
 
     public void ChangeGameState(int state) {
         if (!Enum.IsDefined(typeof(GameState), state)) return;
 
-        foreach(DisplayObjectItem item in displayObject) {
-            if (item.state.Equals(gameState))
-            {
-                foreach (GameObject obj in item.objects)
-                {
+        foreach (DisplayObjectItem item in displayObject) {
+            if (item.state.Equals(gameState)) {
+                foreach (GameObject obj in item.objects) {
                     obj.SetActive(false);
                 }
             }
@@ -97,8 +84,42 @@ public class GameManager : MonoBehaviour {
             if (item.state.Equals(gameState)) {
                 foreach (GameObject obj in item.objects) {
                     obj.SetActive(true);
-                }                
+                }
             }
         }
+    }
+
+    public void ChangeMyUid(string uid) {
+        if (uid == "null") {
+            myUid = "G-12345";
+            DataManager.instance.GetAllCharacters();
+            //DataManager.instance.GetAllPlactions();
+            //DataManager.instance.GetAllPlactionsCounts();
+            //Debug.Log(myUid);
+        } else {
+            myUid = uid;
+        }
+
+    }
+
+    public void PostCharacterGatcha() {
+        DataManager.instance.PostCharacterGatcha();
+    }
+
+    public void OpenSpotUI(long spotId) {
+        SpotInfo info = DataManager.instance.GetSpotInfoById(spotId);
+        if (info == null) return;
+
+        selectedSpotId = spotId;
+        spotUI.SetActive(true);
+        spotUI.GetComponent<SpotUI>().Initialize(info);
+    }
+
+    public void CloseSpotUI() {
+        spotUI.SetActive(false);
+    }
+
+    public void GetSpot() {
+        DataManager.instance.GetSpots(0.0f, 0.0f);
     }
 }

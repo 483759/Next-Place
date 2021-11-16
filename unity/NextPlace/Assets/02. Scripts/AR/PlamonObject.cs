@@ -32,4 +32,8 @@ public class PlamonObject : MonoBehaviour
             image.color = new Color(_color.r, _color.g, _color.b, _count / 100f);
         }
     }
+
+    public void Initialize(Sprite sprite) {
+        image.sprite = sprite;
+    }
 }

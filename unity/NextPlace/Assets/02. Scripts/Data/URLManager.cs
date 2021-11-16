@@ -9,4 +9,11 @@ public class URLManager
             return "http://218.158.175.59:8080/api/user/login";
         }
     }
+    public static string PUBLIC_URL
+    {
+        get
+        {
+            return "https://k5b106.p.ssafy.io/api";
+        }
+    }
 }

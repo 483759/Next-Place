@@ -148,6 +148,7 @@ public class GoogleSignInDemo : MonoBehaviour
                 
                 if (www.error == null)
                 {
+                    GameManager.instance.ChangeGameState(1);
                     Debug.Log(www.downloadHandler.text);
                     AddToInformation("Sign In REAL Successful.");
                 }
