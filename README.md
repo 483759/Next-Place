@@ -3,8 +3,8 @@
 "https://user-images.githubusercontent.com/30489264/139382331-43fb3607-6dd8-4fad-aaa8-e96da79ee128.png" width="200">
 </div>
 
-<h2 align="center">Next Place</h2>
-<h3 align="center">🤔 다음엔 어디로 갈까 ❓</h3>
+<h3 align="center">Next Place</h3>
+<h4 align="center">🤔 다음엔 어디로 갈까 ❓</h4>
 <br />
 
 <p align="center">
