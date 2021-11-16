@@ -29,6 +29,7 @@ public class PlamonServiceImpl implements PlamonService {
     private final ExperienceRepository expRepo;
     private final PlamonRankUtil rankUtil;
     private final LevelUtil levelUtil;
+    private static final String UNAUTHORIZED_USER_MESSAGE = "존재하지 않는 유저입니다";
 
     public PlamonServiceImpl(PlamonRepository plamonRepo, PladexRepository pladexRepo, UserRepository userRepo, ExperienceRepository expRepo) {
         this.plamonRepo = plamonRepo;
@@ -48,7 +49,7 @@ public class PlamonServiceImpl implements PlamonService {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
-            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+            throw new IllegalArgumentException(UNAUTHORIZED_USER_MESSAGE);
         }
 
         List<Plamon> plamonList = plamonRepo.findAllByUser(user);
@@ -123,7 +124,7 @@ public class PlamonServiceImpl implements PlamonService {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
-            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+            throw new IllegalArgumentException(UNAUTHORIZED_USER_MESSAGE);
         }
 
         if (!user.hasEnoughGold(rankUtil.getGatchaPrice())) {
@@ -153,7 +154,7 @@ public class PlamonServiceImpl implements PlamonService {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
-            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+            throw new IllegalArgumentException(UNAUTHORIZED_USER_MESSAGE);
         }
 
         Plamon plamon = plamonRepo.findPlamonByUserAndId(user, plamonId);
@@ -190,7 +191,7 @@ public class PlamonServiceImpl implements PlamonService {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
-            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+            throw new IllegalArgumentException(UNAUTHORIZED_USER_MESSAGE);
         }
 
         if (!user.hasEnoughDalgona(request.getDalgona())) {
@@ -221,7 +222,7 @@ public class PlamonServiceImpl implements PlamonService {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
-            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+            throw new IllegalArgumentException(UNAUTHORIZED_USER_MESSAGE);
         }
 
         Plamon mainPlamon = plamonRepo.findPlamonByUserAndMainIsTrue(user);
@@ -240,7 +241,7 @@ public class PlamonServiceImpl implements PlamonService {
         User user = findUserByOauthUid(oauthUid);
 
         if (user == null) {
-            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+            throw new IllegalArgumentException(UNAUTHORIZED_USER_MESSAGE);
         }
 
         Plamon existingMainPlamon = plamonRepo.findPlamonByUserAndMainIsTrue(user);
