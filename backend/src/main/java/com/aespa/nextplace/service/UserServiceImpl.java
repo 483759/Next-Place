@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	
 	public UserResponse login(String uid, String idToken, HttpServletResponse httpServletRes) {
 		UserResponse response = null;
-		Cookie accessTokenCookie = cookieUtil.createCookie("Authorization",idToken, cookieUtil.DEFAULT_TIME);
+		Cookie accessTokenCookie = cookieUtil.createCookie("Authorization",idToken.substring(8), cookieUtil.DEFAULT_TIME);
 		
 		httpServletRes.addCookie(accessTokenCookie);
 		Collection<String> headers = httpServletRes.getHeaders(HttpHeaders.SET_COOKIE);

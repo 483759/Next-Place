@@ -33,9 +33,7 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 
 		FirebaseToken decodedToken;
 		String token = cookieUtil.getAuthToken(request);
-		
-		System.out.println("필터 : "+token);
-		
+				
 		if (token == null) {
 			setUnauthorizedResponse(response, "INVALID_HEADER");
 			return;
