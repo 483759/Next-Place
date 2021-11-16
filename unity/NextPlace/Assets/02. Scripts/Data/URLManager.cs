@@ -16,4 +16,11 @@ public class URLManager
             return "https://k5b106.p.ssafy.io/api";
         }
     }
+    public static string WEBCLIENT_ID
+    {
+        get
+        {
+            return "566092159761-00bit1ke95d8ve2d16or2312estgrmuv.apps.googleusercontent.com";
+        }
+    }
 }

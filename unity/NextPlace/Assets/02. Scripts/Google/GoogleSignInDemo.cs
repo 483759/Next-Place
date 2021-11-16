@@ -12,14 +12,13 @@ using System.Collections;
 public class GoogleSignInDemo : MonoBehaviour
 {
     public Text infoText;
-    public string webClientId = "<your client id here>";
 
     private FirebaseAuth auth;
     private GoogleSignInConfiguration configuration;
 
     private void Awake()
     {
-        configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
+        configuration = new GoogleSignInConfiguration { WebClientId = URLManager.WEBCLIENT_ID, RequestEmail = true, RequestIdToken = true };
         CheckFirebaseDependencies();
     }
 

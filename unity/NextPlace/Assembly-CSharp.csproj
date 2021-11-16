@@ -68,6 +68,7 @@
      <Compile Include="Assets\Mapbox\Core\mapbox-sdk-cs\Platform\Cache\MemoryCache.cs" />
      <Compile Include="Assets\Mapbox\Core\mapbox-sdk-cs\Geocoding\Response\Feature.cs" />
      <Compile Include="Assets\Mapbox\Unity\Utilities\DontDestroyOnLoad.cs" />
+     <Compile Include="Assets\02. Scripts\UI\GatchaModalUI.cs" />
      <Compile Include="Assets\Mapbox\Unity\MeshGeneration\Filters\HeightFilter.cs" />
      <Compile Include="Assets\Mapbox\Unity\Location\ILocationProvider.cs" />
      <Compile Include="Assets\Mapbox\Unity\MeshGeneration\Modifiers\IReplacementCriteria.cs" />
@@ -105,6 +106,7 @@
      <Compile Include="Assets\Mapbox\Unity\SourceLayers\ITerrainLayer.cs" />
      <Compile Include="Assets\Mapbox\Unity\Utilities\TelemetryConfigurationButton.cs" />
      <Compile Include="Assets\Mapbox\Core\mapbox-sdk-cs\Map\UnwrappedTileId.cs" />
+     <Compile Include="Assets\02. Scripts\UI\GatchaUI.cs" />
      <Compile Include="Assets\Mapbox\Unity\Styling\ScriptablePalette.cs" />
      <Compile Include="Assets\Mapbox\Examples\5_Playground\Scripts\ReverseGeocoderExample.cs" />
      <Compile Include="Assets\Mapbox\Unity\Map\Interfaces\IUnifiedMap.cs" />
