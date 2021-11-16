@@ -17,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @Disabled
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class ExperienceRepositoryTest {
+class ExperienceRepositoryTest {
     @Autowired
     ExperienceRepository expRepo;
 
     @DisplayName("특정 경험치가 속하는 레벨 조회")
     @Test
-    public void 경험치로레벨조회() throws Exception {
+    void 경험치로레벨조회() throws Exception {
         //given
         int accumulated = 1265;
 

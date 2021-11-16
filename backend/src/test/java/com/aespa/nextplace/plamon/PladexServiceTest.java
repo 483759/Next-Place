@@ -24,7 +24,7 @@ import static org.mockito.BDDMockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @Transactional
-public class PladexServiceTest {
+class PladexServiceTest {
 
     @InjectMocks
     PladexServiceImpl pladexService;
@@ -47,7 +47,7 @@ public class PladexServiceTest {
 
     @DisplayName("새로운 캐릭터를 등록한다")
     @Test
-    public void 캐릭터등록() throws Exception {
+    void 캐릭터등록() throws Exception {
         //given
         Pladex pladex = createPladexOfId(1L);
         PladexRequest request = convertEntityToDto(pladex);
@@ -68,7 +68,7 @@ public class PladexServiceTest {
 
     @DisplayName("이미 존재하는 캐릭터를 등록하려고 시도한다")
     @Test
-    public void 이미존재하는캐릭터등록() throws Exception {
+    void 이미존재하는캐릭터등록() throws Exception {
         //given
         Pladex pladex = createPladexOfId(2L);
         Pladex existingPladex = createPladexOfId(1L);
@@ -87,7 +87,7 @@ public class PladexServiceTest {
 
     @DisplayName("모든 캐릭터(고유 플레몬)의 리스트를 반환한다")
     @Test
-    public void 캐릭터리스트반환() throws Exception {
+    void 캐릭터리스트반환() throws Exception {
         //given
         List<Pladex> pladexes = List.of(
                 createPladexOfId(1L),

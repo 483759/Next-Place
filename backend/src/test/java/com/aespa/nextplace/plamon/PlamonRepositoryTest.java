@@ -22,14 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @Disabled
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class PlamonRepositoryTest {
+class PlamonRepositoryTest {
     @Autowired private PlamonRepository plamonRepo;
     @Autowired private UserRepository userRepo;
 
     @DisplayName("캐릭터를 판매했을 때 정상적으로 삭제되는지 검증")
     @Test
     @Transactional
-    public void 데이터삭제() throws Exception {
+    void 데이터삭제() throws Exception {
         //given
         User user = userRepo.findByOauthUid("G-12345");
         List<Plamon> plamons = plamonRepo.findAllByUser(user);
@@ -51,7 +51,7 @@ public class PlamonRepositoryTest {
 
     @DisplayName("대표 캐릭터 조회")
     @Test
-    public void 대표_캐릭터() throws Exception {
+    void 대표_캐릭터() throws Exception {
         //given
         User user = userRepo.findByOauthUid("G-12345");
 
