@@ -93,9 +93,6 @@ public class GameManager : MonoBehaviour {
         if (uid == "null") {
             myUid = "G-12345";
             DataManager.instance.GetAllCharacters();
-            //DataManager.instance.GetAllPlactions();
-            //DataManager.instance.GetAllPlactionsCounts();
-            //Debug.Log(myUid);
         } else {
             myUid = uid;
         }
@@ -121,5 +118,31 @@ public class GameManager : MonoBehaviour {
 
     public void GetSpot() {
         DataManager.instance.GetSpots(0.0f, 0.0f);
+    }
+
+    public GameObject successModal;
+    public GameObject failedModal;
+
+    public void ModalOn(string modalName)
+    {
+        if (modalName == "SuccessModal")
+        {
+            successModal.SetActive(true);
+        } else if (modalName == "FailedModal")
+        {
+            failedModal.SetActive(true);
+        }
+    }
+
+    public void ModalOff(string modalName)
+    {
+        if (modalName == "SuccessModal")
+        {
+            successModal.SetActive(false);
+        }
+        else if (modalName == "FailedModal")
+        {
+            failedModal.SetActive(false);
+        }
     }
 }

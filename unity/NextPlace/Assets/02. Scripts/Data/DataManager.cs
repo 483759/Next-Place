@@ -45,7 +45,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/spot?lat=" + lat + "&lng=" + lng;
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -72,7 +71,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/spot?" + "lat=" + lat + "&lng=" + lng;
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -101,7 +99,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/pladex";
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -129,7 +126,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/plamon";
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -171,6 +167,7 @@ public class DataManager : MonoBehaviour {
         MypageUI.instance.MyPlamons = MyPlamons;
     }
 
+    public Myplamon myPlamon = new Myplamon();    
     // POST CharacterGatcha
     public void PostCharacterGatcha() {
         StartCoroutine(Post());
@@ -182,14 +179,20 @@ public class DataManager : MonoBehaviour {
             List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
 
             using (UnityWebRequest www = UnityWebRequest.Post(url, formData)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
                     string text = www.downloadHandler.text;
-                    Debug.Log(text);
+                    Myplamon data = JsonUtility.FromJson<Myplamon>(text);
+                    myPlamon = data;
+                    // 모달창 띄우고 user 정보를 갱신
+                    GetUserInfo();
+                    GameManager.instance.ModalOn("SuccessModal");
+                    GatchaModalUI.instance.Initialize(data);
                     Debug.Log("뽑기 성공!");
                 } else {
+                    // 모달창 띄우기
+                    GameManager.instance.ModalOff("FailedModal");
                     Debug.Log("error");
                 }
             }
@@ -210,7 +213,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/plaction";
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -238,7 +240,6 @@ public class DataManager : MonoBehaviour {
             url = url + "/plaction/count";
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
@@ -268,6 +269,7 @@ public class DataManager : MonoBehaviour {
                     string text = www.downloadHandler.text;
                     Debug.Log(text);
                     Debug.Log("게스트 로그인 성공!");
+                    GetUserInfo();
                     GameManager.instance.ChangeGameState(1);
                 } else {
                     Debug.Log("error");
@@ -284,7 +286,6 @@ public class DataManager : MonoBehaviour {
             string url = URLManager.PUBLIC_URL;
             url = url + "/user/me";
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
-                www.SetRequestHeader("Authorization", "Bearer12345");
                 yield return www.SendWebRequest();
                 if (www.error == null) {
                     string text = www.downloadHandler.text;
