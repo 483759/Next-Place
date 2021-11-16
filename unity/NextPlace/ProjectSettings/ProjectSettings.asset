@@ -135,9 +135,7 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 0.1
-  preloadedAssets:
-  - {fileID: 4800000, guid: c9f956787b1d945e7b36e0516201fc76, type: 3}
-  - {fileID: 2738694239747286524, guid: c74bbc6bb54233a4e9db4a52b9585d33, type: 2}
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -248,7 +246,7 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/ssafy/nextplace/unity/user.keystore
+  AndroidKeystoreName: C:/Users/multicampus/Desktop/Semester_2/Next-Place/unity/user.keystore
   AndroidKeyaliasName: nextplace
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

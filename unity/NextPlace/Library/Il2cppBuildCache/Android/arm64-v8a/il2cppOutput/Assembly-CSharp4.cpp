@@ -17111,12 +17111,14 @@ public:
 	Myplamon_tF96764F63880DD9BB4E602E47C9C31C6065BA6D8 * ___sumnail_1_11;
 	// MyCharacterInfo DataManager::sumnail_2
 	MyCharacterInfo_t5F20E3F6703664C7033F6B6435D5676F354FA2F2 * ___sumnail_2_12;
+	// Myplamon DataManager::myPlamon
+	Myplamon_tF96764F63880DD9BB4E602E47C9C31C6065BA6D8 * ___myPlamon_13;
 	// AllPlactionDataJson DataManager::AllPlactions
-	AllPlactionDataJson_t0F03D6E04393210F6B6D1A34124FAFD56DD7BAC5 * ___AllPlactions_13;
+	AllPlactionDataJson_t0F03D6E04393210F6B6D1A34124FAFD56DD7BAC5 * ___AllPlactions_14;
 	// MyAllPlactionCountsDataJson DataManager::AllPlactionsCounts
-	MyAllPlactionCountsDataJson_t313195F2BD84EDB25694D66960E6163CF3D8474F * ___AllPlactionsCounts_14;
+	MyAllPlactionCountsDataJson_t313195F2BD84EDB25694D66960E6163CF3D8474F * ___AllPlactionsCounts_15;
 	// UserInfoDataJson DataManager::userInfo
-	UserInfoDataJson_t594B8C6FC86CF52B97C5CA855CC5BE43883C0E5E * ___userInfo_15;
+	UserInfoDataJson_t594B8C6FC86CF52B97C5CA855CC5BE43883C0E5E * ___userInfo_16;
 
 public:
 	inline static int32_t get_offset_of_expTable_5() { return static_cast<int32_t>(offsetof(DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2, ___expTable_5)); }
@@ -17191,31 +17193,40 @@ public:
 		Il2CppCodeGenWriteBarrier((void**)(&___sumnail_2_12), (void*)value);
 	}
 
-	inline static int32_t get_offset_of_AllPlactions_13() { return static_cast<int32_t>(offsetof(DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2, ___AllPlactions_13)); }
-	inline AllPlactionDataJson_t0F03D6E04393210F6B6D1A34124FAFD56DD7BAC5 * get_AllPlactions_13() const { return ___AllPlactions_13; }
-	inline AllPlactionDataJson_t0F03D6E04393210F6B6D1A34124FAFD56DD7BAC5 ** get_address_of_AllPlactions_13() { return &___AllPlactions_13; }
-	inline void set_AllPlactions_13(AllPlactionDataJson_t0F03D6E04393210F6B6D1A34124FAFD56DD7BAC5 * value)
+	inline static int32_t get_offset_of_myPlamon_13() { return static_cast<int32_t>(offsetof(DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2, ___myPlamon_13)); }
+	inline Myplamon_tF96764F63880DD9BB4E602E47C9C31C6065BA6D8 * get_myPlamon_13() const { return ___myPlamon_13; }
+	inline Myplamon_tF96764F63880DD9BB4E602E47C9C31C6065BA6D8 ** get_address_of_myPlamon_13() { return &___myPlamon_13; }
+	inline void set_myPlamon_13(Myplamon_tF96764F63880DD9BB4E602E47C9C31C6065BA6D8 * value)
 	{
-		___AllPlactions_13 = value;
-		Il2CppCodeGenWriteBarrier((void**)(&___AllPlactions_13), (void*)value);
+		___myPlamon_13 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___myPlamon_13), (void*)value);
 	}
 
-	inline static int32_t get_offset_of_AllPlactionsCounts_14() { return static_cast<int32_t>(offsetof(DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2, ___AllPlactionsCounts_14)); }
-	inline MyAllPlactionCountsDataJson_t313195F2BD84EDB25694D66960E6163CF3D8474F * get_AllPlactionsCounts_14() const { return ___AllPlactionsCounts_14; }
-	inline MyAllPlactionCountsDataJson_t313195F2BD84EDB25694D66960E6163CF3D8474F ** get_address_of_AllPlactionsCounts_14() { return &___AllPlactionsCounts_14; }
-	inline void set_AllPlactionsCounts_14(MyAllPlactionCountsDataJson_t313195F2BD84EDB25694D66960E6163CF3D8474F * value)
+	inline static int32_t get_offset_of_AllPlactions_14() { return static_cast<int32_t>(offsetof(DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2, ___AllPlactions_14)); }
+	inline AllPlactionDataJson_t0F03D6E04393210F6B6D1A34124FAFD56DD7BAC5 * get_AllPlactions_14() const { return ___AllPlactions_14; }
+	inline AllPlactionDataJson_t0F03D6E04393210F6B6D1A34124FAFD56DD7BAC5 ** get_address_of_AllPlactions_14() { return &___AllPlactions_14; }
+	inline void set_AllPlactions_14(AllPlactionDataJson_t0F03D6E04393210F6B6D1A34124FAFD56DD7BAC5 * value)
 	{
-		___AllPlactionsCounts_14 = value;
-		Il2CppCodeGenWriteBarrier((void**)(&___AllPlactionsCounts_14), (void*)value);
+		___AllPlactions_14 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___AllPlactions_14), (void*)value);
 	}
 
-	inline static int32_t get_offset_of_userInfo_15() { return static_cast<int32_t>(offsetof(DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2, ___userInfo_15)); }
-	inline UserInfoDataJson_t594B8C6FC86CF52B97C5CA855CC5BE43883C0E5E * get_userInfo_15() const { return ___userInfo_15; }
-	inline UserInfoDataJson_t594B8C6FC86CF52B97C5CA855CC5BE43883C0E5E ** get_address_of_userInfo_15() { return &___userInfo_15; }
-	inline void set_userInfo_15(UserInfoDataJson_t594B8C6FC86CF52B97C5CA855CC5BE43883C0E5E * value)
+	inline static int32_t get_offset_of_AllPlactionsCounts_15() { return static_cast<int32_t>(offsetof(DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2, ___AllPlactionsCounts_15)); }
+	inline MyAllPlactionCountsDataJson_t313195F2BD84EDB25694D66960E6163CF3D8474F * get_AllPlactionsCounts_15() const { return ___AllPlactionsCounts_15; }
+	inline MyAllPlactionCountsDataJson_t313195F2BD84EDB25694D66960E6163CF3D8474F ** get_address_of_AllPlactionsCounts_15() { return &___AllPlactionsCounts_15; }
+	inline void set_AllPlactionsCounts_15(MyAllPlactionCountsDataJson_t313195F2BD84EDB25694D66960E6163CF3D8474F * value)
 	{
-		___userInfo_15 = value;
-		Il2CppCodeGenWriteBarrier((void**)(&___userInfo_15), (void*)value);
+		___AllPlactionsCounts_15 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___AllPlactionsCounts_15), (void*)value);
+	}
+
+	inline static int32_t get_offset_of_userInfo_16() { return static_cast<int32_t>(offsetof(DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2, ___userInfo_16)); }
+	inline UserInfoDataJson_t594B8C6FC86CF52B97C5CA855CC5BE43883C0E5E * get_userInfo_16() const { return ___userInfo_16; }
+	inline UserInfoDataJson_t594B8C6FC86CF52B97C5CA855CC5BE43883C0E5E ** get_address_of_userInfo_16() { return &___userInfo_16; }
+	inline void set_userInfo_16(UserInfoDataJson_t594B8C6FC86CF52B97C5CA855CC5BE43883C0E5E * value)
+	{
+		___userInfo_16 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___userInfo_16), (void*)value);
 	}
 };
 
@@ -17411,6 +17422,10 @@ public:
 	int64_t ___U3CselectedSpotIdU3Ek__BackingField_9;
 	// System.String GameManager::myUid
 	String_t* ___myUid_10;
+	// UnityEngine.GameObject GameManager::successModal
+	GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 * ___successModal_11;
+	// UnityEngine.GameObject GameManager::failedModal
+	GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 * ___failedModal_12;
 
 public:
 	inline static int32_t get_offset_of_displayObject_5() { return static_cast<int32_t>(offsetof(GameManager_t9013B33302D2B40A51D0E8059DEE0DC180218AA1, ___displayObject_5)); }
@@ -17463,6 +17478,24 @@ public:
 	{
 		___myUid_10 = value;
 		Il2CppCodeGenWriteBarrier((void**)(&___myUid_10), (void*)value);
+	}
+
+	inline static int32_t get_offset_of_successModal_11() { return static_cast<int32_t>(offsetof(GameManager_t9013B33302D2B40A51D0E8059DEE0DC180218AA1, ___successModal_11)); }
+	inline GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 * get_successModal_11() const { return ___successModal_11; }
+	inline GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 ** get_address_of_successModal_11() { return &___successModal_11; }
+	inline void set_successModal_11(GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 * value)
+	{
+		___successModal_11 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___successModal_11), (void*)value);
+	}
+
+	inline static int32_t get_offset_of_failedModal_12() { return static_cast<int32_t>(offsetof(GameManager_t9013B33302D2B40A51D0E8059DEE0DC180218AA1, ___failedModal_12)); }
+	inline GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 * get_failedModal_12() const { return ___failedModal_12; }
+	inline GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 ** get_address_of_failedModal_12() { return &___failedModal_12; }
+	inline void set_failedModal_12(GameObject_tC000A2E1A7CF1E10FD7BA08863287C072207C319 * value)
+	{
+		___failedModal_12 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___failedModal_12), (void*)value);
 	}
 };
 

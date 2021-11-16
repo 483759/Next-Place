@@ -7,6 +7,8 @@ ScriptsOnlyBuild:
     - DataManager
     - GPSManager
     - GameManager
+    - GatchaModalUI
+    - GatchaUI
     - GoogleSignInDemo
     - LoadingImage
     - MapCameraController
@@ -40,7 +42,6 @@ ScriptsOnlyBuild:
     - Mapbox.Unity.MeshGeneration.Modifiers.ReplaceFeatureCollectionModifier
     - Mapbox.Unity.Utilities.DebugTools.SceneData
     - Mapbox.Unity.Utilities.DebugTools.ScenesList
-    - Mapbox.Unity.Utilities.Runnable
     - MypageUI
     - PlamonManager
     - PlamonObject
@@ -153,143 +154,147 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2006}
     - Class: 114
-      Script: {instanceID: 2056}
+      Script: {instanceID: 2034}
     - Class: 114
       Script: {instanceID: 2058}
     - Class: 114
-      Script: {instanceID: 2104}
+      Script: {instanceID: 2060}
     - Class: 114
-      Script: {instanceID: 2134}
+      Script: {instanceID: 2106}
     - Class: 114
-      Script: {instanceID: 2148}
+      Script: {instanceID: 2136}
     - Class: 114
-      Script: {instanceID: 2202}
+      Script: {instanceID: 2150}
     - Class: 114
-      Script: {instanceID: 2240}
+      Script: {instanceID: 2204}
     - Class: 114
-      Script: {instanceID: 2306}
+      Script: {instanceID: 2242}
     - Class: 114
-      Script: {instanceID: 2434}
+      Script: {instanceID: 2308}
     - Class: 114
-      Script: {instanceID: 2500}
+      Script: {instanceID: 2420}
     - Class: 114
-      Script: {instanceID: 2568}
+      Script: {instanceID: 2438}
     - Class: 114
-      Script: {instanceID: 2658}
+      Script: {instanceID: 2504}
     - Class: 114
-      Script: {instanceID: 2694}
+      Script: {instanceID: 2572}
     - Class: 114
-      Script: {instanceID: 2704}
+      Script: {instanceID: 2662}
     - Class: 114
-      Script: {instanceID: 2762}
+      Script: {instanceID: 2698}
     - Class: 114
-      Script: {instanceID: 2838}
+      Script: {instanceID: 2708}
     - Class: 114
-      Script: {instanceID: 2924}
+      Script: {instanceID: 2766}
     - Class: 114
-      Script: {instanceID: 2942}
+      Script: {instanceID: 2842}
     - Class: 114
-      Script: {instanceID: 2984}
+      Script: {instanceID: 2928}
     - Class: 114
-      Script: {instanceID: 3004}
+      Script: {instanceID: 2946}
     - Class: 114
-      Script: {instanceID: 3044}
+      Script: {instanceID: 2988}
     - Class: 114
-      Script: {instanceID: 3102}
+      Script: {instanceID: 3008}
     - Class: 114
-      Script: {instanceID: 3194}
+      Script: {instanceID: 3048}
+    - Class: 114
+      Script: {instanceID: 3106}
     - Class: 114
       Script: {instanceID: 3198}
     - Class: 114
-      Script: {instanceID: 3242}
+      Script: {instanceID: 3202}
     - Class: 114
-      Script: {instanceID: 3322}
+      Script: {instanceID: 3246}
     - Class: 114
-      Script: {instanceID: 3352}
+      Script: {instanceID: 3328}
     - Class: 114
-      Script: {instanceID: 3364}
+      Script: {instanceID: 3358}
     - Class: 114
-      Script: {instanceID: 3392}
+      Script: {instanceID: 3370}
     - Class: 114
-      Script: {instanceID: 3426}
+      Script: {instanceID: 3398}
     - Class: 114
-      Script: {instanceID: 3446}
+      Script: {instanceID: 3432}
     - Class: 114
-      Script: {instanceID: 3600}
+      Script: {instanceID: 3452}
     - Class: 114
-      Script: {instanceID: 3728}
+      Script: {instanceID: 3606}
     - Class: 114
-      Script: {instanceID: 3922}
+      Script: {instanceID: 3734}
     - Class: 114
-      Script: {instanceID: 4052}
+      Script: {instanceID: 3928}
     - Class: 114
-      Script: {instanceID: 4068}
+      Script: {instanceID: 4058}
     - Class: 114
-      Script: {instanceID: 4164}
+      Script: {instanceID: 4074}
     - Class: 114
-      Script: {instanceID: 4166}
+      Script: {instanceID: 4170}
     - Class: 114
-      Script: {instanceID: 4316}
+      Script: {instanceID: 4172}
     - Class: 114
-      Script: {instanceID: 4328}
+      Script: {instanceID: 4322}
     - Class: 114
-      Script: {instanceID: 4336}
+      Script: {instanceID: 4334}
     - Class: 114
-      Script: {instanceID: 4340}
+      Script: {instanceID: 4342}
     - Class: 114
-      Script: {instanceID: 4410}
+      Script: {instanceID: 4346}
     - Class: 114
-      Script: {instanceID: 4446}
+      Script: {instanceID: 4416}
     - Class: 114
-      Script: {instanceID: 4536}
+      Script: {instanceID: 4452}
     - Class: 114
-      Script: {instanceID: 4634}
+      Script: {instanceID: 4542}
     - Class: 114
-      Script: {instanceID: 4700}
+      Script: {instanceID: 4640}
     - Class: 114
-      Script: {instanceID: 4868}
+      Script: {instanceID: 4706}
     - Class: 114
-      Script: {instanceID: 4948}
+      Script: {instanceID: 4874}
     - Class: 114
-      Script: {instanceID: 5034}
+      Script: {instanceID: 4954}
     - Class: 114
-      Script: {instanceID: 5086}
+      Script: {instanceID: 5040}
     - Class: 114
-      Script: {instanceID: 5148}
+      Script: {instanceID: 5092}
     - Class: 114
-      Script: {instanceID: 5172}
+      Script: {instanceID: 5154}
     - Class: 114
-      Script: {instanceID: 5238}
+      Script: {instanceID: 5178}
     - Class: 114
-      Script: {instanceID: 5288}
+      Script: {instanceID: 5242}
     - Class: 114
-      Script: {instanceID: 5346}
+      Script: {instanceID: 5292}
     - Class: 114
-      Script: {instanceID: 5424}
+      Script: {instanceID: 5350}
     - Class: 114
-      Script: {instanceID: 5490}
+      Script: {instanceID: 5428}
     - Class: 114
-      Script: {instanceID: 5562}
+      Script: {instanceID: 5494}
     - Class: 114
-      Script: {instanceID: 5672}
+      Script: {instanceID: 5566}
     - Class: 114
-      Script: {instanceID: 5768}
+      Script: {instanceID: 5676}
     - Class: 114
-      Script: {instanceID: 5844}
+      Script: {instanceID: 5772}
     - Class: 114
-      Script: {instanceID: 5916}
+      Script: {instanceID: 5848}
     - Class: 114
-      Script: {instanceID: 6090}
+      Script: {instanceID: 5920}
     - Class: 114
-      Script: {instanceID: 6098}
+      Script: {instanceID: 6094}
     - Class: 114
       Script: {instanceID: 6102}
     - Class: 114
-      Script: {instanceID: 6332}
+      Script: {instanceID: 6106}
     - Class: 114
-      Script: {instanceID: 6538}
+      Script: {instanceID: 6336}
     - Class: 114
-      Script: {instanceID: 6688}
+      Script: {instanceID: 6542}
+    - Class: 114
+      Script: {instanceID: 6692}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -369,7 +374,7 @@ ScriptsOnlyBuild:
     className: AnimationPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 39a7d13fc0cb70444cc5574a2867fbbe
+      Hash: 1597bb066ff56feb41eea36bb0f872a5
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GoogleSignInDemo
@@ -451,6 +456,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Unity.Utilities
     className: DontDestroyOnLoad
+  - hash:
+      serializedVersion: 2
+      Hash: 1923f2bc8f044dbdcb97064d2f576c78
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GatchaModalUI
   - hash:
       serializedVersion: 2
       Hash: 0dbc3be398b4869a5c8d0d8481ee402c
@@ -565,6 +576,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Mapbox.Unity.Utilities
     className: TelemetryConfigurationButton
+  - hash:
+      serializedVersion: 2
+      Hash: b0f3a1408b727adec59c5180487a9c21
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GatchaUI
   - hash:
       serializedVersion: 2
       Hash: bc7929c5b6cab4174185754e71e4e1f1
@@ -1515,7 +1532,7 @@ ScriptsOnlyBuild:
     className: PositionWithLocationProvider
   - hash:
       serializedVersion: 2
-      Hash: 12aee7e928b338bf76504431f4033630
+      Hash: 058bdbecf7be0d2e53c15eb499633b86
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: DataManager
@@ -1575,7 +1592,7 @@ ScriptsOnlyBuild:
     className: ARRaycast
   - hash:
       serializedVersion: 2
-      Hash: c70c25935f0416699e03b7bb5eebe99a
+      Hash: 0cc38ba064d1487f31d2fbd7830a784c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -1900,4 +1917,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/01. Scenes/Login.unity
-  playerPath: C:/Users/lsh10/Desktop/build/NextPlace.apk
+  playerPath: C:/Users/multicampus/Desktop/Semester_2/Next-Place/unity/NextPlace/nextplace.apk
