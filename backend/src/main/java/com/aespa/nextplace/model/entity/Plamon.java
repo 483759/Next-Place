@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
@@ -39,9 +38,6 @@ public class Plamon {
     private User user;
 
     public Plamon(Pladex pladex, User user) {
-        Assert.notNull(pladex);
-        Assert.notNull(user);
-
         this.level = 1;
         this.exp = 0;
         this.nickname = pladex.getName();
