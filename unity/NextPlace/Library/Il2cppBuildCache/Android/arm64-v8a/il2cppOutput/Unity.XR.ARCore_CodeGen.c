@@ -2345,9 +2345,9 @@ static const Il2CppRGCTXDefinition s_rgctxValues[13] =
 	{ (Il2CppRGCTXDataType)2, 1087 },
 	{ (Il2CppRGCTXDataType)3, 619 },
 	{ (Il2CppRGCTXDataType)2, 214 },
-	{ (Il2CppRGCTXDataType)3, 30002 },
+	{ (Il2CppRGCTXDataType)3, 30000 },
 	{ (Il2CppRGCTXDataType)3, 18435 },
-	{ (Il2CppRGCTXDataType)3, 30077 },
+	{ (Il2CppRGCTXDataType)3, 30075 },
 	{ (Il2CppRGCTXDataType)3, 19068 },
 };
 extern const CustomAttributesCacheGenerator g_Unity_XR_ARCore_AttributeGenerators[];
