@@ -53,18 +53,18 @@ static Il2CppMethodPointer s_methodPointers[12] =
 };
 static const int32_t s_InvokerIndices[12] = 
 {
-	2446,
-	4001,
-	2446,
-	2446,
-	3932,
-	2443,
+	2447,
+	4002,
+	2447,
+	2447,
+	3933,
+	2444,
 	1320,
-	2443,
-	3932,
-	3913,
-	4001,
-	6069,
+	2444,
+	3933,
+	3914,
+	4002,
+	6070,
 };
 extern const CustomAttributesCacheGenerator g_MapboxAccountsUnity_AttributeGenerators[];
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_MapboxAccountsUnity_CodeGenModule;

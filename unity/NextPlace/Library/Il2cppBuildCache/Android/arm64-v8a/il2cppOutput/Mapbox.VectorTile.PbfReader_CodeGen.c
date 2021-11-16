@@ -71,24 +71,24 @@ static Il2CppMethodPointer s_methodPointers[18] =
 };
 static const int32_t s_InvokerIndices[18] = 
 {
-	3912,
-	3251,
 	3913,
 	3252,
-	3912,
-	3251,
-	3270,
+	3914,
+	3253,
 	3913,
-	3932,
-	3932,
-	3893,
-	3959,
-	2443,
-	3957,
-	4001,
 	3252,
-	3913,
-	6069,
+	3271,
+	3914,
+	3933,
+	3933,
+	3894,
+	3960,
+	2444,
+	3958,
+	4002,
+	3253,
+	3914,
+	6070,
 };
 extern const CustomAttributesCacheGenerator g_Mapbox_VectorTile_PbfReader_AttributeGenerators[];
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_Mapbox_VectorTile_PbfReader_CodeGenModule;

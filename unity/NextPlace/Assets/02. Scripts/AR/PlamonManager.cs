@@ -26,6 +26,7 @@ public class PlamonManager : MonoBehaviour
     public GameObject indicator;
     public GameObject ball;
     public GameObject plamonObject;
+    public GameObject catchUI;
     public float endDelay;
     private bool _isGameStarted;
     private ARRaycastManager _arManager;
@@ -105,6 +106,8 @@ public class PlamonManager : MonoBehaviour
         _isGameStarted = true;
         plamonObject.transform.position = indicator.transform.position;
         plamonObject.transform.rotation = indicator.transform.rotation;
+        // 플래몬 오브젝트에 스프라이트 넘겨주는 로직 필요
+        plamonObject.GetComponent<PlamonObject>().Initialize(null);
 
         indicator.SetActive(false);
 
@@ -116,11 +119,16 @@ public class PlamonManager : MonoBehaviour
         plamonObject.SetActive(false);
         ball.SetActive(false);
 
+        // 스팟 수집 관련 요청 처리 필요
+        catchUI.SetActive(true);
+        catchUI.GetComponent<CatchUI>().Initialize(DataManager.instance.GetSpotInfoById(GameManager.instance.selectedSpotId), "얻은 아이템 텍스트");
 
         Invoke("GameEnd", endDelay);
     }
 
     public void GameEnd() {
+        catchUI.SetActive(false);
+
         GameManager.instance.ChangeGameState(1);
     }
 }
