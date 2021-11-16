@@ -6,7 +6,7 @@ public class URLManager
 {
     public static string TEST_URL {
         get {
-            return "http://218.158.175.59:8080/api/user/login";
+            return "http://218.158.175.59:8080/api";
         }
     }
     public static string PUBLIC_URL

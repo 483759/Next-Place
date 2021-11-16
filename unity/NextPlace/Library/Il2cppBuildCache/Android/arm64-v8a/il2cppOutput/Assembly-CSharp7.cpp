@@ -21755,8 +21755,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CU3CGetSpotU3Eg__GetU7C0U3Ed_MoveNext_
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&StringU5BU5D_tACEBFEDE350025B554CD507C9AE8FFE49359549A_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral3D86AB49D30ED34949725BD1BB068DA8B7ABA0B0);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral6F949A571A13FD2CB6D0F8B2AEDE3E59E28FE3F6);
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral9D5A3AE3D2B0B5E5AF5AB489000D9B88FA11E907);
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralD9FCC0873CA99B48B3F19B334E83A85B6DF43B7D);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralFCA74A9060DDEE6A3ECAE73E6AB96086770BE7E2);
 		s_Il2CppMethodInitialized = true;
 	}
@@ -21788,14 +21786,14 @@ IL_0011:
 			int32_t L_3 = V_1;
 			if ((((int32_t)L_3) == ((int32_t)1)))
 			{
-				goto IL_00ad;
+				goto IL_0098;
 			}
 		}
 
 IL_0018:
 		{
 			V_0 = (bool)0;
-			goto IL_011f;
+			goto IL_010a;
 		}
 
 IL_001f:
@@ -21847,107 +21845,103 @@ IL_001f:
 			L_20 = UnityWebRequest_Get_m9C24DB3E8BED0B0886F28DCD982A4741A9903B1A(L_19, /*hidden argument*/NULL);
 			__this->set_U3CwwwU3E5__2_3(L_20);
 			__this->set_U3CU3E1__state_0(((int32_t)-3));
-			// www.SetRequestHeader("Authorization", "Bearer12345");
+			// yield return www.SendWebRequest();
 			UnityWebRequest_tB75B39F6951CA0DBA2D5BEDF85FDCAAC6026A37E * L_21 = __this->get_U3CwwwU3E5__2_3();
 			NullCheck(L_21);
-			UnityWebRequest_SetRequestHeader_m5ED4EFBACC106390DF5D81D19E4D4D9D59F13EFB(L_21, _stringLiteral9D5A3AE3D2B0B5E5AF5AB489000D9B88FA11E907, _stringLiteralD9FCC0873CA99B48B3F19B334E83A85B6DF43B7D, /*hidden argument*/NULL);
-			// yield return www.SendWebRequest();
-			UnityWebRequest_tB75B39F6951CA0DBA2D5BEDF85FDCAAC6026A37E * L_22 = __this->get_U3CwwwU3E5__2_3();
-			NullCheck(L_22);
-			UnityWebRequestAsyncOperation_tDCAC6B6C7D51563F8DFD4963E3BE362470125396 * L_23;
-			L_23 = UnityWebRequest_SendWebRequest_m990921023F56ECB8FF8C118894A317EB6E2F5B50(L_22, /*hidden argument*/NULL);
-			__this->set_U3CU3E2__current_1(L_23);
+			UnityWebRequestAsyncOperation_tDCAC6B6C7D51563F8DFD4963E3BE362470125396 * L_22;
+			L_22 = UnityWebRequest_SendWebRequest_m990921023F56ECB8FF8C118894A317EB6E2F5B50(L_21, /*hidden argument*/NULL);
+			__this->set_U3CU3E2__current_1(L_22);
 			__this->set_U3CU3E1__state_0(1);
 			V_0 = (bool)1;
-			goto IL_011f;
+			goto IL_010a;
+		}
+
+IL_0098:
+		{
+			__this->set_U3CU3E1__state_0(((int32_t)-3));
+			// if (www.error == null) {
+			UnityWebRequest_tB75B39F6951CA0DBA2D5BEDF85FDCAAC6026A37E * L_23 = __this->get_U3CwwwU3E5__2_3();
+			NullCheck(L_23);
+			String_t* L_24;
+			L_24 = UnityWebRequest_get_error_m32B69D2365C1FE2310B5936C7C295B71A92CC2B4(L_23, /*hidden argument*/NULL);
+			if (L_24)
+			{
+				goto IL_00e8;
+			}
 		}
 
 IL_00ad:
 		{
-			__this->set_U3CU3E1__state_0(((int32_t)-3));
-			// if (www.error == null) {
-			UnityWebRequest_tB75B39F6951CA0DBA2D5BEDF85FDCAAC6026A37E * L_24 = __this->get_U3CwwwU3E5__2_3();
-			NullCheck(L_24);
-			String_t* L_25;
-			L_25 = UnityWebRequest_get_error_m32B69D2365C1FE2310B5936C7C295B71A92CC2B4(L_24, /*hidden argument*/NULL);
-			if (L_25)
-			{
-				goto IL_00fd;
-			}
-		}
-
-IL_00c2:
-		{
 			// string text = www.downloadHandler.text;
-			UnityWebRequest_tB75B39F6951CA0DBA2D5BEDF85FDCAAC6026A37E * L_26 = __this->get_U3CwwwU3E5__2_3();
+			UnityWebRequest_tB75B39F6951CA0DBA2D5BEDF85FDCAAC6026A37E * L_25 = __this->get_U3CwwwU3E5__2_3();
+			NullCheck(L_25);
+			DownloadHandler_tEEAE0DD53DB497C8A491C4F7B7A14C3CA027B1DB * L_26;
+			L_26 = UnityWebRequest_get_downloadHandler_mCE0A0C53A63419FE5AE25915AFB36EABE294C732(L_25, /*hidden argument*/NULL);
 			NullCheck(L_26);
-			DownloadHandler_tEEAE0DD53DB497C8A491C4F7B7A14C3CA027B1DB * L_27;
-			L_27 = UnityWebRequest_get_downloadHandler_mCE0A0C53A63419FE5AE25915AFB36EABE294C732(L_26, /*hidden argument*/NULL);
-			NullCheck(L_27);
-			String_t* L_28;
-			L_28 = DownloadHandler_get_text_mD89D7125640800A8F5C4B9401C080C405953828A(L_27, /*hidden argument*/NULL);
-			V_4 = L_28;
+			String_t* L_27;
+			L_27 = DownloadHandler_get_text_mD89D7125640800A8F5C4B9401C080C405953828A(L_26, /*hidden argument*/NULL);
+			V_4 = L_27;
 			// _spotData = JsonUtility.FromJson<SpotDataJson>(text);
-			U3CU3Ec__DisplayClass6_0_tC5C6BC973075D7833EA70B2ABB87978711454D04 * L_29 = V_2;
+			U3CU3Ec__DisplayClass6_0_tC5C6BC973075D7833EA70B2ABB87978711454D04 * L_28 = V_2;
+			NullCheck(L_28);
+			DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2 * L_29 = L_28->get_U3CU3E4__this_2();
+			String_t* L_30 = V_4;
+			SpotDataJson_t36073C971EC6B50052A98B0435FBF237B1507325 * L_31;
+			L_31 = JsonUtility_FromJson_TisSpotDataJson_t36073C971EC6B50052A98B0435FBF237B1507325_mB83097371E32FAD25029D40007E25E78BAE069EB(L_30, /*hidden argument*/JsonUtility_FromJson_TisSpotDataJson_t36073C971EC6B50052A98B0435FBF237B1507325_mB83097371E32FAD25029D40007E25E78BAE069EB_RuntimeMethod_var);
 			NullCheck(L_29);
-			DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2 * L_30 = L_29->get_U3CU3E4__this_2();
-			String_t* L_31 = V_4;
-			SpotDataJson_t36073C971EC6B50052A98B0435FBF237B1507325 * L_32;
-			L_32 = JsonUtility_FromJson_TisSpotDataJson_t36073C971EC6B50052A98B0435FBF237B1507325_mB83097371E32FAD25029D40007E25E78BAE069EB(L_31, /*hidden argument*/JsonUtility_FromJson_TisSpotDataJson_t36073C971EC6B50052A98B0435FBF237B1507325_mB83097371E32FAD25029D40007E25E78BAE069EB_RuntimeMethod_var);
-			NullCheck(L_30);
-			L_30->set__spotData_6(L_32);
+			L_29->set__spotData_6(L_31);
 			// SpotManager.instance.CreateSpots(_spotData);
 			IL2CPP_RUNTIME_CLASS_INIT(SpotManager_tCFA571406CCED7C3A4F1A072100757FADDA0C8CF_il2cpp_TypeInfo_var);
-			SpotManager_tCFA571406CCED7C3A4F1A072100757FADDA0C8CF * L_33;
-			L_33 = SpotManager_get_instance_mA3FFBE83D13B6E6679E3B8C57711320B34DC7B07(/*hidden argument*/NULL);
-			U3CU3Ec__DisplayClass6_0_tC5C6BC973075D7833EA70B2ABB87978711454D04 * L_34 = V_2;
-			NullCheck(L_34);
-			DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2 * L_35 = L_34->get_U3CU3E4__this_2();
-			NullCheck(L_35);
-			SpotDataJson_t36073C971EC6B50052A98B0435FBF237B1507325 * L_36 = L_35->get__spotData_6();
+			SpotManager_tCFA571406CCED7C3A4F1A072100757FADDA0C8CF * L_32;
+			L_32 = SpotManager_get_instance_mA3FFBE83D13B6E6679E3B8C57711320B34DC7B07(/*hidden argument*/NULL);
+			U3CU3Ec__DisplayClass6_0_tC5C6BC973075D7833EA70B2ABB87978711454D04 * L_33 = V_2;
 			NullCheck(L_33);
-			SpotManager_CreateSpots_m12C53F01286CBEC04C4D5BA05DCDD2E63B006144(L_33, L_36, /*hidden argument*/NULL);
+			DataManager_t01518B3D49E16D1E80F0C7C9F0533427905EC1E2 * L_34 = L_33->get_U3CU3E4__this_2();
+			NullCheck(L_34);
+			SpotDataJson_t36073C971EC6B50052A98B0435FBF237B1507325 * L_35 = L_34->get__spotData_6();
+			NullCheck(L_32);
+			SpotManager_CreateSpots_m12C53F01286CBEC04C4D5BA05DCDD2E63B006144(L_32, L_35, /*hidden argument*/NULL);
 			// } else {
-			goto IL_0107;
+			goto IL_00f2;
 		}
 
-IL_00fd:
+IL_00e8:
 		{
 			// Debug.Log("error");
 			IL2CPP_RUNTIME_CLASS_INIT(Debug_tEB68BCBEB8EFD60F8043C67146DC05E7F50F374B_il2cpp_TypeInfo_var);
 			Debug_Log_mC26E5AD0D8D156C7FFD173AA15827F69225E9DB8(_stringLiteralFCA74A9060DDEE6A3ECAE73E6AB96086770BE7E2, /*hidden argument*/NULL);
 		}
 
-IL_0107:
+IL_00f2:
 		{
 			// }
 			U3CU3CGetSpotU3Eg__GetU7C0U3Ed_U3CU3Em__Finally1_m915B108562A63E66C29A0525A27F8937C32BE530(__this, /*hidden argument*/NULL);
 			__this->set_U3CwwwU3E5__2_3((UnityWebRequest_tB75B39F6951CA0DBA2D5BEDF85FDCAAC6026A37E *)NULL);
 			// }
 			V_0 = (bool)0;
-			goto IL_011f;
+			goto IL_010a;
 		}
 	} // end try (depth: 1)
 	catch(Il2CppExceptionWrapper& e)
 	{
 		__last_unhandled_exception = (Exception_t *)e.ex;
-		goto FAULT_0118;
+		goto FAULT_0103;
 	}
 
-FAULT_0118:
+FAULT_0103:
 	{ // begin fault (depth: 1)
 		U3CU3CGetSpotU3Eg__GetU7C0U3Ed_System_IDisposable_Dispose_m5F0F3869DE0EB3390737A1750DE6B38E61C4D6BF(__this, /*hidden argument*/NULL);
-		IL2CPP_END_FINALLY(280)
+		IL2CPP_END_FINALLY(259)
 	} // end fault
-	IL2CPP_CLEANUP(280)
+	IL2CPP_CLEANUP(259)
 	{
 		IL2CPP_RETHROW_IF_UNHANDLED(Exception_t *)
 	}
 
-IL_011f:
+IL_010a:
 	{
-		bool L_37 = V_0;
-		return L_37;
+		bool L_36 = V_0;
+		return L_36;
 	}
 }
 // System.Void DataManager/<>c__DisplayClass6_0/<<GetSpot>g__Get|0>d::<>m__Finally1()
