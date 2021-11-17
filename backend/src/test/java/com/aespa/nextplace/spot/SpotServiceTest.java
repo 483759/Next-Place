@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aespa.nextplace.model.entity.BaseAddress;
 import com.aespa.nextplace.model.entity.Spot;
 import com.aespa.nextplace.model.entity.SpotType;
-import com.aespa.nextplace.model.repository.BaseAddressRepository;
 import com.aespa.nextplace.model.repository.PlactionRepository;
 import com.aespa.nextplace.model.repository.SpotRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
@@ -42,10 +41,7 @@ public class SpotServiceTest {
 	
 	@Mock
 	SpotRepository spotRepo;
-	
-	@Mock
-	BaseAddressRepository baseAddressRepo;
-		
+			
 	@Mock
 	PlactionRepository plactionRepo;
 	
@@ -73,25 +69,6 @@ public class SpotServiceTest {
 				.build();
 	}
 	
-	private Spot getSpotSample() {
-		return Spot.builder().spot(new Spot(getSampleBaseAddress(), "온천교", 50f,100f))
-				.id(10L)
-				.type(SpotType.ATTRACTION)
-				.information("information")
-				.detail("detail")
-				.exp(100)
-				.isRandom(false)
-				.build();
-	}
-	
-	
-	private ListSpotResponse getListSpotResponse(Spot spot) {
-		
-		List<Spot> list = new ArrayList();
-		list.add(spot);
-				
-		return new ListSpotResponse(list); 
-	}
 	
 
 	
@@ -99,13 +76,12 @@ public class SpotServiceTest {
 	
 	@DisplayName("스팟 조회 성공")
 	@Test
-	public void 스팟조회_성공() throws Exception{
+	void 스팟조회_성공() throws Exception{
 		
 		//given
 		String oauthUid = "G-12345";
 		String daejeon = "대전광역시";
 		BaseAddress baseAddress = getSampleBaseAddress();
-		String gugun ="유성구";
 		String dong = "봉명동";
 		String lat = "50", lng = "100";
 		
@@ -138,19 +114,16 @@ public class SpotServiceTest {
 	
 	@DisplayName("잘못된 좌표로 스팟 조회 실패")
 	@Test
-	public void 잘못된_좌표() throws Exception{
+	void 잘못된_좌표() throws Exception{
 		//given
 		String oauthUid = "G-12345";
-		String daejeon = "대전광역시";
-		BaseAddress baseAddress = getSampleBaseAddress();
-		String dong = "봉명동";
 		String lat = "500", lng = "100";
 		
 
 		
 		//when
 		try {
-			ListSpotResponse response = spotService.getSpots(oauthUid,lat,lng);					
+			spotService.getSpots(oauthUid,lat,lng);					
 		}
 		catch(IllegalArgumentException e){
 			ex = e;
@@ -166,12 +139,9 @@ public class SpotServiceTest {
 	
 	@DisplayName("한국 주소를 찾을 수 없어 스팟 조회 실패")
 	@Test
-	public void 잘못된_주소_스팟조회_실패() throws Exception{
+	void 잘못된_주소_스팟조회_실패() throws Exception{
 		//given
 		String oauthUid = "G-12345";
-		String daejeon = "대전광역시";
-		BaseAddress baseAddress = getSampleBaseAddress();
-		String dong = "봉명동";
 		String lat = "50", lng = "100";
 		
 		given(geocodeUtil.getAddress(lat, lng))
@@ -179,7 +149,7 @@ public class SpotServiceTest {
 		
 		//when
 		try {
-			ListSpotResponse response = spotService.getSpots(oauthUid,lat,lng);					
+			spotService.getSpots(oauthUid,lat,lng);					
 		}
 		catch(IllegalArgumentException e){
 			ex = e;
@@ -195,12 +165,11 @@ public class SpotServiceTest {
 	
 	@DisplayName("조회 시 스팟이 없거나 방문한 스팟인 경우")
 	@Test
-	public void 스팟_성공_결과없음() throws Exception{
+	void 스팟_성공_결과없음() throws Exception{
 		//given
 		String oauthUid = "G-12345";
 		String daejeon = "대전광역시";
 		BaseAddress baseAddress = getSampleBaseAddress();
-		String gugun ="유성구";
 		String dong = "봉명동";
 		String lat = "50", lng = "100";
 		
@@ -208,7 +177,7 @@ public class SpotServiceTest {
 		.willReturn("대전광역시 유성구 봉명동");
 		
 			
-		List<Spot> spotList = new ArrayList();
+		List<Spot> spotList = new ArrayList<>();
 		spotList.add(getSpotSample(baseAddress));
 		
 		given(redisUtil.getData(oauthUid+"+1"))

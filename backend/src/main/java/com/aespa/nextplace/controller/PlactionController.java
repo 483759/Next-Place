@@ -44,10 +44,8 @@ public class PlactionController {
     	
     	try {
     		response = plactionService.savePlaction(request.getSpotId(), oauthUid, request.getScore());
-    	}catch(IllegalArgumentException e) {
+    	}catch(IllegalArgumentException|IllegalStateException e) {
     		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
-    	}catch(IllegalStateException e) {
-    		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));    		
     	}
     	
     	

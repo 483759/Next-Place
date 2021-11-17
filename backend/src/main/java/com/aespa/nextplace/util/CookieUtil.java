@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CookieUtil {
 	public final static int DEFAULT_TIME = 60* 24 * 5;
+	public final static String AUTHORIZATION = "Authorization";
     public Cookie createCookie(String cookieName, String value, int time){
         Cookie token = new Cookie(cookieName,"Bearer"+value);
         token.setHttpOnly(true);
@@ -21,7 +22,7 @@ public class CookieUtil {
     }
 
     public String getAuthToken(HttpServletRequest req) {    
-    	Cookie cookie = getCookie(req,"Authorization");    	
+    	Cookie cookie = getCookie(req,AUTHORIZATION);    	
     	String token = null;  	
     	
     	if(cookie != null) {

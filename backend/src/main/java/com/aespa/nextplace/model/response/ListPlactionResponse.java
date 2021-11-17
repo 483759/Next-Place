@@ -12,13 +12,13 @@ import java.util.Set;
 @Getter
 public class ListPlactionResponse {
 	@Schema(description = "획득한 스팟(플렉션) 목록")
-	private List<PlactionResponse> plactions = new ArrayList();
+	private List<PlactionResponse> plactions = new ArrayList<>();
 	@Schema(description ="획득하지 못한 스팟 목록")
-	private List<SpotResponse> spots = new ArrayList();
+	private List<SpotResponse> spots = new ArrayList<>();
 	
 	
 	public ListPlactionResponse(List<Plaction> plactions, List<Spot> spots) {
-		Set<Long> idSet = new HashSet();
+		Set<Long> idSet = new HashSet<>();
 		for(var plaction : plactions) {
 			this.plactions.add(new PlactionResponse(plaction));
 			idSet.add(plaction.getSpot().getId());			

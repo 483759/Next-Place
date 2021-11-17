@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 public class ListSpotResponse {
-	private List<SpotResponse> spotList = new ArrayList();
+	private List<SpotResponse> spotList;
 	
 	public ListSpotResponse(List<Spot> spots) {
 		for(Spot spot : spots) {
@@ -19,6 +19,7 @@ public class ListSpotResponse {
 	}
 	
 	public ListSpotResponse(List<Spot> spots, String oauthUid,RedisUtil redisUtil) {
+		this.spotList = new ArrayList<>();
 		for(Spot spot : spots) {
 			if(redisUtil.getData(oauthUid+"+"+spot.getId())==null) {			
 				spotList.add(new SpotResponse(spot));

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aespa.nextplace.model.entity.Spot;
-import com.aespa.nextplace.model.repository.BaseAddressRepository;
 import com.aespa.nextplace.model.repository.SpotRepository;
 import com.aespa.nextplace.model.response.ListSpotResponse;
 import com.aespa.nextplace.util.NaverMapUtil;
@@ -21,9 +20,7 @@ public class SpotServiceImpl implements SpotService {
 
 	
 	private final SpotRepository spotRepo;
-	
-	private final BaseAddressRepository baseAddressRepo;
-			
+				
 	private final RedisUtil redisUtil;
 	
 	private final NaverMapUtil geocodeUtil;
@@ -44,15 +41,11 @@ public class SpotServiceImpl implements SpotService {
 			throw new IllegalArgumentException("Wrong address");
 		
 		String cityName = address[0];
-		String gugunName = address[1];
 		String dongName = address[2];
 						
 		
 		List<Spot> spotList = spotRepo.findAllByCityAndDong(cityName, dongName);	
-		ListSpotResponse response = new ListSpotResponse(spotList,oauthUid, redisUtil);
-		
-		return response;
-
+		return new ListSpotResponse(spotList,oauthUid, redisUtil);
 				
 	}
 

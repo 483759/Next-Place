@@ -15,7 +15,7 @@ public class MyUserDetails implements UserDetails {
 	private boolean credentialNonExpired;
 	private boolean enabled;
 	private Collection<? extends GrantedAuthority> authorities;
-	private static final long serialVersionUiD = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	public MyUserDetails(User user) {
 		super();
