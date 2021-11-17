@@ -62,7 +62,13 @@ AR 기반의 수집형 여행 애플리케이션
 
 ## 🛠 Architecture
 
-to be continue ..
+### Deploy Architecture
+
+![image](https://user-images.githubusercontent.com/30489264/142095233-93c6142b-c0ab-4c5a-9359-fb823839bdd1.png)
+
+### Server Architecture
+
+- to be added ..
 
 <p align="right"><a href="README.md"><strong>👆 Top</strong></a></p>
 
