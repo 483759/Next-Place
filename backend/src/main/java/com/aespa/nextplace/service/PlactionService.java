@@ -2,7 +2,6 @@ package com.aespa.nextplace.service;
 
 import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
 import com.aespa.nextplace.model.response.ListPlactionResponse;
-import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.model.response.PlactionUpdateResponse;
 
 public interface PlactionService {
