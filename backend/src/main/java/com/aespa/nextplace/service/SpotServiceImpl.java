@@ -2,6 +2,7 @@ package com.aespa.nextplace.service;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional(readOnly=true)
 public class SpotServiceImpl implements SpotService {
 
 	
@@ -25,8 +26,9 @@ public class SpotServiceImpl implements SpotService {
 	
 	private final NaverMapUtil geocodeUtil;
 	
-	public ListSpotResponse getSpots(String oauthUid, String lat, String lng) {
-		
+	
+	
+	public String getRealAddress(String lat, String lng) {
 		float latFloat = Float.parseFloat(lat);
 		float lngFloat = Float.parseFloat(lng);
 		
@@ -34,19 +36,35 @@ public class SpotServiceImpl implements SpotService {
 			throw new IllegalArgumentException("Wrong lat or lng");
 		}
 		
-		String realAddress = geocodeUtil.getAddress(lat, lng);		
+		return geocodeUtil.getAddress(lat, lng);		
+		
+		
+	}
+	
+	@Cacheable(key="#realAddress", value="getSpotsFromAddress")
+	public ListSpotResponse getSpotsFromAddress(String realAddress) {	
+		
 		String address[] = realAddress.split(" ");	
 		
 		if(address.length < 3)
 			throw new IllegalArgumentException("Wrong address");
 		
-		String cityName = address[0];
-		String dongName = address[2];
+		String city = address[0];
+		String dong = address[2];
 						
 		
-		List<Spot> spotList = spotRepo.findAllByCityAndDong(cityName, dongName);	
-		return new ListSpotResponse(spotList,oauthUid, redisUtil);
+		List<Spot> spotList = spotRepo.findAllByCityAndDong(city, dong);
+		return new ListSpotResponse(spotList);
 				
 	}
+	
+	
+	public ListSpotResponse getSpots(String oauthUid, ListSpotResponse listSpotResponse) {		
+		
+		return new ListSpotResponse(listSpotResponse, oauthUid, redisUtil);
+	}
+	
+	
+
 
 }

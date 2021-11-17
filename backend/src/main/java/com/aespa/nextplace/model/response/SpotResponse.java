@@ -4,9 +4,12 @@ import com.aespa.nextplace.model.entity.Spot;
 import com.aespa.nextplace.model.entity.SpotType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SpotResponse {
 	
 	@Schema(example="1")
@@ -27,12 +30,17 @@ public class SpotResponse {
 	@Schema(example="127.343")
 	private float lng;	
 	
+	public boolean getIsRandom() {
+		return isRandom;
+	}
+	
+	
 	public SpotResponse(Spot spot) {
 		this.id = spot.getId();
 		this.name = spot.getName();
 		this.information = spot.getInformation();
 		this.detail = spot.getDetail();
-		this.isRandom = spot.isRandom();
+		this.isRandom = spot.getIsRandom();
 		this.lat = spot.getLat();
 		this.lng = spot.getLng();
 		this.type = spot.getType();
