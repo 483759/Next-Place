@@ -239,10 +239,11 @@ class PlamonServiceTest {
                 .willReturn(pladexList);
         given(plamonRepo.save(any(Plamon.class)))
                 .willReturn(plamon);
+        given(plamonRepo.existsByUser(user))
+                .willReturn(true);
 
         //when
-        PlamonResponse plamonResponseDto = null;
-        plamonResponseDto = plamonService.buyNewPlamonWithGold(user.getOauthUid());
+        PlamonResponse plamonResponseDto = plamonService.buyNewPlamonWithGold(user.getOauthUid());
 
 
         //then
@@ -252,6 +253,8 @@ class PlamonServiceTest {
                 .isEqualTo(plamon.getId());
         assertThat(plamonResponseDto.getPladex().getRank())
                 .isEqualTo(PlamonRank.SR);
+        assertThat(plamonResponseDto.isMain())
+                .isFalse();
         assertThat(plamonResponseDto.getNickname())
                 .isEqualTo("test");
         assertThat(user.getGold())
@@ -273,6 +276,43 @@ class PlamonServiceTest {
         //then
         assertThat(exception.getMessage())
                 .isEqualTo("캐릭터를 구매할 골드가 부족합니다");
+    }
+
+    @DisplayName("아무 캐릭터도 없으면 대표 캐릭터로 지정한다")
+    @Test
+    void 캐릭터뽑기_대표() {
+        //given
+        User user = createUser("G-12345", 1000, 0);
+        List<Pladex> pladexList = List.of(
+                createPladexOfIdAndRank(1L, PlamonRank.N),
+                createPladexOfIdAndRank(2L, PlamonRank.N),
+                createPladexOfIdAndRank(3L, PlamonRank.N)
+        );
+        Plamon plamon = createPlamon(1L, 1, 0, true, PlamonRank.SR);
+
+        given(userRepo.findByOauthUid("G-12345"))
+                .willReturn(user);
+        given(pladexRepo.findAllByRank(any(PlamonRank.class)))
+                .willReturn(pladexList);
+        given(plamonRepo.save(any(Plamon.class)))
+                .willReturn(plamon);
+        given(plamonRepo.existsByUser(user))
+                .willReturn(false);
+
+        //when
+        PlamonResponse plamonResponseDto = plamonService.buyNewPlamonWithGold(user.getOauthUid());
+
+        //then
+        assertThat(plamonResponseDto)
+                .isNotNull();
+        assertThat(plamonResponseDto.getId())
+                .isEqualTo(plamon.getId());
+        assertThat(plamonResponseDto.getPladex().getRank())
+                .isEqualTo(PlamonRank.SR);
+        assertThat(plamonResponseDto.isMain())
+                .isTrue();
+        assertThat(user.getGold())
+                .isEqualTo(900);
     }
 
     @DisplayName("존재하지 않는 유저는 뽑기 불가")
