@@ -78,7 +78,6 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 						user.getAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 				request.setAttribute("uid", user.getUsername());
-				System.out.println(user.getUsername());
 			} catch (NoSuchElementException e) {
 				setUnauthorizedResponse(response, "USER_NOT_FOUND");
 				return;
