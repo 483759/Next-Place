@@ -16,7 +16,6 @@ import com.aespa.nextplace.model.repository.UserRepository;
 import com.aespa.nextplace.model.response.ListMyPlactionCountResponse;
 import com.aespa.nextplace.model.response.ListPlactionResponse;
 import com.aespa.nextplace.model.response.MyPlactionCountResponse;
-import com.aespa.nextplace.model.response.PlactionResponse;
 import com.aespa.nextplace.model.response.PlactionUpdateResponse;
 import com.aespa.nextplace.util.GugunUtil;
 import com.aespa.nextplace.util.RedisUtil;
@@ -36,7 +35,7 @@ public class PlactionServiceImpl implements PlactionService {
 	
 	private final RedisUtil redisUtil;
 	
-	private final String cities[] = {"서울특별시","인천광역시","대전광역시", "부산광역시","울산광역시","광주광역시","제주특별자치도","경기도" ,"강원도", "충청북도","충청남도","경상북도","경상남도","전라북도","전라남도"};
+	private final String[] cities = {"서울특별시","인천광역시","대전광역시", "부산광역시","울산광역시","광주광역시","제주특별자치도","경기도" ,"강원도", "충청북도","충청남도","경상북도","경상남도","전라북도","전라남도"};
 	
 	
 	@Transactional
@@ -51,10 +50,6 @@ public class PlactionServiceImpl implements PlactionService {
 		}
 		
 		User user = userRepo.findByOauthUid(oauthUid);
-		
-		if(user == null) {
-			throw new IllegalArgumentException("Can't find User");
-		}
 		
 		String visited = redisUtil.getData(oauthUid+"+"+spotId);
 		
@@ -94,14 +89,9 @@ public class PlactionServiceImpl implements PlactionService {
 		
 		
 		User user = userRepo.findByOauthUid(oauthUid);
-		
-		if(user == null) {
-			throw new IllegalArgumentException("Can't find User");
-		}
 				
-		
 		ListMyPlactionCountResponse response = null;
-		List<MyPlactionCountResponse> counts = new ArrayList();
+		List<MyPlactionCountResponse> counts = new ArrayList<>();
 		
 		for(int i=0;i<cities.length;i++) {
 			int totalCount = 0;
@@ -135,12 +125,8 @@ public class PlactionServiceImpl implements PlactionService {
 	
 	
 	public ListMyPlactionCountResponse getMyPlactionsCountFromGugun(String oauthUid, String city) {
-		User user = userRepo.findByOauthUid(oauthUid);
 		
-		if(user == null) {
-			throw new IllegalArgumentException("Can't find User");
-		}
-		
+		User user = userRepo.findByOauthUid(oauthUid);				
 		GugunUtil gugunUtil = GugunUtil.getInstance();		
 		String gugun[] = gugunUtil.getGugun(city);
 		
@@ -149,7 +135,7 @@ public class PlactionServiceImpl implements PlactionService {
 		}
 
 		ListMyPlactionCountResponse response = null;
-		List<MyPlactionCountResponse> counts = new ArrayList();
+		List<MyPlactionCountResponse> counts = new ArrayList<>();
 		
 		for(int i=0;i<gugun.length;i++) {
 			int totalCount = 0;
@@ -181,11 +167,6 @@ public class PlactionServiceImpl implements PlactionService {
 		
 		User user = userRepo.findByOauthUid(oauthUid);
 		
-		if(user == null){
-			throw new IllegalArgumentException("Can't find User");
-		}
-		
-		
 		List<Spot> spots = spotRepo.findAllJoinFetch();		
 		List<Plaction> plactions = plactionRepo.findAllByUser(user);		
 		
@@ -201,12 +182,7 @@ public class PlactionServiceImpl implements PlactionService {
 		
 		
 		User user = userRepo.findByOauthUid(oauthUid);
-		
-		if(user == null){
-			throw new IllegalArgumentException("Can't find User");
-		}
-		
-		
+				
 		List<Spot> spots = spotRepo.findAllByCity(city);		
 		List<Plaction> plactions = plactionRepo.findAllByUserAndCity(user, city);		
 		
@@ -221,11 +197,6 @@ public class PlactionServiceImpl implements PlactionService {
 		
 		
 		User user = userRepo.findByOauthUid(oauthUid);
-		
-		if(user == null){
-			throw new IllegalArgumentException("Can't find User");
-		}
-		
 		
 		List<Spot> spots = spotRepo.findAllByCityAndGugun(city,gugun);		
 		List<Plaction> plactions = plactionRepo.findAllByUserAndCityAndGugun(user, city,gugun);		

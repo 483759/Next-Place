@@ -36,9 +36,8 @@ public class UserServiceImpl implements UserService {
 	public String getUid(String idToken) throws FirebaseAuthException {		
 		idToken = idToken.substring(8);				
 		FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
-		String uid = "G-"+decodedToken.getUid();
-
-		return uid;
+		return "G-"+decodedToken.getUid();
+		
 	}
 	
 	
@@ -56,8 +55,8 @@ public class UserServiceImpl implements UserService {
 		int prefixIdx = LocalDateTime.now().getSecond()%10;
 		int suffixIdx = random.nextInt(10);
 		
-		String nicknamePrefix[] = { "고독한", "즐거운", "용감한", "활발한", "냉정한", "장난꾸러기", "무시무시한", "화려한", "미스테리한", "사랑스러운" };
-		String nicknameSuffix[] ={ "손바닥", "발바닥", "치킨마요", "고추참치", "냥이", "댕댕이", "전문가", "아마추어", "성심이", "고로케" };
+		String[] nicknamePrefix = { "고독한", "즐거운", "용감한", "활발한", "냉정한", "장난꾸러기", "무시무시한", "화려한", "미스테리한", "사랑스러운" };
+		String[] nicknameSuffix ={ "손바닥", "발바닥", "치킨마요", "고추참치", "냥이", "댕댕이", "전문가", "아마추어", "성심이", "고로케" };
 		
 		User user = User.builder()				
 				.user(new User(uid, nicknamePrefix[prefixIdx]+" "+nicknameSuffix[suffixIdx]))
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
 	
 	public UserResponse login(String uid, String idToken, HttpServletResponse httpServletRes) {
 		UserResponse response = null;
-		Cookie accessTokenCookie = cookieUtil.createCookie("Authorization",idToken.substring(8), cookieUtil.DEFAULT_TIME);
+		Cookie accessTokenCookie = cookieUtil.createCookie(CookieUtil.AUTHORIZATION,idToken.substring(8), CookieUtil.DEFAULT_TIME);
 		
 		httpServletRes.addCookie(accessTokenCookie);
 		Collection<String> headers = httpServletRes.getHeaders(HttpHeaders.SET_COOKIE);
@@ -89,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void logout(HttpServletResponse httpServletRes) {
-		cookieUtil.deleteCookie(httpServletRes, "Authorization");		
+		cookieUtil.deleteCookie(httpServletRes, CookieUtil.AUTHORIZATION);		
 	}
 
 
@@ -107,7 +106,7 @@ public class UserServiceImpl implements UserService {
 	public void guest(HttpServletResponse httpServletRes) {	
 
 		String value = "12345";
-		Cookie accessTokenCookie = cookieUtil.createCookie("Authorization",value, CookieUtil.DEFAULT_TIME);
+		Cookie accessTokenCookie = cookieUtil.createCookie(CookieUtil.AUTHORIZATION,value, CookieUtil.DEFAULT_TIME);
 		httpServletRes.addCookie(accessTokenCookie);
 		Collection<String> headers = httpServletRes.getHeaders(HttpHeaders.SET_COOKIE);
 		for (String header : headers) {

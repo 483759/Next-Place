@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class GugunUtil {
 
-	Map<String, String[]> gugun = new HashMap();
+	Map<String, String[]> gugun = new HashMap<>();
 	
 	private GugunUtil() {
-		String daejeon[] = {"유성구" , "서구" ,"중구", "동구", "대덕구"};
+		String[] daejeon = {"유성구" , "서구" ,"중구", "동구", "대덕구"};
 		gugun.put("대전광역시",daejeon);		
 	}
 	
