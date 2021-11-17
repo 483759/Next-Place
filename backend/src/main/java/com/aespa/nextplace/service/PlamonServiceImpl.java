@@ -140,8 +140,14 @@ public class PlamonServiceImpl implements PlamonService {
             throw new UnsupportedOperationException("얻을 수 있는 캐릭터가 없습니다");
         }
 
-        Plamon plamon = plamonRepo.save(new Plamon(randomPlamon, user));
+        Plamon plamon = new Plamon(randomPlamon, user);
+
+        if (!plamonRepo.existsByUser(user)) {
+            plamon.appointMain();
+        }
+
         user.minusGold(rankUtil.getGatchaPrice());
+        plamon = plamonRepo.save(plamon);
 
         return new PlamonResponse(plamon);
     }
