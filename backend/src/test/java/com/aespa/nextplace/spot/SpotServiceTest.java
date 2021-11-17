@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aespa.nextplace.model.entity.BaseAddress;
@@ -22,6 +23,7 @@ import com.aespa.nextplace.model.entity.SpotType;
 import com.aespa.nextplace.model.repository.PlactionRepository;
 import com.aespa.nextplace.model.repository.SpotRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
+import com.aespa.nextplace.model.response.ErrorResponse;
 import com.aespa.nextplace.model.response.ListSpotResponse;
 import com.aespa.nextplace.model.response.SpotResponse;
 import com.aespa.nextplace.service.SpotServiceImpl;
@@ -96,7 +98,14 @@ public class SpotServiceTest {
 		
 		
 		//when		
-		ListSpotResponse response = spotService.getSpots(oauthUid,lat,lng);
+		ListSpotResponse response = null;
+		try {
+    		String address = spotService.getRealAddress(lat, lng);
+    		response = spotService.getSpotsFromAddress(address);
+    		response = spotService.getSpots(oauthUid, response);
+    	} catch(IllegalArgumentException e) {
+    		ex = e;
+    	}
 		
 		
 		//then
@@ -116,18 +125,16 @@ public class SpotServiceTest {
 	@Test
 	void 잘못된_좌표() throws Exception{
 		//given
-		String oauthUid = "G-12345";
 		String lat = "500", lng = "100";
 		
 
 		
 		//when
 		try {
-			spotService.getSpots(oauthUid,lat,lng);					
-		}
-		catch(IllegalArgumentException e){
-			ex = e;
-		}
+    		spotService.getRealAddress(lat, lng);
+    	} catch(IllegalArgumentException e) {
+    		ex = e;
+    	}
 		
 		
 		//then
@@ -147,13 +154,15 @@ public class SpotServiceTest {
 		given(geocodeUtil.getAddress(lat, lng))
 		.willReturn("");
 		
-		//when
+		//when		
+		ListSpotResponse response = null;
 		try {
-			spotService.getSpots(oauthUid,lat,lng);					
-		}
-		catch(IllegalArgumentException e){
-			ex = e;
-		}
+    		String address = spotService.getRealAddress(lat, lng);
+    		response = spotService.getSpotsFromAddress(address);
+    		response = spotService.getSpots(oauthUid, response);
+    	} catch(IllegalArgumentException e) {
+    		ex = e;
+    	}
 		
 		
 		//then
@@ -188,8 +197,15 @@ public class SpotServiceTest {
 		
 		
 		//when
-		
-		ListSpotResponse response = spotService.getSpots(oauthUid,lat,lng);
+		//when		
+		ListSpotResponse response = null;
+		try {
+    		String address = spotService.getRealAddress(lat, lng);
+    		response = spotService.getSpotsFromAddress(address);
+    		response = spotService.getSpots(oauthUid, response);
+    	} catch(IllegalArgumentException e) {
+    		ex = e;
+    	}
 		
 		
 		//then
