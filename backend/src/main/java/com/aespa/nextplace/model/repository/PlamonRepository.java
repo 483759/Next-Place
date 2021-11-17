@@ -13,6 +13,8 @@ import java.util.List;
 public interface PlamonRepository extends JpaRepository<Plamon, Long> {
     List<Plamon> findAllByUser(User user);
 
+    boolean existsByUser(User user);
+
     Plamon findPlamonByUserAndId(User user, Long id);
 
     @Query("select distinct m from Plamon m where m.user = :user and m.isMain = true and m.pladex.name <> '기본캐릭터'")
