@@ -1,10 +1,8 @@
 package com.aespa.nextplace.pladex;
 
 import com.aespa.nextplace.model.entity.Pladex;
-import com.aespa.nextplace.model.entity.User;
+import com.aespa.nextplace.model.entity.PlamonRank;
 import com.aespa.nextplace.model.repository.PladexRepository;
-import com.aespa.nextplace.model.repository.UserRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,27 +17,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
-@Disabled
+//@Disabled
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PladexRepositoryTest {
     @Autowired private PladexRepository pladexRepo;
-    @Autowired private UserRepository userRepo;
 
-
-    @DisplayName("내가 안 가진 캐릭터 조회")
+    @DisplayName("등급 별 캐릭터 조회")
     @Test
-    void 내가_안가진_캐릭터_조회() {
+    void 등급별_캐릭터_조회() {
         //given
-        User user = userRepo.findByOauthUid("G-12345");
+        PlamonRank rank = PlamonRank.N;
 
         //when
-        List<Pladex> notMine = pladexRepo.findAllByUserWithNotMine(user);
+        List<Pladex> pladexList = pladexRepo.findAllByRank(rank);
 
         //then
-        for (Pladex pladex: notMine) {
-            System.out.println(pladex.toString());
+        for (Pladex pladex: pladexList) {
+            assertThat(pladex.getRank())
+                    .isEqualTo(rank);
         }
-        assertThat(notMine.size())
-                .isEqualTo(2);
     }
 }
