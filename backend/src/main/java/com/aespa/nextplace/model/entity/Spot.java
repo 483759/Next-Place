@@ -55,6 +55,11 @@ public class Spot {
     @Column(name = "spot_exp")
     private int exp;
     
+    
+	public boolean getIsRandom() {
+		return isRandom;
+	}
+	    
     public Spot(BaseAddress baseAddess,String name, float lat, float lng) {
     	this.baseAddress = baseAddess;
     	this.name = name;
