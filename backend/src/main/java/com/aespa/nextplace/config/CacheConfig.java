@@ -1,6 +1,5 @@
 package com.aespa.nextplace.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,17 +12,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@RequiredArgsConstructor
 public class CacheConfig {
-  
-  @Autowired
-  RedisConnectionFactory redisConnectionFactory;
-  
-  @Autowired
-  ObjectMapper objectMapper;
-  
-  @Autowired
-  RedisConnectionFactory connectionFactory;
+    
+  private final RedisConnectionFactory connectionFactory;
   
   
   @Bean
