@@ -1,7 +1,9 @@
 package com.aespa.nextplace.plamon;
 
+import com.aespa.nextplace.model.entity.Pladex;
 import com.aespa.nextplace.model.entity.Plamon;
 import com.aespa.nextplace.model.entity.User;
+import com.aespa.nextplace.model.repository.PladexRepository;
 import com.aespa.nextplace.model.repository.PlamonRepository;
 import com.aespa.nextplace.model.repository.UserRepository;
 import org.junit.jupiter.api.Disabled;
@@ -12,9 +14,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,29 +27,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PlamonRepositoryTest {
     @Autowired private PlamonRepository plamonRepo;
+    @Autowired private PladexRepository pladexRepo;
     @Autowired private UserRepository userRepo;
 
-    @DisplayName("캐릭터를 판매했을 때 정상적으로 삭제되는지 검증")
+    @DisplayName("가진 캐릭터를 전부 조회한다")
     @Test
-    @Transactional
-    void 데이터삭제() throws Exception {
+    void 유저의_캐릭터_전체_조회() throws Exception {
         //given
         User user = userRepo.findByOauthUid("G-12345");
-        List<Plamon> plamons = plamonRepo.findAllByUser(user);
-
-        if(plamons.isEmpty()) {
-            assertThat(true)
-                    .isTrue();
-        }
-        long size = plamons.size();
 
         //when
-        System.out.println(plamons.get(0).toString());
-        plamonRepo.delete(plamons.get(0));
+        List<Plamon> allByUser = plamonRepo.findAllByUser(user);
 
         //then
-        assertThat(plamonRepo.count())
-                .isEqualTo(size-1);
+        for (var plamon: allByUser) {
+            assertThat(plamon.getUser())
+                    .isEqualTo(user);
+        }
     }
 
     @DisplayName("대표 캐릭터 조회")
@@ -61,5 +58,27 @@ class PlamonRepositoryTest {
         //then
         assertThat(plamon.isMain())
                 .isTrue();
+    }
+
+    @DisplayName("내가 안 가진 캐릭터 조회")
+    @Test
+    void 안가진캐릭터조회() throws Exception {
+        //given
+        User user = userRepo.findByOauthUid("G-12345");
+        List<Plamon> allByUser = plamonRepo.findAllByUser(user);
+        Set<Long> idOfPladexes = new HashSet<>();
+
+        for (var plamon: allByUser) {
+            idOfPladexes.add(plamon.getPladex().getId());
+        }
+
+        //when
+        List<Pladex> notMine = pladexRepo.findAllByUserWithNotMine(user);
+
+        //then
+        for(var pladex: notMine) {
+            assertThat(idOfPladexes.contains(pladex.getId()))
+                    .isFalse();
+        }
     }
 }
