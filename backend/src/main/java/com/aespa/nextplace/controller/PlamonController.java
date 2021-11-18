@@ -6,6 +6,7 @@ import com.aespa.nextplace.model.response.ErrorResponse;
 import com.aespa.nextplace.model.response.ListAllPlamonResponse;
 import com.aespa.nextplace.model.response.ListSellPlamonResponse;
 import com.aespa.nextplace.model.response.PlamonResponse;
+import com.aespa.nextplace.service.PlamonDealService;
 import com.aespa.nextplace.service.PlamonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class PlamonController {
     private final PlamonService plamonService;
+    private final PlamonDealService plamonDealService;
 
     @GetMapping("")
     @Operation(summary = "내 캐릭터 조회", description = "유저가 소유한 캐릭터 목록을 조회한다", responses = {
@@ -55,7 +57,7 @@ public class PlamonController {
         String oauthUid = (String) httpServletReq.getAttribute("uid");
 
         try {
-            response = plamonService.buyNewPlamonWithGold(oauthUid);
+            response = plamonDealService.buyNewPlamonWithGold(oauthUid);
         } catch (IllegalArgumentException e) {      // 유저 정보 없음
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ErrorResponse(e.getMessage()));
@@ -80,7 +82,7 @@ public class PlamonController {
         String oauthUid = (String) httpServletReq.getAttribute("uid");
 
         try {
-            ListSellPlamonResponse response = plamonService.sell(oauthUid, plamonId);
+            ListSellPlamonResponse response = plamonDealService.sell(oauthUid, plamonId);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {      // 유저 정보 없음
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
