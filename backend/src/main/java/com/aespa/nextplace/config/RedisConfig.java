@@ -1,6 +1,5 @@
 package com.aespa.nextplace.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,17 +12,21 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@RequiredArgsConstructor
 public class RedisConfig {
   
   @Value("${spring.redis.port}")
-  public int port;
+  private int port;
   
   @Value("${spring.redis.host}")
-  public String host;
+  private String host;
   
-  @Autowired
-  public ObjectMapper objectMapper;
+  @Value("${spring.redis.password}")
+  private String password;
+
   
   @Bean
   public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
@@ -39,6 +42,7 @@ public class RedisConfig {
     RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
     redisStandaloneConfiguration.setHostName(host);
     redisStandaloneConfiguration.setPort(port);
+    redisStandaloneConfiguration.setPassword(password);    
     LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
     return connectionFactory;
   }
