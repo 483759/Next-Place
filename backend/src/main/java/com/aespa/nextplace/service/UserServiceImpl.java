@@ -1,16 +1,5 @@
 package com.aespa.nextplace.service;
 
-import java.util.Collection;
-import java.util.Random;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.threeten.bp.LocalDateTime;
-
 import com.aespa.nextplace.model.entity.User;
 import com.aespa.nextplace.model.entity.UserRole;
 import com.aespa.nextplace.model.repository.UserRepository;
@@ -19,8 +8,16 @@ import com.aespa.nextplace.util.CookieUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.threeten.bp.LocalDateTime;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.Random;
 
 
 @Service
@@ -29,8 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepo;
-	
 	private final CookieUtil cookieUtil;
+	private final Random random = new Random();
 	
 
 	public String getUid(String idToken) throws FirebaseAuthException {		
@@ -49,9 +46,6 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public void signUp(String uid) {
-		
-		Random random = new Random();
-		
 		int prefixIdx = LocalDateTime.now().getSecond()%10;
 		int suffixIdx = random.nextInt(10);
 		
