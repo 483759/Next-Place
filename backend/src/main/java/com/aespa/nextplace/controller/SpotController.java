@@ -37,7 +37,9 @@ public class SpotController {
     	String oauthUid = (String) request.getAttribute("uid");    
     	
     	try {
-    		response = spotService.getSpots(oauthUid,lat, lng);
+    		String address = spotService.getRealAddress(lat, lng);
+    		response = spotService.getSpotsFromAddress(address);
+    		response = spotService.getSpots(oauthUid, response);
     	} catch(IllegalArgumentException e) {
     		return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     	}
