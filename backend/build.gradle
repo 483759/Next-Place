@@ -1,0 +1,68 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.6'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id "org.sonarqube" version "3.3"
+}
+
+group = 'com.aespa'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+apply plugin: 'org.sonarqube'
+
+def sonarqubeProperties = new Properties()
+file('src/main/resources/application-sonarqube.properties')
+		.withInputStream {sonarqubeProperties.load(it)}
+
+sonarqube {
+	properties {
+		property 'sonar.projectKey', 'Next-Place'
+		property 'sonar.host.url', sonarqubeProperties.getProperty("host.url")
+		property 'sonar.login', sonarqubeProperties.getProperty("key")
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation('org.springframework.security:spring-security-test')
+	runtimeOnly 'mysql:mysql-connector-java'
+	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '8.1.0'
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.5.5'
+	implementation group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1.1'
+	runtimeOnly 'mysql:mysql-connector-java'
+	implementation 'com.googlecode.json-simple:json-simple:1.1'
+	//redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.5.6'
+	
+	//swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
+	compileOnly("javax.annotation:javax.annotation-api:1.2")
+
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.12.2'
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
+}
+
+test {
+	useJUnitPlatform()
+}
+
