@@ -20,8 +20,4 @@ public class Spot : MonoBehaviour
         _count = _count % (360 * weight);
         transform.rotation = Quaternion.Euler(0, _count / weight, 0);
     }
-
-    public void OpenUI() {
-        GameManager.instance.OpenSpotUI(spotId);
-    }
 }

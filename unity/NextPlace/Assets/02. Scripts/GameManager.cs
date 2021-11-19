@@ -60,24 +60,46 @@ public class GameManager : MonoBehaviour {
     }
 
     public List<DisplayObjectItem> displayObject;
-
-    public Camera[] cameraList;
     public GameState gameState;
     public GameObject spotUI;
+    public GameObject loadingUI;
     public long selectedSpotId { get; set; }
 
-    public string myUid = null;
+    void OnEnable() {
+        if (!Application.isEditor) {
+            OpenLoadingUI();
+            DataLoadCheck();
+        }
+    }
+
+    private void DataLoadCheck() {
+        if (GPSManager.gpsStarted) {
+            CloseLoadingUI();
+            return;
+        }
+        Invoke("DataLoadCheck", 0.1f);
+    }
+
+    public void OpenLoadingUI() {
+        loadingUI.SetActive(true);
+    }
+
+    public void CloseLoadingUI() {
+        loadingUI.SetActive(false);
+    }
 
     public void ChangeGameState(int state) {
         if (!Enum.IsDefined(typeof(GameState), state)) return;
 
-        foreach (DisplayObjectItem item in displayObject) {
+        foreach (DisplayObjectItem item in displayObject) {         
             if (item.state.Equals(gameState)) {
                 foreach (GameObject obj in item.objects) {
                     obj.SetActive(false);
                 }
             }
         }
+        DataManager.instance.prevState = DataManager.instance.nowState;
+        DataManager.instance.nowState = state;
 
         gameState = (GameState)state;
         foreach (DisplayObjectItem item in displayObject) {
@@ -89,30 +111,21 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void ChangeMyUid(string uid) {
-        if (uid == "null") {
-            myUid = "G-12345";
-            DataManager.instance.GetAllCharacters();
-            //DataManager.instance.GetAllPlactions();
-            //DataManager.instance.GetAllPlactionsCounts();
-            //Debug.Log(myUid);
-        } else {
-            myUid = uid;
-        }
-
+    public void goBack() {
+        ChangeGameState(DataManager.instance.prevState);
     }
 
     public void PostCharacterGatcha() {
         DataManager.instance.PostCharacterGatcha();
     }
 
-    public void OpenSpotUI(long spotId) {
+    public void OpenSpotUI(long spotId, Vector3 position) {
         SpotInfo info = DataManager.instance.GetSpotInfoById(spotId);
         if (info == null) return;
 
         selectedSpotId = spotId;
         spotUI.SetActive(true);
-        spotUI.GetComponent<SpotUI>().Initialize(info);
+        spotUI.GetComponent<SpotUI>().Initialize(info, position);
     }
 
     public void CloseSpotUI() {
@@ -121,5 +134,42 @@ public class GameManager : MonoBehaviour {
 
     public void GetSpot() {
         DataManager.instance.GetSpots(0.0f, 0.0f);
+    }
+
+    public GameObject successModal;
+    public GameObject failedModal;
+    public GameObject dalgonaModal;
+
+    public void ModalOn(string modalName)
+    {
+        if (modalName == "SuccessModal")
+        {
+            successModal.SetActive(true);
+        } 
+        else if (modalName == "FailedModal")
+        {
+            failedModal.SetActive(true);
+        } 
+        else if (modalName == "DalgonaModal")
+        {
+            DataManager.instance.GetUserInfo();
+            dalgonaModal.SetActive(true);
+        }
+    }
+
+    public void ModalOff(string modalName)
+    {
+        if (modalName == "SuccessModal")
+        {
+            successModal.SetActive(false);
+        }
+        else if (modalName == "FailedModal")
+        {
+            failedModal.SetActive(false);
+        }
+        else if (modalName == "DalgonaModal")
+        {
+            dalgonaModal.SetActive(false);
+        }
     }
 }

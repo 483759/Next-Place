@@ -26,132 +26,214 @@ public class MyDogamUI : MonoBehaviour {
         }
     }
 
-    public Image sumnailImage;
-    public Image sumnailImage2;
-    public Image sumnailImage3;
-    public Image sumnailImage4;
-    public Image sumnailImage5;
-    public Image sumnailImage6;
-    public Image page;
+    public Button typeFilterAll; 
+    public Button typeFilterSee; 
+    public Button typeFilterEat;
 
-    public MyDogamDataJson MyDogams = new MyDogamDataJson();
+    public Button typeFilterGet; 
+    public Button typeFilterNotGet; 
+    public Button typeFilterGetAll;
+    private List<GameObject> myDogamList;
+    private List<GameObject> notMyDogamList;
 
+    void Awake() {
+        myDogamList = new List<GameObject>();
+        notMyDogamList = new List<GameObject>();
+
+        typeFilterAll.onClick.AddListener(SeeAll);
+        typeFilterSee.onClick.AddListener(SeeSee);
+        typeFilterEat.onClick.AddListener(SeeEat);
+        typeFilterGet.onClick.AddListener(SeeGet);
+        typeFilterNotGet.onClick.AddListener(SeeNotGet);
+        typeFilterGetAll.onClick.AddListener(SeeGetAll);
+    }
 
     void OnEnable()
     {
+        getDogam = true;
+        notGetDogam = true;
+        typeState = 0;
         DataManager.instance.GetAllPlactions();
-        sumnailImage.sprite = Resources.Load<Sprite>("Spot/Main/3.png") as Sprite;
-        sumnailImage2.sprite = Resources.Load<Sprite>("Spot/Main/4.png") as Sprite;
-        sumnailImage3.sprite = Resources.Load<Sprite>("Spot/Main/5.png") as Sprite;
-        sumnailImage4.sprite = Resources.Load<Sprite>("Spot/Main/6.png") as Sprite;
-        sumnailImage5.sprite = Resources.Load<Sprite>("Spot/Main/7.png") as Sprite;
-        sumnailImage6.sprite = Resources.Load<Sprite>("Spot/Main/8.png") as Sprite;
     }
 
-    // public MyDogam findMain(MyDogamDataJson MyDogams)
-    // {        
-    //     MyDogam main = new MyDogam();
-
-    //     foreach (MyDogam item in MyDogams.myDogam)
-    //     {
-    //             main = item;
-    //             break;
-    //     }
-
-    //     return main;
-    // }
-
+    void SeeAll()
+    {
+        typeState = 0;
+        
+        foreach(GameObject item in myDogamList)
+        {
+            item.SetActive(true && getDogam);
+        }
     
+        foreach(GameObject item in notMyDogamList)
+        {
+            item.SetActive(true && notGetDogam);
+        }
     
-    public PlactionInfo findSumnail_1(MyDogamDataJson MyDogams)
+    }
+    void SeeSee()
     {
-        PlactionInfo sumnail = new PlactionInfo();
+        typeState = 2;
 
-        foreach (PlactionInfo item in MyDogams.myDogam)
+        foreach(GameObject item in myDogamList)
         {
-
-                sumnail = item;
-                break;
+            if (!item.GetComponent<DogamFilter>().filterType.Equals("FOOD"))
+            {
+                item.SetActive(true && getDogam);
+            }
+            else
+            {
+                item.SetActive(false);
+            }
+        }
+        
+        foreach(GameObject item in notMyDogamList)
+        {
+            if (!item.GetComponent<DogamFilter>().filterType.Equals("FOOD"))
+            {
+                item.SetActive(true && notGetDogam);
+            }
+            else
+            {
+                item.SetActive(false);
+            }
+        }
+        
+    }
+    void SeeEat()
+    {
+        typeState = 1;
+        
+        foreach(GameObject item in myDogamList)
+        {
+            if (item.GetComponent<DogamFilter>().filterType.Equals("FOOD"))
+            {
+                item.SetActive(true && getDogam);
+            }
+            else
+            {
+                item.SetActive(false);
+            }
         }
 
-        return sumnail;
-    }
-    public PlactionInfo findSumnail_2(MyDogamDataJson MyDogams)
-    {
-        PlactionInfo sumnail = new PlactionInfo();
-
-        foreach (PlactionInfo item in MyDogams.myDogam)
+        foreach(GameObject item in notMyDogamList)
         {
-
-                sumnail = item;
-                break;
+            if (item.GetComponent<DogamFilter>().filterType.Equals("FOOD"))
+            {
+                item.SetActive(true && notGetDogam);
+            }
+            else
+            {
+                item.SetActive(false);
+            }
         }
-
-        return sumnail;
+        
     }
-    public PlactionInfo findSumnail_3(MyDogamDataJson MyDogams)
-    {
-        PlactionInfo sumnail = new PlactionInfo();
+    public GameObject toggle;
+    public GameObject toggle2;
+    public bool getDogam;
+    public bool notGetDogam;
+    public int typeState;
 
-        foreach (PlactionInfo item in MyDogams.myDogam)
+    void SeeGet()
+    {   
+        getDogam = false;
+        notGetDogam = true;
+        toggle.SetActive(false);
+        toggle2.SetActive(true);
+        if (typeState==0)
         {
-
-                sumnail = item;
-                break;
+            SeeAll();
         }
-
-        return sumnail;
-    }
-    public PlactionInfo findSumnail_4(MyDogamDataJson MyDogams)
-    {
-        PlactionInfo sumnail = new PlactionInfo();
-
-        foreach (PlactionInfo item in MyDogams.myDogam)
+        else if (typeState==1)
         {
-
-                sumnail = item;
-                break;
+            SeeEat();
         }
-
-        return sumnail;
-    }
-    public PlactionInfo findSumnail_5(MyDogamDataJson MyDogams)
-    {
-        PlactionInfo sumnail = new PlactionInfo();
-
-        foreach (PlactionInfo item in MyDogams.myDogam)
+        else if (typeState==2)
         {
-
-                sumnail = item;
-                break;
+            SeeSee();
         }
-
-        return sumnail;
+        
     }
-    public PlactionInfo findSumnail_6(MyDogamDataJson MyDogams)
+    void SeeNotGet()
     {
-        PlactionInfo sumnail = new PlactionInfo();
-
-        foreach (PlactionInfo item in MyDogams.myDogam)
+        getDogam = true;
+        notGetDogam = false;
+        toggle.SetActive(true);
+        toggle2.SetActive(false);
+        if (typeState==0)
         {
-
-                sumnail = item;
-                break;
+            SeeAll();
         }
-
-        return sumnail;
+        else if (typeState==1)
+        {
+            SeeEat();
+        }
+        else if (typeState==2)
+        {
+            SeeSee();
+        }
+    }
+    void SeeGetAll()
+    {
+        getDogam = true;
+        notGetDogam = true;
+        if (typeState==0)
+        {
+            SeeAll();
+        }
+        else if (typeState==1)
+        {
+            SeeEat();
+        }
+        else if (typeState==2)
+        {
+            SeeSee();
+        }
     }
 
-
-
-    public void Initialize(PlactionInfo sumnail1, PlactionInfo sumnail2,PlactionInfo sumnail3,PlactionInfo sumnail4,PlactionInfo sumnail5,PlactionInfo sumnail6)
+    public void InitializeMyDogam(MyDogamDataJson allplactions)
     {
-        sumnailImage.sprite = Resources.Load<Sprite>("Spot/Sumnail/3" ) as Sprite;
-        sumnailImage2.sprite = Resources.Load<Sprite>("Spot/Sumnail/4" ) as Sprite;
-        sumnailImage3.sprite = Resources.Load<Sprite>("Spot/Sumnail/5" ) as Sprite;
-        sumnailImage4.sprite = Resources.Load<Sprite>("Spot/Sumnail/6" ) as Sprite;
-        sumnailImage5.sprite = Resources.Load<Sprite>("Spot/Sumnail/7" ) as Sprite;
-        sumnailImage6.sprite = Resources.Load<Sprite>("Spot/Sumnail/8" ) as Sprite;
+        foreach (GameObject item in myDogamList) {
+            Destroy(item.gameObject);
+        }
+        myDogamList.Clear();
+
+        foreach (PlactionInfo item in allplactions.plactions)
+        {
+            GameObject mine = Resources.Load("MyDogam") as GameObject;
+            GameObject real = Instantiate(mine);
+            real.GetComponent<DogamFilter>().filterType = item.spot.type;
+            real.GetComponent<DogamFilter>().id = item.spot.id;
+            real.GetComponent<DogamFilter>().name = item.spot.name;
+            real.GetComponent<DogamFilter>().detail = item.spot.detail;
+
+            myDogamList.Add(real);
+            GameObject Folder = GameObject.Find("Content");
+            real.transform.SetParent(Folder.transform);
+            real.GetComponent<Image>().sprite = Resources.Load<Sprite>("Spot/Sumnail/" + (item.spot.id)) as Sprite;
+        }
+    }
+    public void InitializeNotMyDogam(MyDogamDataJson allplactions)
+    {
+        foreach (GameObject item in notMyDogamList) {
+            Destroy(item.gameObject);
+        }
+        notMyDogamList.Clear();
+
+        foreach (SpotInfo item in allplactions.spots)
+        {
+            GameObject mine = Resources.Load("NotMyDogam") as GameObject;
+            GameObject real = Instantiate(mine);
+            real.GetComponent<DogamFilter>().filterType = item.type;
+            real.GetComponent<DogamFilter>().id = item.id;
+            real.GetComponent<DogamFilter>().name = item.name;
+            real.GetComponent<DogamFilter>().detail = item.detail;
+            notMyDogamList.Add(real);
+            GameObject Folder = GameObject.Find("Content");
+            real.transform.SetParent(Folder.transform);
+            real.GetComponent<Image>().sprite = Resources.Load<Sprite>("Spot/Sumnailblur/"+(item.id)) as Sprite;
+        }
     }
 }
 

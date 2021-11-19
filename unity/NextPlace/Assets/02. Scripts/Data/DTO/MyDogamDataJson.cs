@@ -7,10 +7,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+
 [Serializable]
 public class MyDogamDataJson
 {
-    public List<PlactionInfo> myDogam;
-    public List<SpotInfo> NotmyDogam;
+    public List<PlactionInfo> plactions;
+    public List<SpotInfo> spots;
 }
 
