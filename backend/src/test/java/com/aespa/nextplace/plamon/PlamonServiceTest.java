@@ -307,7 +307,7 @@ class PlamonServiceTest {
 
         //then
         assertThat(response.isMain())
-                .isFalse();
+                .isTrue();
         assertThat(response.getId())
                 .isEqualTo(2L);
         verify(userRepo).findByOauthUid(user.getOauthUid());
