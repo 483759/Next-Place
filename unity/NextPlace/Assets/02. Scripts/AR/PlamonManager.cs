@@ -106,8 +106,7 @@ public class PlamonManager : MonoBehaviour
         _isGameStarted = true;
         plamonObject.transform.position = indicator.transform.position;
         plamonObject.transform.rotation = indicator.transform.rotation;
-        // 플래몬 오브젝트에 스프라이트 넘겨주는 로직 필요
-        plamonObject.GetComponent<PlamonObject>().Initialize(null);
+        plamonObject.GetComponent<PlamonObject>().Initialize(GameManager.instance.selectedSpotId);
 
         indicator.SetActive(false);
 
@@ -119,9 +118,12 @@ public class PlamonManager : MonoBehaviour
         plamonObject.SetActive(false);
         ball.SetActive(false);
 
-        // 스팟 수집 관련 요청 처리 필요
+        DataManager.instance.PostPlaction(GameManager.instance.selectedSpotId);
+    }
+
+    public void CatchEnd(PlactionDataJson plaction) {
         catchUI.SetActive(true);
-        catchUI.GetComponent<CatchUI>().Initialize(DataManager.instance.GetSpotInfoById(GameManager.instance.selectedSpotId), "얻은 아이템 텍스트");
+        catchUI.GetComponent<CatchUI>().Initialize(DataManager.instance.GetSpotInfoById(GameManager.instance.selectedSpotId), plaction.gold.ToString());
 
         Invoke("GameEnd", endDelay);
     }

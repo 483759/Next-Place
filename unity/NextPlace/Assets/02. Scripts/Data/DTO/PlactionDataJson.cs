@@ -14,6 +14,21 @@ public class SpotDataJson
 }
 
 [Serializable]
+public class SpotDetailDataJson
+{
+    public List<PlactionInfo> plactions;
+    public List<SpotInfo> spots;
+}
+
+[Serializable]
+public class PlactionDataJson {
+    public SpotInfo spot;
+    public int gold;
+    public string createdDate;
+    public string modifiedDate;
+}
+
+[Serializable]
 public class PlactionInfo
 {
     public SpotInfo spot;

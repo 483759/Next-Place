@@ -45,7 +45,7 @@ public class SpotManager : MonoBehaviour
                 int layerMask = 1 << LayerMask.NameToLayer("Spot");
 
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-                    GameManager.instance.OpenSpotUI(hit.transform.GetComponent<Spot>().spotId);
+                    GameManager.instance.OpenSpotUI(hit.transform.GetComponent<Spot>().spotId, hit.transform.position);
                 }
             }
         }
@@ -57,7 +57,7 @@ public class SpotManager : MonoBehaviour
 
     public void CreateSpots(SpotDataJson spotData) {
         foreach(SpotInfo info in spotData.spotList) {
-            Vector3 originPosition = GeoToWorld(GPSManager.currentLat, GPSManager.currentLng);
+            Vector3 originPosition = GeoToWorld(GPSManager.firstLat, GPSManager.firstLng);
             Vector3 dataPosition = GeoToWorld(info.lat, info.lng);
             Vector3 spotPosition = originPosition - dataPosition;
             spotPosition.x += _diffX;
@@ -69,7 +69,8 @@ public class SpotManager : MonoBehaviour
     }
 
     public Vector3 GeoToWorld(double lat, double lng) {
-        Mapbox.Utils.Vector2d vector2d = Mapbox.Unity.Utilities.Conversions.GeoToWorldPosition(lat, lng, new Mapbox.Utils.Vector2d(), 0.597f * Mathf.Cos((float)GPSManager.currentLat));
+        Mapbox.Utils.Vector2d origin = new Mapbox.Utils.Vector2d();
+        Mapbox.Utils.Vector2d vector2d = Mapbox.Unity.Utilities.Conversions.GeoToWorldPosition(lat, lng, origin, 0.597f * Mathf.Cos((float)GPSManager.currentLat));
         return new Vector3((float)vector2d.x, 0, (float)vector2d.y);
     }
 }

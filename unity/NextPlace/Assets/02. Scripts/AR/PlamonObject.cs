@@ -33,7 +33,7 @@ public class PlamonObject : MonoBehaviour
         }
     }
 
-    public void Initialize(Sprite sprite) {
-        image.sprite = sprite;
+    public void Initialize(long spotId) {
+        image.sprite = DataManager.instance.GetSprite(spotId.ToString(), DataManager.SpriteResourceType.SpotSumnail);
     }
 }

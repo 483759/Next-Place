@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,13 +50,32 @@ public class MypageUI : MonoBehaviour {
     public Myplamon findSumnail_1(MyplamonDataJson myPlamons) {
         Myplamon sumnail = new Myplamon();
 
+        List<int> tmp = new List<int>();
+                
+        for (int i = 0; i < myPlamons.myPlamon.Count; i++)
+        {
+            tmp.Add((int)myPlamons.myPlamon[i].pladex.id);
+        }
+
+        tmp = tmp.Distinct().ToList();
+        
+        int sumnailIdx = Random.Range(0, tmp.Count);
+
+        if (tmp[sumnailIdx] == 7)
+        {
+            sumnailIdx --;
+        }
+
+        int sumnailId = tmp[sumnailIdx];
+        Debug.Log("있는 섬네일");
+        Debug.Log(sumnailId);
         foreach (Myplamon item in myPlamons.myPlamon) {
-            if (item.id == 8) {
-                Debug.Log("표시");
+
+            if (item.pladex.id == sumnailId) {
                 sumnail = item;
                 break;
             }
-        }
+        }        
 
         return sumnail;
     }
@@ -63,9 +83,25 @@ public class MypageUI : MonoBehaviour {
     public MyCharacterInfo findSumnail_2(MyplamonDataJson myPlamons) {
         MyCharacterInfo sumnail = new MyCharacterInfo();
 
+        int[] tmp = new int[myPlamons.notMyPlamon.pladexList.Count];
+
+        int sumnailIdx = Random.Range(0, myPlamons.notMyPlamon.pladexList.Count);
+
+        for (int i = 0; i < myPlamons.notMyPlamon.pladexList.Count; i++)
+        {
+            tmp[i] = (int)myPlamons.notMyPlamon.pladexList[i].id;
+        }
+        
+        if (tmp[sumnailIdx] == 16)
+        {
+            sumnailIdx --;
+        }
+
+        int sumnailId = tmp[sumnailIdx];
+        Debug.Log("없는 섬네일");
+        Debug.Log(sumnailId);
         foreach (MyCharacterInfo item in myPlamons.notMyPlamon.pladexList) {
-            if (item.id == 8) {
-                Debug.Log("표시2");
+            if (item.id == sumnailId) {
                 sumnail = item;
                 break;
             }
@@ -74,9 +110,13 @@ public class MypageUI : MonoBehaviour {
         return sumnail;
     }
 
-    public void Initialize(Myplamon main, MyCharacterInfo sumnail_1, MyCharacterInfo sumnail_2) {
+    public void Initialize(Myplamon main, Myplamon sumnail_1, MyCharacterInfo sumnail_2) {
+        Debug.Log("initialize");
+        Debug.Log(sumnail_1.pladex.id);
+        Debug.Log(sumnail_2.id);
+
         mainImage.sprite = Resources.Load<Sprite>("Character/Main/" + main.pladex.id.ToString()) as Sprite;
-        sumnailImage.sprite = Resources.Load<Sprite>("Character/Sumnail/" + sumnail_1.id.ToString()) as Sprite;
+        sumnailImage.sprite = Resources.Load<Sprite>("Character/Sumnail/" + sumnail_1.pladex.id.ToString()) as Sprite;
         sumnailImage_2.sprite = Resources.Load<Sprite>("Character/SumnailBlur/" + sumnail_2.id.ToString()) as Sprite;
         level.text = "Level " + main.level.ToString();
         name.text = main.nickname;

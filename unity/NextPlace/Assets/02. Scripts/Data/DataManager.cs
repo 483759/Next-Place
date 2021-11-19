@@ -25,6 +25,55 @@ public class DataManager : MonoBehaviour {
 
     public int[,] expTable = { { 0, 0 }, { 0, 15 }, { 15, 34 }, { 34, 49 }, { 49, 57 }, { 106, 92 }, { 198, 135 }, { 333, 372 }, { 705, 560 }, { 1265, 840 }, { 2105, 1242 }, { 3347, 1242 }, { 4589, 1242 }, { 5831, 1242 }, { 5831, 1242 }, { 7073, 1242 }, { 8315, 1242 }, { 9557, 1490 } };
 
+    public int nowState = 0;
+    public int prevState = 0;
+
+    void OnEnable() {
+        LoadSprite();
+    }
+
+    /// 
+    /////////////////////////////////////// Image Resources //////////////////////////////
+    ///
+    public Sprite defaultSprite;
+    public enum SpriteResourceType {
+        SpotMain = 0,
+        SpotSumnail = 1,
+        SpotSumnailBlur = 2,
+        CharacterMain = 3,
+        CharacterSumnail = 4,
+        CharacterSumnailBlur = 5
+    }
+    private Dictionary<string, Sprite> _spriteResources;
+    private string[] _imageFolderPath = {
+        "Spot/Main/",
+        "Spot/Sumnail/",
+        "Spot/SumnailBlur/",
+        "Character/Main/",
+        "Character/Sumnail/",
+        "Character/SumnailBlur/"
+    };
+
+    private void LoadSprite() {
+        _spriteResources = new Dictionary<string, Sprite>();
+
+        foreach (string path in _imageFolderPath) {
+            Sprite[] sprites = Resources.LoadAll<Sprite>(path);
+
+            foreach (Sprite sprite in sprites) {
+                _spriteResources.Add(path + sprite.name, sprite);
+            }
+        }
+    }
+
+    public Sprite GetSprite(string name, SpriteResourceType type) {
+        string path = _imageFolderPath[(int)type] + name;
+        if (_spriteResources.ContainsKey(path)) {
+            return _spriteResources[_imageFolderPath[(int)type] + name];
+        }
+        return defaultSprite;
+    }
+
     /// 
     /////////////////////////////////////// Spot //////////////////////////////
     /// 
@@ -51,6 +100,37 @@ public class DataManager : MonoBehaviour {
                     string text = www.downloadHandler.text;
                     _spotData = JsonUtility.FromJson<SpotDataJson>(text);
                     SpotManager.instance.CreateSpots(_spotData);
+
+                } else {
+                    Debug.Log("error");
+                }
+            }
+        }
+    }
+    public void PostPlaction(long spotId) {
+        StartCoroutine(Post());
+        IEnumerator Post() {
+            string url = URLManager.PUBLIC_URL;
+            url = url + "/plaction";
+
+            PlactionPostDataJson postData = new PlactionPostDataJson();
+            postData.spotId = spotId;
+            postData.score = 100;
+            postData.scoreToken = "";
+            string json = JsonUtility.ToJson(postData);
+
+            using (UnityWebRequest www = UnityWebRequest.Post(url, json)) {
+                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(json);
+                www.uploadHandler = new UploadHandlerRaw(bytes);
+                www.downloadHandler = new DownloadHandlerBuffer();
+                www.SetRequestHeader("Content-Type", "application/json");
+
+                yield return www.SendWebRequest();
+                if (www.error == null) {
+                    string text = www.downloadHandler.text;
+                    Debug.Log(text);
+                    PlactionDataJson plaction = JsonUtility.FromJson<PlactionDataJson>(text);
+                    PlamonManager.instance.CatchEnd(plaction);
 
                 } else {
                     Debug.Log("error");
@@ -131,15 +211,38 @@ public class DataManager : MonoBehaviour {
                 if (www.error == null) {
                     string text = www.downloadHandler.text;
                     MyplamonDataJson myPlamons = JsonUtility.FromJson<MyplamonDataJson>(text);
-
+                    Debug.Log(text);
                     Main = MypageUI.instance.findMain(myPlamons);
-                    Debug.Log(Main.pladex.name);
                     sumnail_1 = MypageUI.instance.findSumnail_1(myPlamons);
                     sumnail_2 = MypageUI.instance.findSumnail_2(myPlamons);
 
-                    MypageUI.instance.Initialize(Main, sumnail_1.pladex, sumnail_2);
+                    MypageUI.instance.Initialize(Main, sumnail_1, sumnail_2);
 
-                    Debug.Log("ø‰√ª º∫∞¯");
+                    Debug.Log("ÏöîÏ≤≠ ÏÑ±Í≥µ");
+                } else {
+                    Debug.Log("error");
+                }
+            }
+        }
+    }
+    public void GetMyPlamons1() {
+        StartCoroutine(Get());
+
+        IEnumerator Get() {
+            string url = URLManager.PUBLIC_URL;
+            url = url + "/plamon";
+
+            using (UnityWebRequest www = UnityWebRequest.Get(url)) {
+                yield return www.SendWebRequest();
+
+                if (www.error == null) {
+                    string text = www.downloadHandler.text;
+                    MyplamonDataJson myPlamons = JsonUtility.FromJson<MyplamonDataJson>(text);
+                    // Debug.Log(text);
+                    MyCharacters.instance.InitializeMyPlamon(myPlamons);
+                    MyCharacters.instance.InitializeNotMyPlamon(myPlamons);
+
+                    Debug.Log("ÏöîÏ≤≠ ÏÑ±Í≥µ");
                 } else {
                     Debug.Log("error");
                 }
@@ -149,12 +252,8 @@ public class DataManager : MonoBehaviour {
 
     public void SendCharacterDetail(string what) {
         if (what.Equals("main")) {
-            //Debug.Log("¿Ã¥œº»∂Û¿Ã¡Ó ∫∏≥ª±‚");
-            //Debug.Log(Main.pladex.name);
             CharacterDetailUI.instance.Initialize(Main);
         } else if (what.Equals("sumnail")) {
-            //Debug.Log("ΩÊ≥◊¿œ ∫∏≥ª±‚");
-            //Debug.Log(Sumnail_1.pladex.id);
             CharacterDetailUI.instance.Initialize(sumnail_1);
         }
     }
@@ -167,6 +266,7 @@ public class DataManager : MonoBehaviour {
         MypageUI.instance.MyPlamons = MyPlamons;
     }
 
+    public Myplamon myPlamon = new Myplamon();
     // POST CharacterGatcha
     public void PostCharacterGatcha() {
         StartCoroutine(Post());
@@ -182,9 +282,128 @@ public class DataManager : MonoBehaviour {
 
                 if (www.error == null) {
                     string text = www.downloadHandler.text;
-                    Debug.Log(text);
-                    Debug.Log("ªÃ±‚ º∫∞¯!");
+                    Myplamon data = JsonUtility.FromJson<Myplamon>(text);
+                    myPlamon = data;
+                    // Î™®Îã¨Ï∞Ω ÎùÑÏö∞Í≥† user Ï†ïÎ≥¥Î•º Í∞±Ïã†
+                    GetUserInfo();
+                    GameManager.instance.ModalOn("SuccessModal");
+                    GatchaModalUI.instance.Initialize(data);
+                    Debug.Log("ÎΩëÍ∏∞ ÏÑ±Í≥µ!");
                 } else {
+                    // Î™®Îã¨Ï∞Ω ÎùÑÏö∞Í∏∞
+                    GameManager.instance.ModalOff("FailedModal");
+                    Debug.Log("error");
+                }
+            }
+        }
+    }
+
+    // POST CharacterGatcha
+    [Serializable]
+    public class LevelUp {
+        public int plamonId;
+        public int dalgona;
+    }
+
+    public void PostCharacterLevelup() {
+        StartCoroutine(Post());
+
+        IEnumerator Post() {
+            string url = URLManager.PUBLIC_URL;
+            url = url + "/plamon/levelup";
+
+            LevelUp levelUpData = new LevelUp();
+            levelUpData.plamonId = (int)CharacterDetailUI.instance.nowPlamonId;
+            levelUpData.dalgona = Convert.ToInt32(DalgonaModalUI.instance.dalgonaNumber.text);
+            Debug.Log(levelUpData.plamonId);
+
+            string json = JsonUtility.ToJson(levelUpData);
+
+            Debug.Log("Ïûò Îã¥Í≤ºÎÇò");
+
+            using (UnityWebRequest request = UnityWebRequest.Post(url, json)) {
+                byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+                request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+                request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+
+                yield return request.SendWebRequest();
+
+                if (request.error == null) {
+                    string text = request.downloadHandler.text;
+                    Myplamon data = JsonUtility.FromJson<Myplamon>(text);
+                    myPlamon = data;
+                    Debug.Log(text);
+                    CharacterDetailUI.instance.Initialize(data);
+                    GameManager.instance.ModalOff("DalgonaModal");
+                    Debug.Log("Î†àÎ≤®ÏóÖ ÏÑ±Í≥µ!");
+                } else {
+                    GameManager.instance.ModalOff("DalgonaModal");
+                    Debug.Log("error");
+                    Debug.Log(request.error);
+                }
+            }
+        }
+    }
+    [Serializable]
+    public class NewMain {
+        public int newMainId;
+    }
+    public void PutChangeMain() {
+        StartCoroutine(Put());
+
+        IEnumerator Put() {
+            string url = URLManager.PUBLIC_URL;
+            url = url + "/plamon/main";
+
+            NewMain newMainId = new NewMain();
+            newMainId.newMainId = (int)CharacterDetailUI.instance.nowPlamonId;
+
+            string json = JsonUtility.ToJson(newMainId);
+
+            Debug.Log(json);
+
+            using (UnityWebRequest request = UnityWebRequest.Put(url, json)) {
+                byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+                request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+                request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+
+                yield return request.SendWebRequest();
+
+                if (request.error == null) {
+                    string text = request.downloadHandler.text;
+                    Myplamon data = JsonUtility.FromJson<Myplamon>(text);
+                    myPlamon = data;
+                    Debug.Log(text);
+                    GameManager.instance.ChangeGameState(3);
+                    Debug.Log("Î©îÏù∏ Î∞îÍæ∏Í∏∞ ÏÑ±Í≥µ!");
+                } else {
+                    Debug.Log(request.error);
+                    Debug.Log("error");
+                }
+            }
+        }
+    }
+
+    public void PutSailCharacter() {
+        StartCoroutine(Put());
+
+        IEnumerator Put() {
+            string url = URLManager.PUBLIC_URL;
+            url = url + "/plamon/" + CharacterDetailUI.instance.nowPlamonId.ToString();
+            byte[] myData = System.Text.Encoding.UTF8.GetBytes("We should to send some data");
+
+            using (UnityWebRequest www = UnityWebRequest.Put(url, myData)) {
+                yield return www.SendWebRequest();
+
+                if (www.error == null) {
+                    string text = www.downloadHandler.text;
+                    Debug.Log(text);
+                    GameManager.instance.ChangeGameState(3);
+                    Debug.Log("ÌåêÎß§ ÏÑ±Í≥µ !");
+                } else {
+                    Debug.Log(www.error);
                     Debug.Log("error");
                 }
             }
@@ -195,24 +414,31 @@ public class DataManager : MonoBehaviour {
     /////////////////////////////////////// Spots //////////////////////////////
     /// 
     // GET AllPlactionDatas
-    public AllPlactionDataJson AllPlactions = new AllPlactionDataJson();
 
     public void GetAllPlactions() {
-        StartCoroutine(Get());
+        // GameObject Doc = GameObject.Find("MyDogam(Clone)");
+        // GameObject Doc2 = GameObject.Find("NotMyDogam(Clone)");
+        // Destroy(Doc);
+        // Destroy(Doc2);
+        StartCoroutine(GetPlactions());
 
-        IEnumerator Get() {
+        IEnumerator GetPlactions() {
             string url = URLManager.PUBLIC_URL;
             url = url + "/plaction";
 
             using (UnityWebRequest www = UnityWebRequest.Get(url)) {
+                // www.SetRequestHeader("Authorization","Bearer12345");
                 yield return www.SendWebRequest();
 
                 if (www.error == null) {
                     string text = www.downloadHandler.text;
-                    AllPlactions = JsonUtility.FromJson<AllPlactionDataJson>(text);
-                    Debug.Log(AllPlactions);
+
+                    MyDogamDataJson AllPlactions = JsonUtility.FromJson<MyDogamDataJson>(text);
+                    MyDogamUI.instance.InitializeMyDogam(AllPlactions);
+                    MyDogamUI.instance.InitializeNotMyDogam(AllPlactions);
                 } else {
-                    Debug.Log("error");
+                    // Debug.Log("error");
+                    Debug.Log(www.error);
                 }
             }
         }
@@ -260,7 +486,9 @@ public class DataManager : MonoBehaviour {
                 if (www.error == null) {
                     string text = www.downloadHandler.text;
                     Debug.Log(text);
-                    Debug.Log("∞‘Ω∫∆Æ ∑Œ±◊¿Œ º∫∞¯!");
+                    Debug.Log("Í≤åÏä§Ìä∏ Î°úÍ∑∏Ïù∏ ÏÑ±Í≥µ!");
+                    GetUserInfo();
+                    GetPlactionCountInfo();
                     GameManager.instance.ChangeGameState(1);
                 } else {
                     Debug.Log("error");
@@ -283,6 +511,82 @@ public class DataManager : MonoBehaviour {
                     userInfo = JsonUtility.FromJson<UserInfoDataJson>(text);
                     Debug.Log(userInfo);
                 } else {
+                    Debug.Log("error");
+                }
+            }
+        }
+    }
+    /// 
+    /////////////////////////////////////// Achievement //////////////////////////////
+    /// 
+
+    // GET AchievementCountInfo
+    public AchievementDataJson plactionCountInfo = new AchievementDataJson();
+    public void GetPlactionCountInfo() {
+        StartCoroutine(Get());
+        IEnumerator Get() {
+            string url = URLManager.PUBLIC_URL;
+            url = url + "/plaction/count";
+            using (UnityWebRequest www = UnityWebRequest.Get(url)) {
+                yield return www.SendWebRequest();
+                if (www.error == null) {
+                    string text = www.downloadHandler.text;
+                    Debug.Log(text);
+                    plactionCountInfo = JsonUtility.FromJson<AchievementDataJson>(text);
+                } else {
+                    Debug.Log("error");
+                }
+            }
+        }
+    }
+
+    // GET AchievementCountInfo
+    public AchievementDataJson plactionCityCountInfo = new AchievementDataJson();
+    public string nowCity = "";
+    public string nowGugun = "";
+    public void GetPlactionCityCountInfo(string city) {
+        StartCoroutine(Get());
+        IEnumerator Get() {
+            string url = URLManager.PUBLIC_URL;
+            url = url + "/plaction/count/" + city;
+            using (UnityWebRequest www = UnityWebRequest.Get(url)) {
+                yield return www.SendWebRequest();
+                if (www.error == null) {
+                    string text = www.downloadHandler.text;
+                    Debug.Log(text);
+                    nowCity = city;
+                    plactionCityCountInfo = JsonUtility.FromJson<AchievementDataJson>(text);
+                    SelectCity(city, plactionCityCountInfo);
+                } else {
+                    Debug.Log(www.error);
+                    Debug.Log("error");
+                }
+            }
+        }
+    }
+
+    public void SelectCity(string city, AchievementDataJson data) {
+        if (city == "ÎåÄÏ†ÑÍ¥ëÏó≠Ïãú") {
+            AchievementDaejeonUI.instance.Initialize(data);
+        }
+    }
+
+    public SpotDetailDataJson spotDetailInfo = new SpotDetailDataJson();
+    public void GetPlactionDetailInfo(string gugun) {
+        StartCoroutine(Get());
+        IEnumerator Get() {
+            string url = URLManager.PUBLIC_URL;
+            url = url + "/plaction/" + nowCity + "/" + gugun;
+            using (UnityWebRequest www = UnityWebRequest.Get(url)) {
+                yield return www.SendWebRequest();
+                if (www.error == null) {
+                    string text = www.downloadHandler.text;
+                    Debug.Log(text);
+                    nowGugun = gugun;
+                    spotDetailInfo = JsonUtility.FromJson<SpotDetailDataJson>(text);
+                    AchievementDetailUI.instance.Initialize(gugun, spotDetailInfo);
+                } else {
+                    Debug.Log(www.error);
                     Debug.Log("error");
                 }
             }
